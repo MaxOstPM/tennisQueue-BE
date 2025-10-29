@@ -19,7 +19,7 @@ struct SolarAtlasApp: App {
         let solarInitialState = SolarSystemState(dateRange: startDate...endDate)
         let solarSystemStore = SolarSystemStore(initial: solarInitialState)
         let newsFeedStore = NewsFeedStore(initial: NewsFeedState())
-        let navigationStore = NavigationStore(initial: NavigationState(activeTab: .solarSystem))
+        let navigationStore = NavigationStore(initial: NavigationState())
         let updateStore = UpdateStore(initial: UpdateState())
         let adStore = AdStore(initial: AdState())
 
@@ -36,19 +36,12 @@ struct SolarAtlasApp: App {
 
     var body: some Scene {
         WindowGroup {
-            AppTabView()
+            SolarSystemView()
                 .environmentObject(solarSystemStore)
                 .environmentObject(newsFeedStore)
                 .environmentObject(navigationStore)
                 .environmentObject(updateStore)
                 .environmentObject(adStore)
         }
-    }
-}
-
-struct AppTabView: View {
-    var body: some View {
-        SolarCanvas()
-            .background(Color.spaceBlack)
     }
 }

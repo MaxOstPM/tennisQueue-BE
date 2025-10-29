@@ -16,7 +16,7 @@ enum NewsFeedAction {
 
 /// Actions that mutate NavigationState
 enum NavigationAction {
-    case setTab(AppTab)           // Change the active tab
+    case setTab(Int)              // Change the active tab index
 }
 
 /// Actions that mutate UpdateState

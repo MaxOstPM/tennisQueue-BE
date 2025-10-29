@@ -1,28 +1,35 @@
 import SwiftUI
 
-/// CRT-inspired terminal panel with neon border and monospaced typography.
+/// Container that mimics a retro terminal panel with glowing border and scanline overlay.
 struct TerminalPanel<Content: View>: View {
-    private let borderColor: Color
+    var borderColor: Color
+    var backgroundColor: Color
     private let content: Content
 
-    init(borderColor: Color = .terminalCyan, @ViewBuilder content: () -> Content) {
+    init(borderColor: Color = .terminalCyan,
+         backgroundColor: Color = .cardBackground,
+         @ViewBuilder content: () -> Content) {
         self.borderColor = borderColor
+        self.backgroundColor = backgroundColor
         self.content = content()
     }
 
     var body: some View {
-        content
-            .padding(.spaceLG)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(Color.cardBackground.opacity(0.95))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .stroke(borderColor, lineWidth: 2)
-            )
-            .shadow(color: borderColor.opacity(0.35), radius: 12, x: 0, y: 0)
-            .font(.system(.body, design: .monospaced))
+        ZStack {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(backgroundColor.opacity(0.92))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .stroke(borderColor.opacity(0.8), lineWidth: 2)
+                        .glow(color: borderColor)
+                )
+                .overlay(
+                    ScanlineOverlay()
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                )
+
+            content
+                .padding(CGFloat.spaceLG)
+        }
     }
 }
