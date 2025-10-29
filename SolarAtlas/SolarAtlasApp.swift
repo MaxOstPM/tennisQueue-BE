@@ -20,7 +20,7 @@ struct SolarAtlasApp: App {
         let solarInitialState = SolarSystemState(dateRange: startDate...endDate)
         let solarSystemStore = SolarSystemStore(initial: solarInitialState)
         let newsFeedStore = NewsFeedStore(initial: NewsFeedState())
-        let navigationStore = NavigationStore(initial: NavigationState(activeTab: .solarSystem))
+        let navigationStore = NavigationStore(initial: NavigationState())
         let updateStore = UpdateStore(initial: UpdateState())
         let adStore = AdStore(initial: AdState())
         let appStore = AppStore(navigationStore: navigationStore, updateStore: updateStore)
@@ -34,7 +34,7 @@ struct SolarAtlasApp: App {
 
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        UpdateManager.checkForUpdate(updateStore: updateStore)
+        UpdateManager.checkForUpdate(store: updateStore)
     }
 
     var body: some Scene {
