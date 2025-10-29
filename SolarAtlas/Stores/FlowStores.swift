@@ -5,7 +5,7 @@ import Combine
 final class SolarSystemStore: ObservableObject {
     @Published private(set) var state: SolarSystemState
 
-    init(initial: SolarSystemState) {
+    init(initial: SolarSystemState = SolarSystemStore.makeDefaultState()) {
         self.state = initial
     }
 
@@ -13,6 +13,14 @@ final class SolarSystemStore: ObservableObject {
         DispatchQueue.main.async {
             solarSystemReducer(state: &self.state, action: action)
         }
+    }
+
+    private static func makeDefaultState() -> SolarSystemState {
+        let calendar = Calendar(identifier: .gregorian)
+        let now = Date()
+        let start = calendar.date(byAdding: .day, value: -365, to: now) ?? now
+        let end = calendar.date(byAdding: .day, value: 365, to: now) ?? now
+        return SolarSystemState(dateRange: start...end)
     }
 }
 

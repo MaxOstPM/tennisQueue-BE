@@ -31,3 +31,6 @@ extension CelestialBody {
         SolarSystemBodiesProvider().allBodies
     }
 }
+
+/// Convenience global collection of celestial bodies used by rendering layers.
+let solarSystemBodies: [CelestialBody] = CelestialBody.solarSystemBodies
