@@ -9,6 +9,7 @@ struct SolarAtlasApp: App {
     @StateObject private var navigationStore: NavigationStore
     @StateObject private var updateStore: UpdateStore
     @StateObject private var adStore: AdStore
+    @StateObject private var appStore: AppStore
 
     init() {
         let calendar = Calendar(identifier: .gregorian)
@@ -22,12 +23,14 @@ struct SolarAtlasApp: App {
         let navigationStore = NavigationStore(initial: NavigationState(activeTab: .solarSystem))
         let updateStore = UpdateStore(initial: UpdateState())
         let adStore = AdStore(initial: AdState())
+        let appStore = AppStore(navigationStore: navigationStore, updateStore: updateStore)
 
         _solarSystemStore = StateObject(wrappedValue: solarSystemStore)
         _newsFeedStore = StateObject(wrappedValue: newsFeedStore)
         _navigationStore = StateObject(wrappedValue: navigationStore)
         _updateStore = StateObject(wrappedValue: updateStore)
         _adStore = StateObject(wrappedValue: adStore)
+        _appStore = StateObject(wrappedValue: appStore)
 
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start(completionHandler: nil)
@@ -37,18 +40,12 @@ struct SolarAtlasApp: App {
     var body: some Scene {
         WindowGroup {
             AppTabView()
+                .environmentObject(appStore)
                 .environmentObject(solarSystemStore)
                 .environmentObject(newsFeedStore)
                 .environmentObject(navigationStore)
                 .environmentObject(updateStore)
                 .environmentObject(adStore)
         }
-    }
-}
-
-struct AppTabView: View {
-    var body: some View {
-        SolarCanvas()
-            .background(Color.spaceBlack)
     }
 }
