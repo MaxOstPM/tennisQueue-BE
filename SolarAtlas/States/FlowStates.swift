@@ -18,7 +18,7 @@ struct NewsFeedState: Equatable {
 
 /// State for navigation/tab selection
 struct NavigationState: Equatable {
-    var activeTab: AppTab = .solarSystem         // Currently selected tab
+    var activeTab: Int = 0                       // Currently selected tab index
 }
 
 /// State for forced update logic
