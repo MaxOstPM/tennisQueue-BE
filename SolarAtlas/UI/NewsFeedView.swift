@@ -74,46 +74,40 @@ struct NewsFeedView: View {
     }
 
     private func newsCard(for item: NewsItem) -> some View {
-        VStack(alignment: .leading, spacing: .spaceMD) {
-            Text(item.title)
-                .font(.system(size: 20, weight: .semibold, design: .monospaced))
-                .foregroundColor(.foregroundCyan)
+        TerminalPanel {
+            VStack(alignment: .leading, spacing: .spaceMD) {
+                Text(item.title)
+                    .font(.system(size: 20, weight: .semibold, design: .monospaced))
+                    .foregroundColor(.foregroundCyan)
 
-            Text(item.summary)
-                .font(.system(size: 14, weight: .regular, design: .monospaced))
-                .foregroundColor(.mutedText)
-
-            HStack {
-                Text(item.source.uppercased())
-                    .font(.system(size: 12, weight: .bold, design: .monospaced))
-                    .foregroundColor(.terminalAmber)
-
-                Spacer()
-
-                Text(dateFormatter.string(from: item.publishedAt))
-                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                Text(item.summary)
+                    .font(.system(size: 14, weight: .regular, design: .monospaced))
                     .foregroundColor(.mutedText)
-            }
 
-            if let url = item.articleURL {
-                Link(destination: url) {
-                    Text("Read full briefing")
-                        .font(.system(size: 13, weight: .semibold, design: .monospaced))
-                        .foregroundColor(.terminalCyan)
-                        .underline()
+                HStack {
+                    Text(item.source.uppercased())
+                        .font(.system(size: 12, weight: .bold, design: .monospaced))
+                        .foregroundColor(.terminalAmber)
+
+                    Spacer()
+
+                    Text(dateFormatter.string(from: item.publishedAt))
+                        .font(.system(size: 12, weight: .regular, design: .monospaced))
+                        .foregroundColor(.mutedText)
+                }
+
+                if let url = item.articleURL {
+                    Link(destination: url) {
+                        Text("Read full briefing")
+                            .font(.system(size: 13, weight: .semibold, design: .monospaced))
+                            .foregroundColor(.terminalCyan)
+                            .underline()
+                    }
                 }
             }
+            .padding(.spaceMD)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.spaceXL)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(Color.cardBackground.opacity(0.95))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .stroke(Color.terminalCyan.opacity(0.35), lineWidth: 1)
-        )
-        .glow(color: .terminalCyan.opacity(0.4))
+        .frame(maxWidth: .infinity)
     }
 }
