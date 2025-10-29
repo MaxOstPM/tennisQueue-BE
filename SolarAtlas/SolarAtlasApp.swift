@@ -31,7 +31,7 @@ struct SolarAtlasApp: App {
 
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        UpdateManager.checkForUpdate(updateStore: updateStore)
+        UpdateManager.checkForUpdate(store: updateStore)
     }
 
     var body: some Scene {
