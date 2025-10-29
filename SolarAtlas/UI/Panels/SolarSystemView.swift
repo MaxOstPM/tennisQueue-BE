@@ -1,69 +1,146 @@
 import SwiftUI
 
-/// The main view for the Solar System tab: renders orbits and planets with controls and info panel
+/// The main view for the Solar System tab: renders orbits, planets, and controls with info overlays.
 struct SolarSystemView: View {
-    @EnvironmentObject var store: AppStore
-    
+    @EnvironmentObject private var store: SolarSystemStore
+
+    private var selectedBody: CelestialBody? {
+        guard let id = store.state.selected else { return nil }
+        return solarSystemBodies.first { $0.id == id }
+    }
+
+    private var timelineDate: Date {
+        let range = store.state.dateRange
+        let clamped = min(max(store.state.time, 0), 1)
+        let interval = range.upperBound.timeIntervalSince(range.lowerBound)
+        return range.lowerBound.addingTimeInterval(interval * clamped)
+    }
+
+    private var timelineSubtitle: String {
+        SolarSystemView.dateFormatter.string(from: timelineDate)
+    }
+
+    private static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+
+    @ViewBuilder
+    private var toggleRows: some View {
+        ToggleRow(
+            title: NSLocalizedString("Show ATLAS Path", comment: "Toggle ATLAS path"),
+            isOn: Binding(
+                get: { store.state.showAtlasPath },
+                set: { store.dispatch(.toggleAtlas($0)) }
+            )
+        )
+        ToggleRow(
+            title: NSLocalizedString("Show Orbits", comment: "Toggle orbits"),
+            isOn: Binding(
+                get: { store.state.showOrbits },
+                set: { store.dispatch(.toggleOrbits($0)) }
+            )
+        )
+        ToggleRow(
+            title: NSLocalizedString("Show Labels", comment: "Toggle labels"),
+            isOn: Binding(
+                get: { store.state.showLabels },
+                set: { store.dispatch(.toggleLabels($0)) }
+            )
+        )
+    }
+
     var body: some View {
         ZStack {
-            // Background fill (space black)
-            Color.spaceBlack.ignoresSafeArea()
-            
-            // Solar system rendering canvas (orbits, planets, comet path)
+            Color.spaceBlack
+                .ignoresSafeArea()
+
+            StarfieldBackground()
+                .ignoresSafeArea()
+
             SolarCanvas()
-                .environmentObject(store)
-            
-            // Bottom control panel: timeline slider + toggles, in a terminal-style panel
+                .ignoresSafeArea()
+
             VStack {
-                Spacer()  // push controls to bottom
+                Spacer()
+
                 TerminalPanel(borderColor: .terminalCyan) {
-                    VStack(alignment: .leading, spacing: CGFloat.spaceSM) {
-                        // Timeline slider (time 0-1)
+                    VStack(alignment: .leading, spacing: CGFloat.spaceMD) {
                         NeonSlider(
                             value: Binding(
                                 get: { store.state.time },
-                                set: { newVal in store.dispatch(.setTime(newVal)) }
-                            )
+                                set: { store.dispatch(.setTime($0)) }
+                            ),
+                            title: NSLocalizedString("Mission Timeline", comment: "Timeline slider title"),
+                            subtitle: timelineSubtitle
                         )
-                        
-                        // Toggle switches for ATLAS Path, Orbits, Labels
-                        HStack(spacing: CGFloat.spaceLG) {
-                            ToggleRow(title: NSLocalizedString("ATLAS Path", comment: "Toggle ATLAS path"), 
-                                      isOn: Binding(
-                                          get: { store.state.showAtlasPath },
-                                          set: { store.dispatch(.toggleAtlas($0)) }
-                                      ),
-                                      accent: .terminalGreen)
-                            ToggleRow(title: NSLocalizedString("Orbits", comment: "Toggle orbits"), 
-                                      isOn: Binding(
-                                          get: { store.state.showOrbits },
-                                          set: { store.dispatch(.toggleOrbits($0)) }
-                                      ),
-                                      accent: .terminalGreen)
-                            ToggleRow(title: NSLocalizedString("Labels", comment: "Toggle labels"), 
-                                      isOn: Binding(
-                                          get: { store.state.showLabels },
-                                          set: { store.dispatch(.toggleLabels($0)) }
-                                      ),
-                                      accent: .terminalGreen)
+
+                        Divider()
+                            .background(Color.terminalCyan.opacity(0.6))
+
+                        ViewThatFits(in: .vertical) {
+                            HStack(alignment: .top, spacing: CGFloat.spaceXL) {
+                                toggleRows
+                            }
+
+                            VStack(alignment: .leading, spacing: CGFloat.spaceSM) {
+                                toggleRows
+                            }
                         }
                     }
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 20)
+                .padding(.horizontal, CGFloat.space2XL)
+                .padding(.bottom, CGFloat.space2XL)
             }
-            
-            // Info sheet overlay (appears when a celestial body is selected)
-            if let selectedID = store.state.selected,
-               let selectedBody = solarSystemBodies.first(where: { $0.id == selectedID }) {
-                // Show the BodyInfoSheet as an overlay panel
-                BodyInfoSheet(body: selectedBody)
-                    .environmentObject(store)
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 60)  // add bottom padding to sit above controls
-                    .transition(.move(edge: .bottom))
-                    .animation(.easeInOut(duration: 0.3), value: store.state.selected)
+
+            if let body = selectedBody {
+                VStack {
+                    Spacer()
+                    BodyInfoSheet(body: body)
+                        .padding(.horizontal, CGFloat.space2XL)
+                        .padding(.bottom, CGFloat.space2XL * 2)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+                .animation(.easeInOut(duration: 0.25), value: body.id)
             }
+        }
+    }
+}
+
+// MARK: - Decorative background
+
+private struct StarfieldBackground: View {
+    @State private var stars: [CGPoint]
+
+    init(count: Int = 90) {
+        _stars = State(initialValue: StarfieldBackground.generateStars(count: count))
+    }
+
+    var body: some View {
+        GeometryReader { _ in
+            Canvas { context, size in
+                for point in stars {
+                    let starRect = CGRect(
+                        x: point.x * size.width,
+                        y: point.y * size.height,
+                        width: 2,
+                        height: 2
+                    )
+                    let starPath = Path(ellipseIn: starRect)
+                    context.fill(starPath, with: .color(.white.opacity(0.5)))
+                }
+            }
+        }
+        .allowsHitTesting(false)
+        .opacity(0.35)
+        .blur(radius: 0.2)
+    }
+
+    private static func generateStars(count: Int) -> [CGPoint] {
+        (0..<count).map { _ in
+            CGPoint(x: Double.random(in: 0...1), y: Double.random(in: 0...1))
         }
     }
 }

@@ -47,7 +47,48 @@ struct SolarAtlasApp: App {
 }
 
 struct AppTabView: View {
+    @EnvironmentObject private var navigationStore: NavigationStore
+
+    private var selection: Binding<AppTab> {
+        Binding(
+            get: { navigationStore.state.activeTab },
+            set: { navigationStore.dispatch(.setTab($0)) }
+        )
+    }
+
     var body: some View {
-        SolarSystemView()
+        TabView(selection: selection) {
+            SolarSystemView()
+                .tabItem {
+                    Label(NSLocalizedString("Explore", comment: "Solar system tab title"), systemImage: "globe")
+                }
+                .tag(AppTab.solarSystem)
+
+            ComingSoonView(title: NSLocalizedString("News Feed", comment: "News feed tab title"))
+                .tabItem {
+                    Label(NSLocalizedString("News", comment: "News tab label"), systemImage: "newspaper")
+                }
+                .tag(AppTab.newsFeed)
+
+            ComingSoonView(title: NSLocalizedString("Updates", comment: "Updates tab title"))
+                .tabItem {
+                    Label(NSLocalizedString("Updates", comment: "Updates tab label"), systemImage: "clock.arrow.circlepath")
+                }
+                .tag(AppTab.updates)
+        }
+        .tint(.terminalCyan)
+    }
+}
+
+private struct ComingSoonView: View {
+    var title: String
+
+    var body: some View {
+        ZStack {
+            Color.spaceBlack.ignoresSafeArea()
+            Text(title.uppercased())
+                .font(.system(size: 16, weight: .semibold, design: .monospaced))
+                .foregroundColor(.mutedText)
+        }
     }
 }
