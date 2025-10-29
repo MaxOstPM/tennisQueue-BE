@@ -48,7 +48,6 @@ struct SolarAtlasApp: App {
 
 struct AppTabView: View {
     var body: some View {
-        SolarCanvas()
-            .background(Color.spaceBlack)
+        SolarSystemView()
     }
 }
