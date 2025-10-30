@@ -31,24 +31,24 @@ struct BodyInfoSheet: View {
 
     var body: some View {
         TerminalPanel(borderColor: celestial.color) {
-            VStack(alignment: .leading, spacing: CGFloat.spaceMD) {
+            VStack(alignment: .leading, spacing: .spaceMD) {
                 HStack(alignment: .top) {
-                    VStack(alignment: .leading, spacing: CGFloat.spaceXS) {
+                    VStack(alignment: .leading, spacing: .spaceXS) {
                         Text(celestial.displayName.uppercased())
-                            .font(.system(size: 18, weight: .bold, design: .monospaced))
+                            .font(Font.ds.titleM)
                             .foregroundColor(celestial.color)
                             .glow(color: celestial.color)
                         Text(orbitDescription)
-                            .font(.system(size: 12, weight: .regular, design: .monospaced))
+                            .font(Font.ds.caption)
                             .foregroundColor(.mutedText)
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer()
                     Button(action: { store.dispatch(.solarSystem(.select(nil))) }) {
                         Image(systemName: "xmark")
-                            .font(.system(size: 14, weight: .bold))
+                            .font(Font.ds.iconSmall)
                             .foregroundColor(.mutedText)
-                            .padding(CGFloat.spaceSM)
+                            .padding(.spaceSM)
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
@@ -56,11 +56,10 @@ struct BodyInfoSheet: View {
                 }
 
                 Divider()
-                    .background(Color.terminalCyan)
-                    .opacity(0.4)
+                    .background(Color.terminalCyanDim)
 
                 Text(detailText(for: celestial))
-                    .font(.system(size: 12, weight: .regular, design: .monospaced))
+                    .font(Font.ds.caption)
                     .foregroundColor(.foregroundCyan)
                     .fixedSize(horizontal: false, vertical: true)
             }

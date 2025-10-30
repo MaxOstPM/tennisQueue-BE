@@ -20,6 +20,7 @@ A51076200BAA49079E6C6DE6 /* FlowStates.swift in Sources */ = {isa = PBXBuildFile
 68916C1173C44508B822CBD8 /* GlowModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7BD6118E4D45DFB131045F /* GlowModifier.swift */; };
 3EB2F1786E5B47EFBE4AF7FA /* ThemeSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223B7F4D0F1B4478B8365D10 /* ThemeSpacing.swift */; };
 F6F10EE58ED5425E8C0221B7 /* ScanlineOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5688BD2C340A45F489DABC5C /* ScanlineOverlay.swift */; };
+E4B2365C2D8E53D5006EB1F2 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B2365B2D8E53D5006EB1F2 /* DesignSystem.swift */; };
 FE096480DD33414997960904 /* AppTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B716E74465D1478CA66FFDE4 /* AppTabView.swift */; };
 2EE96A014B664E3E9EE0C491 /* NewsFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A327AE0F5B4E0F93D42FB3 /* NewsFeedView.swift */; };
 8FA213AF25DC4FAEB1B3E3F3 /* UpdatePromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA72D2133CEC4C6D8CD50250 /* UpdatePromptView.swift */; };
@@ -70,6 +71,7 @@ B86329E1092549AFB8A73AE2 /* ThemeColors.swift */ = {isa = PBXFileReference; last
 FC7BD6118E4D45DFB131045F /* GlowModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowModifier.swift; sourceTree = "<group>"; };
 223B7F4D0F1B4478B8365D10 /* ThemeSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSpacing.swift; sourceTree = "<group>"; };
 5688BD2C340A45F489DABC5C /* ScanlineOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanlineOverlay.swift; sourceTree = "<group>"; };
+E4B2365B2D8E53D5006EB1F2 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 B716E74465D1478CA66FFDE4 /* AppTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabView.swift; sourceTree = "<group>"; };
 85A327AE0F5B4E0F93D42FB3 /* NewsFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedView.swift; sourceTree = "<group>"; };
 DA72D2133CEC4C6D8CD50250 /* UpdatePromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePromptView.swift; sourceTree = "<group>"; };
@@ -238,12 +240,13 @@ sourceTree = "<group>";
 };
 777E9F1F8F1144C78FBFD045 /* Theme */ = {
 isa = PBXGroup;
-children = (
-B86329E1092549AFB8A73AE2 /* ThemeColors.swift */,
-FC7BD6118E4D45DFB131045F /* GlowModifier.swift */,
-223B7F4D0F1B4478B8365D10 /* ThemeSpacing.swift */,
-5688BD2C340A45F489DABC5C /* ScanlineOverlay.swift */
-);
+        children = (
+            B86329E1092549AFB8A73AE2 /* ThemeColors.swift */,
+            FC7BD6118E4D45DFB131045F /* GlowModifier.swift */,
+            223B7F4D0F1B4478B8365D10 /* ThemeSpacing.swift */,
+            E4B2365B2D8E53D5006EB1F2 /* DesignSystem.swift */,
+            5688BD2C340A45F489DABC5C /* ScanlineOverlay.swift */
+        );
 path = Theme;
 sourceTree = "<group>";
 };
@@ -445,6 +448,7 @@ D3A4B5C6D7E84990AA11003D /* PBXTargetDependency */ = {
         68916C1173C44508B822CBD8 /* GlowModifier.swift in Sources */,
         3EB2F1786E5B47EFBE4AF7FA /* ThemeSpacing.swift in Sources */,
         F6F10EE58ED5425E8C0221B7 /* ScanlineOverlay.swift in Sources */,
+        E4B2365C2D8E53D5006EB1F2 /* DesignSystem.swift in Sources */,
         FE096480DD33414997960904 /* AppTabView.swift in Sources */,
         2EE96A014B664E3E9EE0C491 /* NewsFeedView.swift in Sources */,
         8FA213AF25DC4FAEB1B3E3F3 /* UpdatePromptView.swift in Sources */,

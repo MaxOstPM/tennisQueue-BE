@@ -70,12 +70,12 @@ struct NewsFeedView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: .spaceXS) {
             Text("Mission Dispatch")
-                .font(.system(size: 28, weight: .heavy, design: .monospaced))
+                .font(Font.ds.titleL)
                 .foregroundColor(.foregroundCyan)
                 .glow()
 
             Text("Curated astronomical reports from the Solar Atlas network.")
-                .font(.system(size: 13, weight: .regular, design: .monospaced))
+                .font(Font.ds.label)
                 .foregroundColor(.mutedText)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -85,16 +85,16 @@ struct NewsFeedView: View {
     private var emptyState: some View {
         VStack(spacing: .spaceLG) {
             Image(systemName: "antenna.radiowaves.left.and.right")
-                .font(.system(size: 56))
+                .font(Font.ds.iconXL)
                 .foregroundColor(.terminalCyan)
                 .glow()
 
             Text("No telemetry yet")
-                .font(.system(size: 24, weight: .bold, design: .monospaced))
+                .font(Font.ds.titleM)
                 .foregroundColor(.foregroundCyan)
 
             Text(emptyStateMessage)
-                .font(.system(size: 14, weight: .regular, design: .monospaced))
+                .font(Font.ds.body)
                 .foregroundColor(.mutedText)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, .spaceXL)
@@ -106,22 +106,22 @@ struct NewsFeedView: View {
         TerminalPanel {
             VStack(alignment: .leading, spacing: .spaceMD) {
                 Text(item.title)
-                    .font(.system(size: 20, weight: .semibold, design: .monospaced))
+                    .font(Font.ds.titleM)
                     .foregroundColor(.foregroundCyan)
 
                 Text(item.summary)
-                    .font(.system(size: 14, weight: .regular, design: .monospaced))
+                    .font(Font.ds.body)
                     .foregroundColor(.mutedText)
 
                 HStack {
                     Text(item.source.uppercased())
-                        .font(.system(size: 12, weight: .bold, design: .monospaced))
+                        .font(Font.ds.captionEmphasis)
                         .foregroundColor(.terminalAmber)
 
                     Spacer()
 
                     Text(dateFormatter.string(from: item.publishedAt))
-                        .font(.system(size: 12, weight: .regular, design: .monospaced))
+                        .font(Font.ds.caption)
                         .foregroundColor(.mutedText)
                 }
 
@@ -131,14 +131,13 @@ struct NewsFeedView: View {
                         openURL(url)
                     } label: {
                         Text("Read full briefing")
-                            .font(.system(size: 13, weight: .semibold, design: .monospaced))
+                            .font(Font.ds.labelEmphasis)
                             .foregroundColor(.terminalCyan)
                             .underline()
                     }
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.spaceMD)
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(maxWidth: .infinity)
@@ -148,7 +147,7 @@ struct NewsFeedView: View {
         Group {
             if shouldRenderBanner {
                 BannerAdView()
-                    .frame(height: 50)
+                    .frame(height: .space4XL)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, .spaceMD)
                     .padding(.horizontal, .space2XL)

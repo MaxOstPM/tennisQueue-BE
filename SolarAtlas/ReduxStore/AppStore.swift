@@ -33,15 +33,25 @@ final class AppStore: ObservableObject {
 
     /// Dispatches the provided action to the underlying ReSwift store.
     func dispatch(_ action: AppAction) {
-        store.dispatch(action)
+        if Thread.isMainThread {
+            store.dispatch(action)
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.store.dispatch(action)
+            }
+        }
     }
 }
 
 extension AppStore: StoreSubscriber {
     func newState(state: AppState) {
         guard self.state != state else { return }
-        DispatchQueue.main.async { [weak self] in
-            self?.state = state
+        if Thread.isMainThread {
+            self.state = state
+        } else {
+            DispatchQueue.main.async { [weak self] in
+                self?.state = state
+            }
         }
     }
 }

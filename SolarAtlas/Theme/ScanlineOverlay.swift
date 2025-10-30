@@ -13,7 +13,7 @@ struct ScanlineOverlay: View {
                 path.addLine(to: CGPoint(x: size.width, y: y))
                 y += lineSpacing
             }
-            context.stroke(path, with: .color(Color.white.opacity(0.03)), lineWidth: 1)
+            context.stroke(path, with: .color(.scanline), lineWidth: 1)
         }
         .allowsHitTesting(false)
     }
