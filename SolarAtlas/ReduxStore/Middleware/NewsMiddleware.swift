@@ -17,10 +17,15 @@ func createNewsMiddleware(service: NewsServiceType) -> Middleware<AppState> {
                         switch result {
                         case .success(let items):
                             DispatchQueue.main.async {
+                                dispatch(AppAction.news(.setError(nil)))
                                 dispatch(AppAction.news(.loadNews(items)))
                             }
                         case .failure(let error):
                             NSLog("Failed to fetch news: %@", error.localizedDescription)
+                            DispatchQueue.main.async {
+                                dispatch(AppAction.news(.loadNews([])))
+                                dispatch(AppAction.news(.setError("Unable to retrieve the latest dispatches. Check your connection and try again.")))
+                            }
                         }
                     }
 

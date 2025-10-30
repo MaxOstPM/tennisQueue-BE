@@ -13,6 +13,7 @@ enum SolarSystemAction: Action {
 /// Actions that mutate NewsFeedState
 enum NewsFeedAction: Action {
     case loadNews([NewsItem])     // Replace newsFeed with fetched items
+    case setError(String?)        // Persist the latest fetch error message
 }
 
 /// Actions that mutate NavigationState
@@ -28,5 +29,8 @@ enum UpdateAction: Action {
 
 /// Actions that mutate AdState
 enum AdAction: Action {
-    case setInterstitialReady(Bool)  // Flag whether an interstitial is ready
+    case setInterstitialReady(Bool)            // Flag whether an interstitial is ready
+    case setConsentStatus(AdConsentStatus)     // Track consent gathering progress/result
+    case setPersonalization(AdPersonalization) // Toggle whether personalized ads are allowed
+    case setError(String?)                     // Persist the last ad-related error
 }

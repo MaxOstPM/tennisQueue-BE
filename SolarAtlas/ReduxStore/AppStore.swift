@@ -9,12 +9,13 @@ final class AppStore: ObservableObject {
     init(initialState: AppState = AppState(),
          newsService: NewsServiceType,
          updateService: UpdateServiceType,
-         adManager: AdManagerType) {
+         adManager: AdManagerType,
+         consentManager: ConsentManagerType) {
         self.state = initialState
         let middlewares: [Middleware<AppState>] = [
             createNewsMiddleware(service: newsService),
             createUpdateMiddleware(service: updateService),
-            createAdMiddleware(manager: adManager)
+            createAdMiddleware(manager: adManager, consentManager: consentManager)
         ]
 
         self.store = Store<AppState>(

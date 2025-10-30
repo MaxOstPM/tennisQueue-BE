@@ -5,6 +5,7 @@ import GoogleMobileAds
 @main
 struct SolarAtlasApp: App {
     @StateObject private var appStore: AppStore
+    @Environment(\.scenePhase) private var scenePhase
 
     init() {
         FirebaseApp.configure()
@@ -12,24 +13,32 @@ struct SolarAtlasApp: App {
 
         let newsService = FirestoreNewsService()
         let updateService = RemoteConfigUpdateService()
-        let adManager = AdManager(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        let consentManager = ConsentManager.shared
+        let adManager = AdManager(interstitialAdUnitID: AdConfiguration.interstitialAdUnitID, consentManager: consentManager)
         let store = AppStore(
             newsService: newsService,
             updateService: updateService,
-            adManager: adManager
+            adManager: adManager,
+            consentManager: consentManager
         )
 
         _appStore = StateObject(wrappedValue: store)
-
-        store.dispatch(.checkForUpdate)
-        store.dispatch(.startAdTimer)
-        store.dispatch(.fetchNewsRequested)
     }
 
     var body: some Scene {
         WindowGroup {
             AppTabView()
                 .environmentObject(appStore)
+                .task {
+                    appStore.dispatch(.checkForUpdate)
+                    appStore.dispatch(.requestAdConsent)
+                    appStore.dispatch(.fetchNewsRequested)
+                }
+                .onChange(of: scenePhase) { newPhase in
+                    if newPhase == .active {
+                        appStore.dispatch(.appDidBecomeActive)
+                    }
+                }
         }
     }
 }
