@@ -78,11 +78,6 @@ struct CelestialBody: Identifiable, Codable, Equatable {
 }
 
 extension CelestialBody {
-    /// Convenience accessor to retrieve the default set of solar system bodies.
-    static var solarSystemBodies: [CelestialBody] {
-        SolarSystemBodiesProvider().allBodies
-    }
-
     /// Convenience accessor that maps the stored identifier to the strongly typed BodyID enum.
     var bodyID: BodyID? {
         guard let id else { return nil }
@@ -109,9 +104,6 @@ extension CelestialBody {
         CGSize(width: labelOffsetX, height: labelOffsetY)
     }
 }
-
-/// Convenience global collection of celestial bodies used by rendering layers.
-let solarSystemBodies: [CelestialBody] = CelestialBody.solarSystemBodies
 
 private extension Color {
     init?(hex: String) {

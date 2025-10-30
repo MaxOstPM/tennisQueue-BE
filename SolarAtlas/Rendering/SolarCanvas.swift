@@ -5,6 +5,7 @@ final class OrbitRenderCache: ObservableObject {
     private var cachedSize: CGSize = .zero
     private var cachedScale: CGFloat = 0
     private var cachedBodyCount: Int = 0
+    private var cachedBodySignature: Int = 0
     private var showingOrbits = true
 
     var orbitsPath: Path { cachedPath }
@@ -26,13 +27,21 @@ final class OrbitRenderCache: ObservableObject {
             cachedSize = .zero
         }
 
-        guard size != cachedSize || cachedScale != scale || cachedBodyCount != bodies.count else {
+        var hasher = Hasher()
+        bodies.forEach { body in
+            hasher.combine(body.id ?? body.displayName)
+            hasher.combine(body.orbitAU)
+        }
+        let bodySignature = hasher.finalize()
+
+        guard size != cachedSize || cachedScale != scale || cachedBodyCount != bodies.count || cachedBodySignature != bodySignature else {
             return
         }
 
         cachedSize = size
         cachedScale = scale
         cachedBodyCount = bodies.count
+        cachedBodySignature = bodySignature
 
         var path = Path()
         let center = CGPoint(x: size.width / 2, y: size.height / 2)
@@ -80,7 +89,7 @@ struct SolarCanvas: View {
         orbitCache.rebuildIfNeeded(size: size,
                                    showOrbits: state.showOrbits,
                                    scale: scale,
-                                   bodies: solarSystemBodies)
+                                   bodies: bodies)
         let timeBucket = layoutCache.timeBucket(for: state.time)
 
         if state.showOrbits && !orbitCache.orbitsPath.isEmpty {
@@ -91,7 +100,7 @@ struct SolarCanvas: View {
             )
         }
 
-        for body in solarSystemBodies where body.bodyID != .atlas {
+        for body in bodies where body.bodyID != .atlas {
 
             let position = position(for: body,
                                     center: center,
@@ -168,7 +177,7 @@ struct SolarCanvas: View {
             y: center.y + cometOffset.y
         )
 
-        let atlasBody = solarSystemBodies.first { $0.bodyID == .atlas }
+        let atlasBody = bodies.first { $0.bodyID == .atlas }
         let cometRadius = max(CGFloat(atlasBody?.pixelRadius ?? 3), 3)
         let cometRect = CGRect(
             x: cometPosition.x - cometRadius,
@@ -189,7 +198,7 @@ struct SolarCanvas: View {
         let scale = renderScale(for: canvasSize)
         let timeBucket = layoutCache.timeBucket(for: state.time)
 
-        for body in solarSystemBodies {
+        for body in bodies {
             let targetPoint: CGPoint
             let touchRadius = max(CGFloat(body.pixelRadius) * 2, CGFloat(20))
 
@@ -230,7 +239,7 @@ struct SolarCanvas: View {
     }
 
     private func renderScale(for size: CGSize) -> CGFloat {
-        let maxOrbit = solarSystemBodies.map { CGFloat($0.orbitAU) }.max() ?? CGFloat(1)
+        let maxOrbit = bodies.map { CGFloat($0.orbitAU) }.max() ?? CGFloat(1)
         let safeMaxOrbit = max(maxOrbit, 0.1)
         let reference = min(size.width, size.height) * 0.45
         guard reference > 0 else { return 1 }
@@ -239,6 +248,11 @@ struct SolarCanvas: View {
 
     private var solarSystem: SolarSystemState {
         store.state.solarSystem
+    }
+
+    private var bodies: [CelestialBody] {
+        let stateBodies = solarSystem.bodies
+        return stateBodies.isEmpty ? SolarSystemBodiesProvider.defaultBodies : stateBodies
     }
 }
 

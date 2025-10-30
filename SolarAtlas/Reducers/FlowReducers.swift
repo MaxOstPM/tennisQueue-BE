@@ -53,6 +53,8 @@ let solarSystemReducer: Reducer<SolarSystemState> = { action, currentState in
         case .select(let bodyID):
             state.selected = bodyID
         }
+    case .setCelestialBodies(let bodies):
+        state.bodies = bodies
     default:
         break
     }

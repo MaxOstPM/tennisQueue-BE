@@ -35,4 +35,12 @@ final class SolarSystemReducerTests: XCTestCase {
         let unchanged = solarSystemReducer(AppAction.solarSystem(.autoSpinTick(1.0)), spinningState)
         XCTAssertEqual(unchanged.time, spinningState.time, accuracy: 0.0001)
     }
+
+    func testSetCelestialBodies_updatesBodies() {
+        var initial = SolarSystemState()
+        initial.bodies = []
+        let replacement = SolarSystemBodiesProvider.defaultBodies
+        let updated = solarSystemReducer(AppAction.setCelestialBodies(replacement), initial)
+        XCTAssertEqual(updated.bodies, replacement)
+    }
 }

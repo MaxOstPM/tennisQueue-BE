@@ -6,7 +6,7 @@ struct SolarSystemView: View {
 
     private var selectedBody: CelestialBody? {
         guard let id = store.state.solarSystem.selected else { return nil }
-        return solarSystemBodies.first { $0.bodyID == id }
+        return store.state.solarSystem.bodies.first { $0.bodyID == id }
     }
 
     private var timelineDate: Date {

@@ -141,7 +141,7 @@ struct SolarSystemView: View {
 
     private var selectedBody: CelestialBody? {
         guard let bodyID = solarSystem.selected else { return nil }
-        return solarSystemBodies.first { $0.bodyID == bodyID }
+        return solarSystem.bodies.first { $0.bodyID == bodyID }
     }
 
     private var currentDate: Date {
