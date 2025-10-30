@@ -29,6 +29,8 @@ func navigationReducer(state: inout NavigationState, action: NavigationAction) {
     switch action {
     case .setTab(let tab):
         state.activeTab = tab
+    case .openRoute(let route):
+        state.activeTab = route.tab
     }
 }
 
@@ -43,7 +45,7 @@ func updateReducer(state: inout UpdateState, action: UpdateAction) {
 /// Reducer for AdState
 func adReducer(state: inout AdState, action: AdAction) {
     switch action {
-    case .updateAds(let newAdState):
-        state = newAdState
+    case .setInterstitialReady(let isReady):
+        state.interstitialReady = isReady
     }
 }

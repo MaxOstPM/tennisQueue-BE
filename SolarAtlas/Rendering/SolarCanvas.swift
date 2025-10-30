@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Core canvas responsible for rendering the solar system visualization.
 struct SolarCanvas: View {
-    @EnvironmentObject var solarStore: SolarSystemStore
+    @EnvironmentObject var store: AppStore
 
     var body: some View {
         GeometryReader { geometry in
@@ -21,7 +21,7 @@ struct SolarCanvas: View {
     }
 
     private func drawSolarSystem(in context: inout GraphicsContext, size: CGSize) {
-        let state = solarStore.state
+        let state = solarSystem
         let center = CGPoint(x: size.width / 2, y: size.height / 2)
         let scale = renderScale(for: size)
 
@@ -137,7 +137,7 @@ struct SolarCanvas: View {
     }
 
     private func handleTap(at location: CGPoint, canvasSize: CGSize) {
-        let state = solarStore.state
+        let state = solarSystem
         let center = CGPoint(x: canvasSize.width / 2, y: canvasSize.height / 2)
         let scale = renderScale(for: canvasSize)
 
@@ -158,12 +158,12 @@ struct SolarCanvas: View {
             let dx = location.x - targetPoint.x
             let dy = location.y - targetPoint.y
             if (dx * dx + dy * dy).squareRoot() <= touchRadius {
-                solarStore.dispatch(.select(body.id))
+                store.dispatch(.solarSystem(.select(body.id)))
                 return
             }
         }
 
-        solarStore.dispatch(.select(nil))
+        store.dispatch(.solarSystem(.select(nil)))
     }
 
     private func position(for body: CelestialBody,
@@ -189,5 +189,9 @@ struct SolarCanvas: View {
         let reference = min(size.width, size.height) * 0.45
         guard reference > 0 else { return 1 }
         return reference / safeMaxOrbit
+    }
+
+    private var solarSystem: SolarSystemState {
+        store.state.solarSystem
     }
 }

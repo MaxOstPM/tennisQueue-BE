@@ -8,8 +8,7 @@ objects = {
 /* Begin PBXBuildFile section */
 85EAD5F7C7BC47529131587C /* SolarAtlasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0399EEE775435F98BD1945 /* SolarAtlasApp.swift */; };
 61BFFAB56E564673AE1331BA /* FlowActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7358598BF97B488DA536F79A /* FlowActions.swift */; };
-7A6495FCE399494EAF9F01A1 /* UpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6F5953AD68C43CCB8F0AA73 /* UpdateManager.swift */; };
-FB6B24F83A1F4BACB2935CBE /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630F6F43950B4C3197FAB1C4 /* Body.swift */; };
+ FB6B24F83A1F4BACB2935CBE /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630F6F43950B4C3197FAB1C4 /* Body.swift */; };
 0BB1E3F2EB26446B8096D6AD /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC573BD378F4CE1B461B49F /* NewsItem.swift */; };
 ABA2033600FF4347BC813B5E /* SolarSystemBodiesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8C0479AC914B5A853429EA /* SolarSystemBodiesProvider.swift */; };
 F5B3ACFA935D4C8CB56A2416 /* AtlasPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E27A848F68450CB5EB9A7F /* AtlasPath.swift */; };
@@ -17,8 +16,6 @@ F5B3ACFA935D4C8CB56A2416 /* AtlasPath.swift in Sources */ = {isa = PBXBuildFile;
 0EA0A2EE9E4847168E9736FA /* SolarCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7B11C69D442EBB47E6183 /* SolarCanvas.swift */; };
 A51076200BAA49079E6C6DE6 /* FlowStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2799F441829F4F4C8061D1C2 /* FlowStates.swift */; };
 537C93CF509547A6B54395D5 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E7D6BEF02749EA84CAEE17 /* AppState.swift */; };
-4C2FC557F9A644C98DDC6673 /* FlowStores.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056F48BC908482E88B745EB /* FlowStores.swift */; };
-301EBC2CDAB84982B62931D2 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE2B4DA079746CB8EF18D9E /* AppStore.swift */; };
 9D8F44622D58472991EFA8A6 /* ThemeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86329E1092549AFB8A73AE2 /* ThemeColors.swift */; };
 68916C1173C44508B822CBD8 /* GlowModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7BD6118E4D45DFB131045F /* GlowModifier.swift */; };
 3EB2F1786E5B47EFBE4AF7FA /* ThemeSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223B7F4D0F1B4478B8365D10 /* ThemeSpacing.swift */; };
@@ -31,13 +28,32 @@ ABBAC0D907D249D78929609C /* BodyInfoSheet.swift in Sources */ = {isa = PBXBuildF
 B498DDFCB6604F29B2B4D0C8 /* TerminalPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A60B2BF7FE474322B8043393 /* TerminalPanel.swift */; };
 05D10DC7630C41989AE5E513 /* NeonSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 249460BDD0B14F89B5E50CA6 /* NeonSlider.swift */; };
 FE65115A2C3145D99E26C948 /* ToggleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F538DBC6A06342C995CD976C /* ToggleRow.swift */; };
+F1A2B3C4D5E6478899AA0024 /* AppAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0014 /* AppAction.swift */; };
+F1A2B3C4D5E6478899AA0025 /* AppReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0015 /* AppReducer.swift */; };
+F1A2B3C4D5E6478899AA0026 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0016 /* AppStore.swift */; };
+F1A2B3C4D5E6478899AA0027 /* NewsMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0017 /* NewsMiddleware.swift */; };
+F1A2B3C4D5E6478899AA0028 /* UpdateMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0018 /* UpdateMiddleware.swift */; };
+F1A2B3C4D5E6478899AA0029 /* AdMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0019 /* AdMiddleware.swift */; };
+F1A2B3C4D5E6478899AA0030 /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0020 /* NewsService.swift */; };
+F1A2B3C4D5E6478899AA0031 /* UpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0021 /* UpdateService.swift */; };
+F1A2B3C4D5E6478899AA0032 /* AdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0022 /* AdManager.swift */; };
+F1A2B3C4D5E6478899AA0033 /* NavigationReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0023 /* NavigationReducerTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+D3A4B5C6D7E84990AA11003E /* PBXContainerItemProxy */ = {
+    isa = PBXContainerItemProxy;
+    containerPortal = 04B48764DD8F4F61A5F863B2 /* Project object */;
+    proxyType = 1;
+    remoteGlobalIDString = CB65CF06E2114663AEEC2BB3;
+    remoteInfo = SolarAtlas;
+};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 01F92F6D8CF44C23B51E8E1F /* SolarAtlas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SolarAtlas.app; sourceTree = BUILT_PRODUCTS_DIR; };
 4B0399EEE775435F98BD1945 /* SolarAtlasApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarAtlasApp.swift; sourceTree = "<group>"; };
 7358598BF97B488DA536F79A /* FlowActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowActions.swift; sourceTree = "<group>"; };
-E6F5953AD68C43CCB8F0AA73 /* UpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateManager.swift; sourceTree = "<group>"; };
 630F6F43950B4C3197FAB1C4 /* Body.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Body.swift; sourceTree = "<group>"; };
 AEC573BD378F4CE1B461B49F /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
 6D8C0479AC914B5A853429EA /* SolarSystemBodiesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarSystemBodiesProvider.swift; sourceTree = "<group>"; };
@@ -46,8 +62,6 @@ C3E27A848F68450CB5EB9A7F /* AtlasPath.swift */ = {isa = PBXFileReference; lastKn
 BDB7B11C69D442EBB47E6183 /* SolarCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarCanvas.swift; sourceTree = "<group>"; };
 2799F441829F4F4C8061D1C2 /* FlowStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowStates.swift; sourceTree = "<group>"; };
 11E7D6BEF02749EA84CAEE17 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-3056F48BC908482E88B745EB /* FlowStores.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowStores.swift; sourceTree = "<group>"; };
-CBE2B4DA079746CB8EF18D9E /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 B86329E1092549AFB8A73AE2 /* ThemeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColors.swift; sourceTree = "<group>"; };
 FC7BD6118E4D45DFB131045F /* GlowModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowModifier.swift; sourceTree = "<group>"; };
 223B7F4D0F1B4478B8365D10 /* ThemeSpacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSpacing.swift; sourceTree = "<group>"; };
@@ -61,79 +75,121 @@ A60B2BF7FE474322B8043393 /* TerminalPanel.swift */ = {isa = PBXFileReference; la
 249460BDD0B14F89B5E50CA6 /* NeonSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeonSlider.swift; sourceTree = "<group>"; };
 F538DBC6A06342C995CD976C /* ToggleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleRow.swift; sourceTree = "<group>"; };
 BCFC9C0184514C3D9E689864 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0014 /* AppAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAction.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0015 /* AppReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppReducer.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0016 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0017 /* NewsMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsMiddleware.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0018 /* UpdateMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateMiddleware.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0019 /* AdMiddleware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdMiddleware.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0020 /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0021 /* UpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateService.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0022 /* AdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdManager.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0023 /* NavigationReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationReducerTests.swift; sourceTree = "<group>"; };
+B3C4D5E6F7A84990AA110035 /* SolarAtlasTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SolarAtlasTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 3B5A5D96240241C6A63BEDC8 /* Frameworks */ = {
-isa = PBXFrameworksBuildPhase;
-buildActionMask = 2147483647;
-files = (
-);
-runOnlyForDeploymentPostprocessing = 0;
+    isa = PBXFrameworksBuildPhase;
+    buildActionMask = 2147483647;
+    files = (
+    );
+    runOnlyForDeploymentPostprocessing = 0;
+};
+E3F4A5B6C7D84990AA110037 /* Frameworks */ = {
+    isa = PBXFrameworksBuildPhase;
+    buildActionMask = 2147483647;
+    files = (
+    );
+    runOnlyForDeploymentPostprocessing = 0;
 };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 FEC489CA194D44959E95EFA8 = {
 isa = PBXGroup;
-children = (
-8BF5F5841BBE4B0E98226E3E /* SolarAtlas */,
-BCFC9C0184514C3D9E689864 /* Info.plist */,
-E49CF14C69914691BE35F254 /* Products */
-);
+    children = (
+        8BF5F5841BBE4B0E98226E3E /* SolarAtlas */,
+        E3F4A5B6C7D84990AA11003C /* SolarAtlasTests */,
+        BCFC9C0184514C3D9E689864 /* Info.plist */,
+        E49CF14C69914691BE35F254 /* Products */
+    );
 sourceTree = "<group>";
 };
 8BF5F5841BBE4B0E98226E3E /* SolarAtlas */ = {
 isa = PBXGroup;
-children = (
-4B0399EEE775435F98BD1945 /* SolarAtlasApp.swift */,
-95B82DB149264F44B1D2921B /* Actions */,
-A7C3D7384EC94CF593E3A7BC /* Managers */,
-36B4F50EDE3D4C14813BDBB8 /* Models */,
-9910583FDB5640398D532C52 /* Reducers */,
-0C36A12AA8864CD297931D73 /* Rendering */,
-D5C416865B7742E2B4E68AFE /* States */,
-66E798EF37B242AEBA7BB855 /* Stores */,
-777E9F1F8F1144C78FBFD045 /* Theme */,
-6693AF0B04CF47D59CFD7D20 /* UI */
-);
+    children = (
+        4B0399EEE775435F98BD1945 /* SolarAtlasApp.swift */,
+        95B82DB149264F44B1D2921B /* Actions */,
+        D5F5E4C1F5B24E0FA890ABC1 /* Services */,
+        36B4F50EDE3D4C14813BDBB8 /* Models */,
+        9910583FDB5640398D532C52 /* Reducers */,
+        C2A1B3C4D5E6478899AA0012 /* ReduxStore */,
+        0C36A12AA8864CD297931D73 /* Rendering */,
+        D5C416865B7742E2B4E68AFE /* States */,
+        777E9F1F8F1144C78FBFD045 /* Theme */,
+        6693AF0B04CF47D59CFD7D20 /* UI */
+    );
 path = SolarAtlas;
 sourceTree = "<group>";
 };
 95B82DB149264F44B1D2921B /* Actions */ = {
-isa = PBXGroup;
-children = (
-7358598BF97B488DA536F79A /* FlowActions.swift */
-);
-path = Actions;
-sourceTree = "<group>";
-};
-A7C3D7384EC94CF593E3A7BC /* Managers */ = {
-isa = PBXGroup;
-children = (
-E6F5953AD68C43CCB8F0AA73 /* UpdateManager.swift */
-);
-path = Managers;
-sourceTree = "<group>";
+    isa = PBXGroup;
+    children = (
+        7358598BF97B488DA536F79A /* FlowActions.swift */,
+        E1F2A3B4C5D6478899AA0014 /* AppAction.swift */
+    );
+    path = Actions;
+    sourceTree = "<group>";
 };
 36B4F50EDE3D4C14813BDBB8 /* Models */ = {
-isa = PBXGroup;
-children = (
-630F6F43950B4C3197FAB1C4 /* Body.swift */,
-AEC573BD378F4CE1B461B49F /* NewsItem.swift */,
-6D8C0479AC914B5A853429EA /* SolarSystemBodiesProvider.swift */,
-C3E27A848F68450CB5EB9A7F /* AtlasPath.swift */
-);
-path = Models;
-sourceTree = "<group>";
+    isa = PBXGroup;
+    children = (
+        630F6F43950B4C3197FAB1C4 /* Body.swift */,
+        AEC573BD378F4CE1B461B49F /* NewsItem.swift */,
+        6D8C0479AC914B5A853429EA /* SolarSystemBodiesProvider.swift */,
+        C3E27A848F68450CB5EB9A7F /* AtlasPath.swift */
+    );
+    path = Models;
+    sourceTree = "<group>";
 };
 9910583FDB5640398D532C52 /* Reducers */ = {
-isa = PBXGroup;
-children = (
-7FD0716DA9EE48FA8461E5BF /* FlowReducers.swift */
-);
-path = Reducers;
-sourceTree = "<group>";
+    isa = PBXGroup;
+    children = (
+        7FD0716DA9EE48FA8461E5BF /* FlowReducers.swift */,
+        E1F2A3B4C5D6478899AA0015 /* AppReducer.swift */
+    );
+    path = Reducers;
+    sourceTree = "<group>";
+};
+C2A1B3C4D5E6478899AA0012 /* ReduxStore */ = {
+    isa = PBXGroup;
+    children = (
+        E1F2A3B4C5D6478899AA0016 /* AppStore.swift */,
+        A1B2C3D4E5F6478899AA0013 /* Middleware */
+    );
+    path = ReduxStore;
+    sourceTree = "<group>";
+};
+A1B2C3D4E5F6478899AA0013 /* Middleware */ = {
+    isa = PBXGroup;
+    children = (
+        E1F2A3B4C5D6478899AA0017 /* NewsMiddleware.swift */,
+        E1F2A3B4C5D6478899AA0018 /* UpdateMiddleware.swift */,
+        E1F2A3B4C5D6478899AA0019 /* AdMiddleware.swift */
+    );
+    path = Middleware;
+    sourceTree = "<group>";
+};
+D5F5E4C1F5B24E0FA890ABC1 /* Services */ = {
+    isa = PBXGroup;
+    children = (
+        E1F2A3B4C5D6478899AA0020 /* NewsService.swift */,
+        E1F2A3B4C5D6478899AA0021 /* UpdateService.swift */,
+        E1F2A3B4C5D6478899AA0022 /* AdManager.swift */
+    );
+    path = Services;
+    sourceTree = "<group>";
 };
 0C36A12AA8864CD297931D73 /* Rendering */ = {
 isa = PBXGroup;
@@ -150,15 +206,6 @@ children = (
 11E7D6BEF02749EA84CAEE17 /* AppState.swift */
 );
 path = States;
-sourceTree = "<group>";
-};
-66E798EF37B242AEBA7BB855 /* Stores */ = {
-isa = PBXGroup;
-children = (
-3056F48BC908482E88B745EB /* FlowStores.swift */,
-CBE2B4DA079746CB8EF18D9E /* AppStore.swift */
-);
-path = Stores;
 sourceTree = "<group>";
 };
 777E9F1F8F1144C78FBFD045 /* Theme */ = {
@@ -204,33 +251,60 @@ path = Panels;
 sourceTree = "<group>";
 };
 E49CF14C69914691BE35F254 /* Products */ = {
-isa = PBXGroup;
-children = (
-01F92F6D8CF44C23B51E8E1F /* SolarAtlas.app */
-);
-name = Products;
-sourceTree = "<group>";
+    isa = PBXGroup;
+    children = (
+        01F92F6D8CF44C23B51E8E1F /* SolarAtlas.app */,
+        B3C4D5E6F7A84990AA110035 /* SolarAtlasTests.xctest */
+    );
+    name = Products;
+    sourceTree = "<group>";
+};
+E3F4A5B6C7D84990AA11003C /* SolarAtlasTests */ = {
+    isa = PBXGroup;
+    children = (
+        E1F2A3B4C5D6478899AA0023 /* NavigationReducerTests.swift */
+    );
+    path = SolarAtlasTests;
+    sourceTree = "<group>";
 };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
 CB65CF06E2114663AEEC2BB3 /* SolarAtlas */ = {
-isa = PBXNativeTarget;
-buildConfigurationList = 5445B0D146C34DCF93091F44 /* Build configuration list for PBXNativeTarget "SolarAtlas" */;
-buildPhases = (
-6AE6DC6A469C481BA5B69F09 /* Sources */,
-3B5A5D96240241C6A63BEDC8 /* Frameworks */,
-4D04A2C71C8349AA9D50848A /* Resources */,
-3885DB916A5D4B809F2E5C93 /* SwiftLint & SwiftFormat */
-);
-buildRules = (
-);
-dependencies = (
-);
-name = SolarAtlas;
-productName = SolarAtlas;
-productReference = 01F92F6D8CF44C23B51E8E1F /* SolarAtlas.app */;
-productType = "com.apple.product-type.application";
+    isa = PBXNativeTarget;
+    buildConfigurationList = 5445B0D146C34DCF93091F44 /* Build configuration list for PBXNativeTarget "SolarAtlas" */;
+    buildPhases = (
+        6AE6DC6A469C481BA5B69F09 /* Sources */,
+        3B5A5D96240241C6A63BEDC8 /* Frameworks */,
+        4D04A2C71C8349AA9D50848A /* Resources */,
+        3885DB916A5D4B809F2E5C93 /* SwiftLint & SwiftFormat */
+    );
+    buildRules = (
+    );
+    dependencies = (
+    );
+    name = SolarAtlas;
+    productName = SolarAtlas;
+    productReference = 01F92F6D8CF44C23B51E8E1F /* SolarAtlas.app */;
+    productType = "com.apple.product-type.application";
+};
+D3A4B5C6D7E84990AA110034 /* SolarAtlasTests */ = {
+    isa = PBXNativeTarget;
+    buildConfigurationList = E3F4A5B6C7D84990AA110039 /* Build configuration list for PBXNativeTarget "SolarAtlasTests" */;
+    buildPhases = (
+        E3F4A5B6C7D84990AA110036 /* Sources */,
+        E3F4A5B6C7D84990AA110037 /* Frameworks */,
+        E3F4A5B6C7D84990AA110038 /* Resources */
+    );
+    buildRules = (
+    );
+    dependencies = (
+        D3A4B5C6D7E84990AA11003D /* PBXTargetDependency */
+    );
+    name = SolarAtlasTests;
+    productName = SolarAtlasTests;
+    productReference = B3C4D5E6F7A84990AA110035 /* SolarAtlasTests.xctest */;
+    productType = "com.apple.product-type.bundle.unit-test";
 };
 /* End PBXNativeTarget section */
 
@@ -241,11 +315,14 @@ attributes = {
 BuildIndependentTargetsInParallel = YES;
 LastSwiftUpdateCheck = 1500;
 LastUpgradeCheck = 1500;
-TargetAttributes = {
-CB65CF06E2114663AEEC2BB3 = {
-DevelopmentTeam = "";
-};
-};
+        TargetAttributes = {
+            CB65CF06E2114663AEEC2BB3 = {
+                DevelopmentTeam = "";
+            };
+            D3A4B5C6D7E84990AA110034 = {
+                TestTargetID = CB65CF06E2114663AEEC2BB3;
+            };
+        };
 };
 buildConfigurationList = FBBC3A678AF24414A481767C /* Build configuration list for PBXProject "SolarAtlas" */;
 compatibilityVersion = "Xcode 14.0";
@@ -259,19 +336,27 @@ mainGroup = FEC489CA194D44959E95EFA8;
 productRefGroup = E49CF14C69914691BE35F254 /* Products */;
 projectDirPath = "";
 projectRoot = "";
-targets = (
-CB65CF06E2114663AEEC2BB3 /* SolarAtlas */
-);
+    targets = (
+        CB65CF06E2114663AEEC2BB3 /* SolarAtlas */,
+        D3A4B5C6D7E84990AA110034 /* SolarAtlasTests */
+    );
 };
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 4D04A2C71C8349AA9D50848A /* Resources */ = {
-isa = PBXResourcesBuildPhase;
-buildActionMask = 2147483647;
-files = (
-);
-runOnlyForDeploymentPostprocessing = 0;
+    isa = PBXResourcesBuildPhase;
+    buildActionMask = 2147483647;
+    files = (
+    );
+    runOnlyForDeploymentPostprocessing = 0;
+};
+E3F4A5B6C7D84990AA110038 /* Resources */ = {
+    isa = PBXResourcesBuildPhase;
+    buildActionMask = 2147483647;
+    files = (
+    );
+    runOnlyForDeploymentPostprocessing = 0;
 };
 /* End PBXResourcesBuildPhase section */
 
@@ -292,46 +377,68 @@ shellScript = "if [ -z \"${PODS_ROOT}\" ]; then\\n  PODS_ROOT=\"${SRCROOT}/Pods\
 };
 /* End PBXShellScriptBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+D3A4B5C6D7E84990AA11003D /* PBXTargetDependency */ = {
+    isa = PBXTargetDependency;
+    target = CB65CF06E2114663AEEC2BB3 /* SolarAtlas */;
+    targetProxy = D3A4B5C6D7E84990AA11003E /* PBXContainerItemProxy */;
+};
+/* End PBXTargetDependency section */
+
 /* Begin PBXSourcesBuildPhase section */
 6AE6DC6A469C481BA5B69F09 /* Sources */ = {
-isa = PBXSourcesBuildPhase;
-buildActionMask = 2147483647;
-files = (
-85EAD5F7C7BC47529131587C /* SolarAtlasApp.swift in Sources */,
-61BFFAB56E564673AE1331BA /* FlowActions.swift in Sources */,
-7A6495FCE399494EAF9F01A1 /* UpdateManager.swift in Sources */,
-FB6B24F83A1F4BACB2935CBE /* Body.swift in Sources */,
-0BB1E3F2EB26446B8096D6AD /* NewsItem.swift in Sources */,
-ABA2033600FF4347BC813B5E /* SolarSystemBodiesProvider.swift in Sources */,
-F5B3ACFA935D4C8CB56A2416 /* AtlasPath.swift in Sources */,
-8562A9C2D5CB4182AD8C979F /* FlowReducers.swift in Sources */,
-0EA0A2EE9E4847168E9736FA /* SolarCanvas.swift in Sources */,
-A51076200BAA49079E6C6DE6 /* FlowStates.swift in Sources */,
-537C93CF509547A6B54395D5 /* AppState.swift in Sources */,
-4C2FC557F9A644C98DDC6673 /* FlowStores.swift in Sources */,
-301EBC2CDAB84982B62931D2 /* AppStore.swift in Sources */,
-9D8F44622D58472991EFA8A6 /* ThemeColors.swift in Sources */,
-68916C1173C44508B822CBD8 /* GlowModifier.swift in Sources */,
-3EB2F1786E5B47EFBE4AF7FA /* ThemeSpacing.swift in Sources */,
-F6F10EE58ED5425E8C0221B7 /* ScanlineOverlay.swift in Sources */,
-FE096480DD33414997960904 /* AppTabView.swift in Sources */,
-2EE96A014B664E3E9EE0C491 /* NewsFeedView.swift in Sources */,
-8FA213AF25DC4FAEB1B3E3F3 /* UpdatePromptView.swift in Sources */,
-946A36AD6DF140B4ADB97911 /* SolarSystemView.swift in Sources */,
-ABBAC0D907D249D78929609C /* BodyInfoSheet.swift in Sources */,
-B498DDFCB6604F29B2B4D0C8 /* TerminalPanel.swift in Sources */,
-05D10DC7630C41989AE5E513 /* NeonSlider.swift in Sources */,
-FE65115A2C3145D99E26C948 /* ToggleRow.swift in Sources */
-);
-runOnlyForDeploymentPostprocessing = 0;
+    isa = PBXSourcesBuildPhase;
+    buildActionMask = 2147483647;
+    files = (
+        85EAD5F7C7BC47529131587C /* SolarAtlasApp.swift in Sources */,
+        61BFFAB56E564673AE1331BA /* FlowActions.swift in Sources */,
+        F1A2B3C4D5E6478899AA0024 /* AppAction.swift in Sources */,
+        FB6B24F83A1F4BACB2935CBE /* Body.swift in Sources */,
+        0BB1E3F2EB26446B8096D6AD /* NewsItem.swift in Sources */,
+        ABA2033600FF4347BC813B5E /* SolarSystemBodiesProvider.swift in Sources */,
+        F5B3ACFA935D4C8CB56A2416 /* AtlasPath.swift in Sources */,
+        8562A9C2D5CB4182AD8C979F /* FlowReducers.swift in Sources */,
+        F1A2B3C4D5E6478899AA0025 /* AppReducer.swift in Sources */,
+        0EA0A2EE9E4847168E9736FA /* SolarCanvas.swift in Sources */,
+        A51076200BAA49079E6C6DE6 /* FlowStates.swift in Sources */,
+        537C93CF509547A6B54395D5 /* AppState.swift in Sources */,
+        F1A2B3C4D5E6478899AA0026 /* AppStore.swift in Sources */,
+        F1A2B3C4D5E6478899AA0027 /* NewsMiddleware.swift in Sources */,
+        F1A2B3C4D5E6478899AA0028 /* UpdateMiddleware.swift in Sources */,
+        F1A2B3C4D5E6478899AA0029 /* AdMiddleware.swift in Sources */,
+        F1A2B3C4D5E6478899AA0030 /* NewsService.swift in Sources */,
+        F1A2B3C4D5E6478899AA0031 /* UpdateService.swift in Sources */,
+        F1A2B3C4D5E6478899AA0032 /* AdManager.swift in Sources */,
+        9D8F44622D58472991EFA8A6 /* ThemeColors.swift in Sources */,
+        68916C1173C44508B822CBD8 /* GlowModifier.swift in Sources */,
+        3EB2F1786E5B47EFBE4AF7FA /* ThemeSpacing.swift in Sources */,
+        F6F10EE58ED5425E8C0221B7 /* ScanlineOverlay.swift in Sources */,
+        FE096480DD33414997960904 /* AppTabView.swift in Sources */,
+        2EE96A014B664E3E9EE0C491 /* NewsFeedView.swift in Sources */,
+        8FA213AF25DC4FAEB1B3E3F3 /* UpdatePromptView.swift in Sources */,
+        946A36AD6DF140B4ADB97911 /* SolarSystemView.swift in Sources */,
+        ABBAC0D907D249D78929609C /* BodyInfoSheet.swift in Sources */,
+        B498DDFCB6604F29B2B4D0C8 /* TerminalPanel.swift in Sources */,
+        05D10DC7630C41989AE5E513 /* NeonSlider.swift in Sources */,
+        FE65115A2C3145D99E26C948 /* ToggleRow.swift in Sources */
+    );
+    runOnlyForDeploymentPostprocessing = 0;
+};
+E3F4A5B6C7D84990AA110036 /* Sources */ = {
+    isa = PBXSourcesBuildPhase;
+    buildActionMask = 2147483647;
+    files = (
+        F1A2B3C4D5E6478899AA0033 /* NavigationReducerTests.swift in Sources */
+    );
+    runOnlyForDeploymentPostprocessing = 0;
 };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
 D5D703B2C7334E3799C2F5E0 /* Debug */ = {
-isa = XCBuildConfiguration;
-buildSettings = {
-CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+    isa = XCBuildConfiguration;
+    buildSettings = {
+        CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 GCC_C_LANGUAGE_STANDARD = gnu17;
 GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -343,10 +450,32 @@ SWIFT_VERSION = 5.9;
 };
 name = Debug;
 };
+E3F4A5B6C7D84990AA11003A /* Debug */ = {
+    isa = XCBuildConfiguration;
+    buildSettings = {
+        BUNDLE_LOADER = "$(TEST_HOST)";
+        CODE_SIGN_STYLE = Automatic;
+        DEVELOPMENT_TEAM = "";
+        GENERATE_INFOPLIST_FILE = YES;
+        IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+        LD_RUNPATH_SEARCH_PATHS = (
+            "$(inherited)",
+            "@executable_path/Frameworks",
+            "@loader_path/Frameworks"
+        );
+        PRODUCT_BUNDLE_IDENTIFIER = com.example.SolarAtlasTests;
+        PRODUCT_NAME = "$(TARGET_NAME)";
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+        SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+        SWIFT_VERSION = 5.9;
+        TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SolarAtlas.app/SolarAtlas";
+    };
+    name = Debug;
+};
 712310EEA8744992AC718C33 /* Release */ = {
-isa = XCBuildConfiguration;
-buildSettings = {
-CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+    isa = XCBuildConfiguration;
+    buildSettings = {
+        CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 GCC_C_LANGUAGE_STANDARD = gnu17;
 GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -355,6 +484,27 @@ GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 GCC_WARN_UNUSED_FUNCTION = YES;
 GCC_WARN_UNUSED_VARIABLE = YES;
 SWIFT_VERSION = 5.9;
+};
+E3F4A5B6C7D84990AA11003B /* Release */ = {
+    isa = XCBuildConfiguration;
+    buildSettings = {
+        BUNDLE_LOADER = "$(TEST_HOST)";
+        CODE_SIGN_STYLE = Automatic;
+        DEVELOPMENT_TEAM = "";
+        GENERATE_INFOPLIST_FILE = YES;
+        IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+        LD_RUNPATH_SEARCH_PATHS = (
+            "$(inherited)",
+            "@executable_path/Frameworks",
+            "@loader_path/Frameworks"
+        );
+        PRODUCT_BUNDLE_IDENTIFIER = com.example.SolarAtlasTests;
+        PRODUCT_NAME = "$(TARGET_NAME)";
+        SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+        SWIFT_VERSION = 5.9;
+        TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SolarAtlas.app/SolarAtlas";
+    };
+    name = Release;
 };
 name = Release;
 };
@@ -407,22 +557,31 @@ name = Release;
 
 /* Begin XCConfigurationList section */
 FBBC3A678AF24414A481767C /* Build configuration list for PBXProject "SolarAtlas" */ = {
-isa = XCConfigurationList;
-buildConfigurations = (
-D5D703B2C7334E3799C2F5E0 /* Debug */,
-712310EEA8744992AC718C33 /* Release */
-);
-defaultConfigurationIsVisible = 0;
-defaultConfigurationName = Release;
+    isa = XCConfigurationList;
+    buildConfigurations = (
+        D5D703B2C7334E3799C2F5E0 /* Debug */,
+        712310EEA8744992AC718C33 /* Release */
+    );
+    defaultConfigurationIsVisible = 0;
+    defaultConfigurationName = Release;
 };
 5445B0D146C34DCF93091F44 /* Build configuration list for PBXNativeTarget "SolarAtlas" */ = {
-isa = XCConfigurationList;
-buildConfigurations = (
-68EB2398F01A49F1BD7B0A61 /* Debug */,
-F4A7AECE0FF34D859D7A8B1D /* Release */
-);
-defaultConfigurationIsVisible = 0;
-defaultConfigurationName = Release;
+    isa = XCConfigurationList;
+    buildConfigurations = (
+        68EB2398F01A49F1BD7B0A61 /* Debug */,
+        F4A7AECE0FF34D859D7A8B1D /* Release */
+    );
+    defaultConfigurationIsVisible = 0;
+    defaultConfigurationName = Release;
+};
+E3F4A5B6C7D84990AA110039 /* Build configuration list for PBXNativeTarget "SolarAtlasTests" */ = {
+    isa = XCConfigurationList;
+    buildConfigurations = (
+        E3F4A5B6C7D84990AA11003A /* Debug */,
+        E3F4A5B6C7D84990AA11003B /* Release */
+    );
+    defaultConfigurationIsVisible = 0;
+    defaultConfigurationName = Release;
 };
 /* End XCConfigurationList section */
 

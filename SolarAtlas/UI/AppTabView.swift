@@ -37,8 +37,8 @@ struct AppTabView: View {
 
             // Main TabView with two tabs
             TabView(selection: Binding(
-                get: { store.state.activeTab },
-                set: { store.setActiveTab($0) }
+                get: { store.state.navigation.activeTab },
+                set: { store.dispatch(.navigation(.setTab($0))) }
             )) {
                 SolarSystemView()
                     .tabItem {
@@ -52,12 +52,16 @@ struct AppTabView: View {
                         Image(systemName: "newspaper")
                         Text(NSLocalizedString("News", comment: "Tab title for news feed"))
                     }
-                    .tag(AppTab.newsFeed)
+                    .tag(AppTab.news)
             }
             .accentColor(Color.terminalCyan)
+            .onOpenURL { url in
+                guard let route = AppRoute(url: url) else { return }
+                store.dispatch(.navigation(.openRoute(route)))
+            }
 
             // Overlay the forced-update prompt if an update is required
-            if store.state.isUpdateRequired {
+            if store.state.update.isUpdateRequired {
                 UpdatePromptView()
                     .zIndex(1)  // ensure it stays on top
                     .interactiveDismissDisabled(true)
