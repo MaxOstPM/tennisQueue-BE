@@ -54,6 +54,41 @@ The Solar Atlas app is built on a **unidirectional data flow
 architecture** (inspired by Redux) to maintain clarity and consistency
 in state management. The agent **must strictly follow** these architectural principles:
 
+### Final Architecture Overview
+
+```
+SwiftUI View Hierarchy
+    │
+    ▼
+AppStore (ObservableObject)
+    │  dispatches AppAction
+    ▼
+ReSwift Store<AppState>
+    │  applies combined `appReducer`
+    ▼
+AppState (single source of truth)
+    ├── solarSystem: SolarSystemState   ← solarSystemReducer
+    ├── newsFeed:    NewsFeedState      ← newsFeedReducer
+    ├── navigation:  NavigationState    ← navigationReducer
+    ├── update:      UpdateState        ← updateReducer
+    └── ads:         AdState            ← adReducer
+
+Middleware (News, Update, Ads, Analytics)
+    │  handles side effects & dispatches follow-up actions
+    ▼
+Services (Firestore, Remote Config, AdMob, etc.)
+```
+
+**Implementation rules:**
+
+- Views never hold their own copies of feature state; they observe `AppStore.state`.
+- Every mutation flows through `AppAction` and the combined `appReducer` constants in
+  `SolarAtlas/Reducers`—new slices must plug into this composition.
+- Middleware performs asynchronous work and must emit domain actions back into the
+  store on the main queue when UI state changes.
+- Legacy or feature-specific stores are prohibited; all coordination happens via the
+  single ReSwift store plus middleware.
+
 -   **Single Source of Truth:** All app state is centralized in a single
     `AppState` (or relevant feature state) struct, stored in a ReSwift
     store. No view should hold its own truth for data present in this

@@ -1,0 +1,8 @@
+// Release configuration values
+// Replace the placeholder strings with the production AdMob identifiers.
+// You can optionally move the real values to `Release.local.xcconfig` to keep them out of source control.
+GAD_APPLICATION_IDENTIFIER = YOUR_PRODUCTION_ADMOB_APP_ID
+GAD_BANNER_AD_UNIT_ID = YOUR_PRODUCTION_BANNER_UNIT_ID
+GAD_INTERSTITIAL_AD_UNIT_ID = YOUR_PRODUCTION_INTERSTITIAL_UNIT_ID
+
+#include? "Release.local.xcconfig"
