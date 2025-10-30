@@ -3,6 +3,9 @@ import SwiftUI
 /// Neon-styled feed listing astronomy news stories.
 struct NewsFeedView: View {
     @EnvironmentObject private var store: AppStore
+    @Environment(\.openURL) private var openURL
+
+    private let analytics = AnalyticsTracker.shared
 
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -123,12 +126,16 @@ struct NewsFeedView: View {
                 }
 
                 if let url = item.articleURL {
-                    Link(destination: url) {
+                    Button {
+                        analytics.logNewsItemOpened(id: item.id.uuidString, source: item.source)
+                        openURL(url)
+                    } label: {
                         Text("Read full briefing")
                             .font(.system(size: 13, weight: .semibold, design: .monospaced))
                             .foregroundColor(.terminalCyan)
                             .underline()
                     }
+                    .buttonStyle(.plain)
                 }
             }
             .padding(.spaceMD)

@@ -1,7 +1,8 @@
 import Foundation
 import ReSwift
 
-func createUpdateMiddleware(service: UpdateServiceType) -> Middleware<AppState> {
+func createUpdateMiddleware(service: UpdateServiceType,
+                            analytics: AnalyticsTracking) -> Middleware<AppState> {
     return { dispatch, getState in
         { next in
             { action in
@@ -13,9 +14,15 @@ func createUpdateMiddleware(service: UpdateServiceType) -> Middleware<AppState> 
                 switch appAction {
                 case .checkForUpdate:
                     next(action)
-                    service.checkForRequiredUpdate { requiresUpdate in
+                    service.checkForRequiredUpdate { requirement in
                         DispatchQueue.main.async {
-                            dispatch(AppAction.update(.requireUpdate(requiresUpdate)))
+                            dispatch(AppAction.update(.requireUpdate(requirement.requiresUpdate)))
+                            if requirement.requiresUpdate {
+                                analytics.logForceUpdateRequired(
+                                    minimumVersion: requirement.minimumVersion,
+                                    currentVersion: requirement.currentVersion
+                                )
+                            }
                         }
                     }
 

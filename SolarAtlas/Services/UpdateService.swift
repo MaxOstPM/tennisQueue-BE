@@ -1,8 +1,14 @@
 import FirebaseRemoteConfig
 import Foundation
 
+struct UpdateRequirement {
+    let requiresUpdate: Bool
+    let minimumVersion: String
+    let currentVersion: String
+}
+
 protocol UpdateServiceType {
-    func checkForRequiredUpdate(completion: @escaping (Bool) -> Void)
+    func checkForRequiredUpdate(completion: @escaping (UpdateRequirement) -> Void)
 }
 
 struct RemoteConfigUpdateService: UpdateServiceType {
@@ -14,7 +20,7 @@ struct RemoteConfigUpdateService: UpdateServiceType {
         self.bundle = bundle
     }
 
-    func checkForRequiredUpdate(completion: @escaping (Bool) -> Void) {
+    func checkForRequiredUpdate(completion: @escaping (UpdateRequirement) -> Void) {
         let settings = RemoteConfigSettings()
         settings.minimumFetchInterval = 0
         remoteConfig.configSettings = settings
@@ -25,16 +31,24 @@ struct RemoteConfigUpdateService: UpdateServiceType {
 
             let remoteMinimum = Self.normalizedVersion(remoteConfig["minimum_version"].stringValue)
 
+            let minimumVersion: String
             let requiresUpdate: Bool
             if let remoteMinimum = remoteMinimum, error == nil {
+                minimumVersion = remoteMinimum
                 requiresUpdate = Self.isVersion(currentVersion, olderThan: remoteMinimum)
             } else if let localMinimum = localMinimumVersion {
+                minimumVersion = localMinimum
                 requiresUpdate = Self.isVersion(currentVersion, olderThan: localMinimum)
             } else {
+                minimumVersion = currentVersion
                 requiresUpdate = false
             }
 
-            completion(requiresUpdate)
+            completion(UpdateRequirement(
+                requiresUpdate: requiresUpdate,
+                minimumVersion: minimumVersion,
+                currentVersion: currentVersion
+            ))
         }
     }
 

@@ -3,7 +3,9 @@ import ReSwift
 
 private let adDisplayInterval: TimeInterval = 60 * 5
 
-func createAdMiddleware(manager: AdManagerType, consentManager: ConsentManagerType) -> Middleware<AppState> {
+func createAdMiddleware(manager: AdManagerType,
+                        consentManager: ConsentManagerType,
+                        analytics: AnalyticsTracking) -> Middleware<AppState> {
     return { dispatch, getState in
         var pendingWorkItem: DispatchWorkItem?
 
@@ -85,6 +87,7 @@ func createAdMiddleware(manager: AdManagerType, consentManager: ConsentManagerTy
 
                             if presented {
                                 dispatch(AppAction.ads(.setInterstitialReady(false)))
+                                analytics.logAdShown(type: "interstitial")
                                 preloadInterstitial()
                             } else if !manager.isInterstitialReady {
                                 preloadInterstitial()
