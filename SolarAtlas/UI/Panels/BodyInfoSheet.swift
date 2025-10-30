@@ -13,12 +13,12 @@ struct BodyInfoSheet: View {
     }()
 
     private var orbitDescription: String {
-        if celestial.id == .sun {
+        if celestial.bodyID == .sun {
             return NSLocalizedString("bodyInfo.sun.summary", comment: "Short summary describing the sun in the body info sheet")
         }
 
-        let orbitValue = BodyInfoSheet.numberFormatter.string(from: NSNumber(value: Double(celestial.orbitAU)))
-            ?? String(format: "%.2f", Double(celestial.orbitAU))
+        let orbitValue = BodyInfoSheet.numberFormatter.string(from: NSNumber(value: celestial.orbitAU))
+            ?? String(format: "%.2f", celestial.orbitAU)
         let periodValue = BodyInfoSheet.numberFormatter.string(from: NSNumber(value: celestial.periodDays))
             ?? String(format: "%.0f", celestial.periodDays)
 
@@ -67,7 +67,7 @@ struct BodyInfoSheet: View {
     }
 
     private func detailText(for celestial: CelestialBody) -> String {
-        switch celestial.id {
+        switch celestial.bodyID {
         case .sun:
             return NSLocalizedString("bodyInfo.sun.detail", comment: "Detailed description of the sun")
         case .mercury:
@@ -88,6 +88,8 @@ struct BodyInfoSheet: View {
             return NSLocalizedString("bodyInfo.neptune.detail", comment: "Detailed description of Neptune")
         case .atlas:
             return NSLocalizedString("bodyInfo.atlas.detail", comment: "Detailed description of comet ATLAS")
+        case .none:
+            return celestial.displayName
         }
     }
 }

@@ -10,10 +10,11 @@ struct SolarSystemBodiesProvider {
             CelestialBody(
                 id: .sun,
                 displayName: String(localized: "body.name.sun", comment: "Display name for the Sun"),
-                color: .terminalAmber,
+                colorHex: "#F5A35C",
                 pixelRadius: 6,
                 orbitAU: 0.0,
                 periodDays: 1.0,
+                initialAngle: 0,
                 labelOffset: .zero
             ),
 
@@ -21,10 +22,11 @@ struct SolarSystemBodiesProvider {
             CelestialBody(
                 id: .mercury,
                 displayName: String(localized: "body.name.mercury", comment: "Display name for Mercury"),
-                color: .terminalCyan,
+                colorHex: "#66E5E5",
                 pixelRadius: 2,
                 orbitAU: 0.39,
                 periodDays: 88,
+                initialAngle: 0.2,
                 labelOffset: CGSize(width: 4, height: -4)
             ),
 
@@ -32,10 +34,11 @@ struct SolarSystemBodiesProvider {
             CelestialBody(
                 id: .venus,
                 displayName: String(localized: "body.name.venus", comment: "Display name for Venus"),
-                color: .terminalCyan,
+                colorHex: "#66E5E5",
                 pixelRadius: 3,
                 orbitAU: 0.72,
                 periodDays: 225,
+                initialAngle: 0.5,
                 labelOffset: CGSize(width: 6, height: -6)
             ),
 
@@ -43,10 +46,11 @@ struct SolarSystemBodiesProvider {
             CelestialBody(
                 id: .earth,
                 displayName: String(localized: "body.name.earth", comment: "Display name for Earth"),
-                color: .terminalCyan,
+                colorHex: "#66E5E5",
                 pixelRadius: 3.5,
                 orbitAU: 1.0,
                 periodDays: 365,
+                initialAngle: 0,
                 labelOffset: CGSize(width: -8, height: -8)
             ),
 
@@ -54,10 +58,11 @@ struct SolarSystemBodiesProvider {
             CelestialBody(
                 id: .mars,
                 displayName: String(localized: "body.name.mars", comment: "Display name for Mars"),
-                color: .terminalCyan,
+                colorHex: "#66E5E5",
                 pixelRadius: 3,
                 orbitAU: 1.52,
                 periodDays: 687,
+                initialAngle: 0.3,
                 labelOffset: CGSize(width: -10, height: 10)
             ),
 
@@ -65,10 +70,11 @@ struct SolarSystemBodiesProvider {
             CelestialBody(
                 id: .jupiter,
                 displayName: String(localized: "body.name.jupiter", comment: "Display name for Jupiter"),
-                color: .terminalCyan,
+                colorHex: "#66E5E5",
                 pixelRadius: 5,
                 orbitAU: 5.2,
                 periodDays: 4_333,
+                initialAngle: 0.8,
                 labelOffset: CGSize(width: 12, height: -12)
             ),
 
@@ -76,10 +82,11 @@ struct SolarSystemBodiesProvider {
             CelestialBody(
                 id: .saturn,
                 displayName: String(localized: "body.name.saturn", comment: "Display name for Saturn"),
-                color: .terminalCyan,
+                colorHex: "#66E5E5",
                 pixelRadius: 5,
                 orbitAU: 9.5,
                 periodDays: 10_759,
+                initialAngle: 1.1,
                 labelOffset: CGSize(width: -14, height: 14)
             ),
 
@@ -87,10 +94,11 @@ struct SolarSystemBodiesProvider {
             CelestialBody(
                 id: .uranus,
                 displayName: String(localized: "body.name.uranus", comment: "Display name for Uranus"),
-                color: .terminalCyan,
+                colorHex: "#66E5E5",
                 pixelRadius: 4,
                 orbitAU: 19.8,
                 periodDays: 30_687,
+                initialAngle: 1.4,
                 labelOffset: CGSize(width: 16, height: 0)
             ),
 
@@ -98,10 +106,11 @@ struct SolarSystemBodiesProvider {
             CelestialBody(
                 id: .neptune,
                 displayName: String(localized: "body.name.neptune", comment: "Display name for Neptune"),
-                color: .terminalCyan,
+                colorHex: "#66E5E5",
                 pixelRadius: 4,
                 orbitAU: 30.0,
                 periodDays: 60_190,
+                initialAngle: 1.7,
                 labelOffset: CGSize(width: -18, height: 0)
             ),
 
@@ -109,10 +118,11 @@ struct SolarSystemBodiesProvider {
             CelestialBody(
                 id: .atlas,
                 displayName: String(localized: "body.name.atlas", comment: "Display name for comet ATLAS"),
-                color: .terminalGreen,
+                colorHex: "#33CC99",
                 pixelRadius: 2.5,
                 orbitAU: 0.0,
                 periodDays: 1.0,
+                initialAngle: 0,
                 labelOffset: CGSize(width: 0, height: -10)
             )
         ]
@@ -125,6 +135,6 @@ struct SolarSystemBodiesProvider {
 
     /// Fetches a specific celestial body by identifier.
     func body(for id: BodyID) -> CelestialBody? {
-        bodies.first { $0.id == id }
+        bodies.first { $0.bodyID == id }
     }
 }

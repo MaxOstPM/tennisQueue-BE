@@ -63,7 +63,7 @@ struct SolarSystemView: View {
                         .font(Font.ds.labelEmphasis)
                         .foregroundColor(.terminalAmber)
 
-                    if let orbitText = orbitFormatter.string(from: NSNumber(value: Double(selectedBody.orbitAU))) {
+                    if let orbitText = orbitFormatter.string(from: NSNumber(value: selectedBody.orbitAU)) {
                         Text(String(format: NSLocalizedString("solarSystem.header.orbitRadius", comment: "Format describing the orbital radius in AU"), orbitText))
                             .font(Font.ds.caption)
                             .foregroundColor(.mutedText)
@@ -141,7 +141,7 @@ struct SolarSystemView: View {
 
     private var selectedBody: CelestialBody? {
         guard let bodyID = solarSystem.selected else { return nil }
-        return solarSystemBodies.first { $0.id == bodyID }
+        return solarSystemBodies.first { $0.bodyID == bodyID }
     }
 
     private var currentDate: Date {

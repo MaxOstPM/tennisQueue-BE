@@ -8,7 +8,7 @@ objects = {
 /* Begin PBXBuildFile section */
 85EAD5F7C7BC47529131587C /* SolarAtlasApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0399EEE775435F98BD1945 /* SolarAtlasApp.swift */; };
 61BFFAB56E564673AE1331BA /* FlowActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7358598BF97B488DA536F79A /* FlowActions.swift */; };
- FB6B24F83A1F4BACB2935CBE /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630F6F43950B4C3197FAB1C4 /* Body.swift */; };
+FB6B24F83A1F4BACB2935CBE /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630F6F43950B4C3197FAB1C4 /* CelestialBody.swift */; };
 0BB1E3F2EB26446B8096D6AD /* NewsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC573BD378F4CE1B461B49F /* NewsItem.swift */; };
 ABA2033600FF4347BC813B5E /* SolarSystemBodiesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8C0479AC914B5A853429EA /* SolarSystemBodiesProvider.swift */; };
 F5B3ACFA935D4C8CB56A2416 /* AtlasPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3E27A848F68450CB5EB9A7F /* AtlasPath.swift */; };
@@ -59,7 +59,7 @@ D3A4B5C6D7E84990AA11003E /* PBXContainerItemProxy */ = {
 01F92F6D8CF44C23B51E8E1F /* SolarAtlas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SolarAtlas.app; sourceTree = BUILT_PRODUCTS_DIR; };
 4B0399EEE775435F98BD1945 /* SolarAtlasApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarAtlasApp.swift; sourceTree = "<group>"; };
 7358598BF97B488DA536F79A /* FlowActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowActions.swift; sourceTree = "<group>"; };
-630F6F43950B4C3197FAB1C4 /* Body.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Body.swift; sourceTree = "<group>"; };
+630F6F43950B4C3197FAB1C4 /* CelestialBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialBody.swift; sourceTree = "<group>"; };
 AEC573BD378F4CE1B461B49F /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
 6D8C0479AC914B5A853429EA /* SolarSystemBodiesProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarSystemBodiesProvider.swift; sourceTree = "<group>"; };
 C3E27A848F68450CB5EB9A7F /* AtlasPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtlasPath.swift; sourceTree = "<group>"; };
@@ -159,7 +159,7 @@ sourceTree = "<group>";
 36B4F50EDE3D4C14813BDBB8 /* Models */ = {
     isa = PBXGroup;
     children = (
-        630F6F43950B4C3197FAB1C4 /* Body.swift */,
+        630F6F43950B4C3197FAB1C4 /* CelestialBody.swift */,
         AEC573BD378F4CE1B461B49F /* NewsItem.swift */,
         6D8C0479AC914B5A853429EA /* SolarSystemBodiesProvider.swift */,
         C3E27A848F68450CB5EB9A7F /* AtlasPath.swift */
@@ -436,7 +436,7 @@ D3A4B5C6D7E84990AA11003D /* PBXTargetDependency */ = {
         85EAD5F7C7BC47529131587C /* SolarAtlasApp.swift in Sources */,
         61BFFAB56E564673AE1331BA /* FlowActions.swift in Sources */,
         F1A2B3C4D5E6478899AA0024 /* AppAction.swift in Sources */,
-        FB6B24F83A1F4BACB2935CBE /* Body.swift in Sources */,
+        FB6B24F83A1F4BACB2935CBE /* CelestialBody.swift in Sources */,
         0BB1E3F2EB26446B8096D6AD /* NewsItem.swift in Sources */,
         ABA2033600FF4347BC813B5E /* SolarSystemBodiesProvider.swift in Sources */,
         F5B3ACFA935D4C8CB56A2416 /* AtlasPath.swift in Sources */,

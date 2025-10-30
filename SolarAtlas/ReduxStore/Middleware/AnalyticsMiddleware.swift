@@ -11,7 +11,7 @@ func createAnalyticsMiddleware(tracker: AnalyticsTracking) -> Middleware<AppStat
                         switch solarAction {
                         case .select(let bodyID):
                             if let bodyID,
-                               let body = solarSystemBodies.first(where: { $0.id == bodyID }) {
+                               let body = solarSystemBodies.first(where: { $0.bodyID == bodyID }) {
                                 tracker.logPlanetSelected(id: bodyID, name: body.displayName)
                             }
                         case .commitTime(let value):
