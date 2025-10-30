@@ -17,6 +17,7 @@ final class AppStore: ObservableObject {
             createNewsMiddleware(service: newsService),
             createUpdateMiddleware(service: updateService, analytics: analytics),
             createAdMiddleware(manager: adManager, consentManager: consentManager, analytics: analytics),
+            createTimelineMiddleware(),
             createAnalyticsMiddleware(tracker: analytics)
         ]
 
