@@ -10,13 +10,13 @@ struct ToggleRow: View {
         HStack {
             Toggle(isOn: $isOn) {
                 Text(title)
-                    .font(.system(size: 14, weight: .regular, design: .monospaced))
+                    .font(Font.ds.body)
                     .foregroundColor(Color.foregroundCyan)
             }
             .toggleStyle(SwitchToggleStyle(tint: accent))
         }
-        .padding(.vertical, 4)
-        .padding(.horizontal, 8)
+        .padding(.vertical, .spaceXS)
+        .padding(.horizontal, .spaceSM)
         .glow(color: accent)  // Glow effect around the toggle and label
     }
 }

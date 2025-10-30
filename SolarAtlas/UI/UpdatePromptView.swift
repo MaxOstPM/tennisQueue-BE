@@ -7,34 +7,42 @@ struct UpdatePromptView: View {
     private let updateURL = URL(string: "https://apps.apple.com")
 
     var body: some View {
-        Color.terminalAmber.opacity(0.96)
+        Color.terminalAmberSurface
             .ignoresSafeArea()
             .overlay(
                 VStack(spacing: .spaceXL) {
                     Image(systemName: "exclamationmark.triangle.fill")
-                        .font(.system(size: 58))
+                        .font(Font.ds.iconXL)
                         .foregroundColor(.spaceBlack)
 
                     VStack(spacing: .spaceSM) {
                         Text("Update Required")
-                            .font(.system(size: 26, weight: .heavy, design: .monospaced))
+                            .font(Font.ds.titleL)
                             .foregroundColor(.spaceBlack)
 
                         Text("A newer build of Solar Atlas is available. Update now to continue receiving live telemetry and system access.")
-                            .font(.system(size: 14, weight: .regular, design: .monospaced))
-                            .foregroundColor(.spaceBlack.opacity(0.8))
+                            .font(Font.ds.body)
+                            .foregroundColor(.spaceBlackSubdued)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, .spaceXL)
                     }
 
                     Button(action: openUpdateLink) {
                         Text("Update Solar Atlas")
-                            .font(.system(size: 15, weight: .semibold, design: .monospaced))
-                            .padding(.horizontal, .space2XL)
-                            .padding(.vertical, .spaceMD)
-                            .background(Color.spaceBlack)
+                            .font(Font.ds.labelEmphasis)
+                            .padding(.horizontal, .space3XL)
+                            .padding(.vertical, .spaceSM)
+                            .background(
+                                ZStack {
+                                    Color.spaceBlack
+                                    ScanlineOverlay()
+                                }
+                            )
                             .foregroundColor(.terminalAmber)
-                            .clipShape(Capsule())
+                            .overlay(
+                                Rectangle()
+                                    .stroke(Color.spaceBlack, lineWidth: 1)
+                            )
                     }
                     .buttonStyle(.plain)
                 }

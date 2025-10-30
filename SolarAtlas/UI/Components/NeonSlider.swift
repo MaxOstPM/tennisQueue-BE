@@ -24,14 +24,14 @@ struct NeonSlider: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: CGFloat.spaceSM) {
-            VStack(alignment: .leading, spacing: CGFloat.spaceXS) {
+        VStack(alignment: .leading, spacing: .spaceSM) {
+            VStack(alignment: .leading, spacing: .spaceXS) {
                 Text(title)
-                    .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                    .font(Font.ds.bodyEmphasis)
                     .foregroundColor(.foregroundCyan)
                 if let subtitle {
                     Text(subtitle)
-                        .font(.system(size: 12, weight: .regular, design: .monospaced))
+                        .font(Font.ds.caption)
                         .foregroundColor(.mutedText)
                 }
             }
@@ -39,7 +39,7 @@ struct NeonSlider: View {
             Slider(value: $value, in: range, onEditingChanged: onEditingChanged)
                 .onChange(of: value, perform: onValueChanged)
                 .accentColor(.terminalCyan)
-                .shadow(color: .terminalCyan.opacity(0.6), radius: 4)
+                .shadow(color: .terminalCyanGlow, radius: 4)
         }
     }
 }

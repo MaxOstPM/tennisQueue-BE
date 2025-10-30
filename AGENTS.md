@@ -121,11 +121,13 @@ in state management. The agent **must strictly follow** these architectural prin
     by subscribing to Combine publishers from the store).
 -   **Threading Model:** Ensure state mutations (i.e., dispatches)
     happen on the main thread, since SwiftUI and most UI-bound work must
-    be on main. Use background threads for heavy processing or network
-    calls, then dispatch results back to main. Combine's schedulers
-    (e.g., `.receive(on: RunLoop.main)`) or `DispatchQueue.main.async`
-    can be used to guarantee this. This avoids race conditions and keeps
-    the UI smooth.
+    be on main. Perform expensive or asynchronous work on background
+    queues inside services and middleware, then hop back to the main
+    queue only to dispatch the resulting action. Stores should not wrap
+    every dispatch in `DispatchQueue.main.async`; instead, background
+    work should culminate in `DispatchQueue.main.async { store.dispatch(...) }`
+    while callers already on the main queue dispatch synchronously. This
+    avoids race conditions and keeps the UI smooth.
 -   **Example -- Reducer Snippet:**
 
     ```swift
