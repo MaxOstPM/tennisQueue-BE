@@ -1,0 +1,12 @@
+--swiftversion 5.9
+--indent 4
+--tabwidth 4
+--wraparguments preserve
+--wrapcollections preserve
+--binarygrouping 4,8
+--hexgrouping 4,8
+--linebreaks lf
+--stripunusedargs closure-only
+--stripunusedclosurearguments closure-only
+--trimwhitespace always
+--disable redundantFileprivate,redundantSelf
