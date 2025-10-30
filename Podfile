@@ -10,6 +10,9 @@ target 'SolarAtlas' do
   pod 'FirebaseRemoteConfig'
   # Google Mobile Ads SDK (AdMob)
   pod 'Google-Mobile-Ads-SDK'
+  # Development tooling for linting and formatting
+  pod 'SwiftLint'
+  pod 'SwiftFormat/CLI'
   # Optional: Analytics if enabled
   # pod 'FirebaseAnalytics'
 end

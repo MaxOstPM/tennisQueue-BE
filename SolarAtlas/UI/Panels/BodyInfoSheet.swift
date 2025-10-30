@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Information overlay for a selected celestial body.
 struct BodyInfoSheet: View {
-    let body: CelestialBody
+    let celestial: CelestialBody
     @EnvironmentObject private var store: SolarSystemStore
 
     private static let numberFormatter: NumberFormatter = {
@@ -13,14 +13,14 @@ struct BodyInfoSheet: View {
     }()
 
     private var orbitDescription: String {
-        if body.id == .sun {
+        if celestial.id == .sun {
             return NSLocalizedString("Central star of the Solar System.", comment: "Sun description")
         }
 
-        let orbitValue = BodyInfoSheet.numberFormatter.string(from: NSNumber(value: Double(body.orbitAU)))
-            ?? String(format: "%.2f", Double(body.orbitAU))
-        let periodValue = BodyInfoSheet.numberFormatter.string(from: NSNumber(value: body.periodDays))
-            ?? String(format: "%.0f", body.periodDays)
+        let orbitValue = BodyInfoSheet.numberFormatter.string(from: NSNumber(value: Double(celestial.orbitAU)))
+            ?? String(format: "%.2f", Double(celestial.orbitAU))
+        let periodValue = BodyInfoSheet.numberFormatter.string(from: NSNumber(value: celestial.periodDays))
+            ?? String(format: "%.0f", celestial.periodDays)
 
         return String(
             format: NSLocalizedString("Orbit radius: %@ AU\nOrbital period: %@ days", comment: "Body orbit details"),
@@ -30,14 +30,14 @@ struct BodyInfoSheet: View {
     }
 
     var body: some View {
-        TerminalPanel(borderColor: body.color) {
+        TerminalPanel(borderColor: celestial.color) {
             VStack(alignment: .leading, spacing: CGFloat.spaceMD) {
                 HStack(alignment: .top) {
                     VStack(alignment: .leading, spacing: CGFloat.spaceXS) {
-                        Text(body.displayName.uppercased())
+                        Text(celestial.displayName.uppercased())
                             .font(.system(size: 18, weight: .bold, design: .monospaced))
-                            .foregroundColor(body.color)
-                            .glow(color: body.color)
+                            .foregroundColor(celestial.color)
+                            .glow(color: celestial.color)
                         Text(orbitDescription)
                             .font(.system(size: 12, weight: .regular, design: .monospaced))
                             .foregroundColor(.mutedText)
@@ -59,7 +59,7 @@ struct BodyInfoSheet: View {
                     .background(Color.terminalCyan)
                     .opacity(0.4)
 
-                Text(detailText(for: body))
+                Text(detailText(for: celestial))
                     .font(.system(size: 12, weight: .regular, design: .monospaced))
                     .foregroundColor(.foregroundCyan)
                     .fixedSize(horizontal: false, vertical: true)
@@ -67,8 +67,8 @@ struct BodyInfoSheet: View {
         }
     }
 
-    private func detailText(for body: CelestialBody) -> String {
-        switch body.id {
+    private func detailText(for celestial: CelestialBody) -> String {
+        switch celestial.id {
         case .sun:
             return NSLocalizedString("A G-type main-sequence star that provides the gravitational anchor and energy for the entire system.", comment: "Sun details")
         case .mercury:

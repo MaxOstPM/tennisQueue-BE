@@ -98,7 +98,7 @@ struct SolarSystemView: View {
             if let body = selectedBody {
                 VStack {
                     Spacer()
-                    BodyInfoSheet(body: body)
+                    BodyInfoSheet(celestial: body)
                         .padding(.horizontal, CGFloat.space2XL)
                         .padding(.bottom, CGFloat.space2XL * 2)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
