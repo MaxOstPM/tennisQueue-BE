@@ -10,12 +10,14 @@ final class AppStore: ObservableObject {
          newsService: NewsServiceType,
          updateService: UpdateServiceType,
          adManager: AdManagerType,
-         consentManager: ConsentManagerType) {
+         consentManager: ConsentManagerType,
+         analytics: AnalyticsTracking = AnalyticsTracker.shared) {
         self.state = initialState
         let middlewares: [Middleware<AppState>] = [
             createNewsMiddleware(service: newsService),
-            createUpdateMiddleware(service: updateService),
-            createAdMiddleware(manager: adManager, consentManager: consentManager)
+            createUpdateMiddleware(service: updateService, analytics: analytics),
+            createAdMiddleware(manager: adManager, consentManager: consentManager, analytics: analytics),
+            createAnalyticsMiddleware(tracker: analytics)
         ]
 
         self.store = Store<AppState>(

@@ -3,6 +3,10 @@ import SwiftUI
 /// Main solar system screen showing the canvas and simulation controls.
 struct SolarSystemView: View {
     @EnvironmentObject private var store: AppStore
+    @State private var lastTimelineLogDate: Date?
+
+    private let analytics = AnalyticsTracker.shared
+    private let timelineLogThrottle: TimeInterval = 2.0
 
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -87,7 +91,7 @@ struct SolarSystemView: View {
                     .font(.system(size: 16, weight: .semibold, design: .monospaced))
                     .foregroundColor(.foregroundCyan)
 
-                Slider(value: timeBinding, in: 0...1)
+                Slider(value: timeBinding, in: 0...1, onEditingChanged: handleTimelineEditingChanged)
                     .tint(.terminalCyan)
 
                 Text("Current date: \(dateFormatter.string(from: currentDate))")
@@ -165,5 +169,17 @@ struct SolarSystemView: View {
 
     private var solarSystem: SolarSystemState {
         store.state.solarSystem
+    }
+
+    private func handleTimelineEditingChanged(_ isEditing: Bool) {
+        guard !isEditing else { return }
+
+        let now = Date()
+        if let lastTimelineLogDate, now.timeIntervalSince(lastTimelineLogDate) < timelineLogThrottle {
+            return
+        }
+
+        lastTimelineLogDate = now
+        analytics.logTimelineChanged(value: solarSystem.time, date: currentDate)
     }
 }
