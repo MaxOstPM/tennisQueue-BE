@@ -6,6 +6,7 @@ import GoogleMobileAds
 struct SolarAtlasApp: App {
     @StateObject private var appStore: AppStore
     @Environment(\.scenePhase) private var scenePhase
+    @State private var hasLoadedBodies = false
 
     init() {
         FirebaseApp.configure()
@@ -33,6 +34,10 @@ struct SolarAtlasApp: App {
                     appStore.dispatch(.checkForUpdate)
                     appStore.dispatch(.requestAdConsent)
                     appStore.dispatch(.fetchNewsRequested)
+                    guard !hasLoadedBodies else { return }
+                    hasLoadedBodies = true
+                    let bodies = await SolarSystemBodiesProvider.loadBodiesWithFallback()
+                    appStore.dispatch(.setCelestialBodies(bodies))
                 }
                 .onChange(of: scenePhase) { newPhase in
                     if newPhase == .active {

@@ -10,6 +10,7 @@ struct SolarSystemState: Equatable {
     var showLabels: Bool
     var selected: BodyID?
     var isAutoSpinning: Bool
+    var bodies: [CelestialBody]
 
     init(time: Double = 0.5,
          dateRange: ClosedRange<Date>? = nil,
@@ -17,7 +18,8 @@ struct SolarSystemState: Equatable {
          showOrbits: Bool = true,
          showLabels: Bool = true,
          selected: BodyID? = nil,
-         isAutoSpinning: Bool = true) {
+         isAutoSpinning: Bool = true,
+         bodies: [CelestialBody] = SolarSystemBodiesProvider.defaultBodies) {
         self.time = time
         self.dateRange = dateRange ?? Self.defaultDateRange()
         self.showAtlasPath = showAtlasPath
@@ -25,6 +27,7 @@ struct SolarSystemState: Equatable {
         self.showLabels = showLabels
         self.selected = selected
         self.isAutoSpinning = isAutoSpinning
+        self.bodies = bodies
     }
 
     private static func defaultDateRange() -> ClosedRange<Date> {

@@ -8,6 +8,7 @@ enum AppAction: Action {
     case navigation(NavigationAction)
     case update(UpdateAction)
     case ads(AdAction)
+    case setCelestialBodies([CelestialBody])
     case fetchNewsRequested
     case checkForUpdate
     case startAdTimer
