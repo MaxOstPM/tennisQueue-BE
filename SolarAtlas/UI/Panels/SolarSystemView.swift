@@ -3,13 +3,6 @@ import SwiftUI
 /// The main view for the Solar System tab: renders orbits, planets, and controls with info overlays.
 struct SolarSystemView: View {
     @EnvironmentObject private var store: AppStore
-    @State private var timelineSliderValue: Double = 0
-    @State private var isInteractingWithTimeline = false
-    @State private var pendingSampleValue: Double?
-    @State private var sliderSampleWorkItem: DispatchWorkItem?
-    @State private var lastSampleDate: Date = .distantPast
-
-    private let timelineSampleInterval: TimeInterval = 0.08
 
     private var selectedBody: CelestialBody? {
         guard let id = store.state.solarSystem.selected else { return nil }
@@ -80,11 +73,8 @@ struct SolarSystemView: View {
                 TerminalPanel(borderColor: .terminalCyan) {
                     VStack(alignment: .leading, spacing: .spaceMD) {
                         NeonSlider(
-                            value: $timelineSliderValue,
                             title: NSLocalizedString("solarSystem.controls.timeline.title", comment: "Section title for the simulation timeline"),
-                            subtitle: timelineSubtitle,
-                            onEditingChanged: handleTimelineEditingChanged,
-                            onValueChanged: handleTimelineValueChanged
+                            subtitle: timelineSubtitle
                         )
 
                         Divider()
@@ -117,14 +107,10 @@ struct SolarSystemView: View {
             }
         }
         .onAppear {
-            timelineSliderValue = store.state.solarSystem.time
+            store.dispatch(.solarSystem(.startAutoSpin))
         }
         .onDisappear {
-            cancelPendingTimelineSample()
-        }
-        .onChange(of: store.state.solarSystem.time) { newValue in
-            guard !isInteractingWithTimeline else { return }
-            timelineSliderValue = newValue
+            store.dispatch(.solarSystem(.stopAutoSpin))
         }
     }
 }
@@ -162,62 +148,5 @@ private struct StarfieldBackground: View {
         (0..<count).map { _ in
             CGPoint(x: Double.random(in: 0...1), y: Double.random(in: 0...1))
         }
-    }
-}
-
-// MARK: - Timeline interactions
-
-private extension SolarSystemView {
-    func handleTimelineEditingChanged(_ isEditing: Bool) {
-        if isEditing {
-            isInteractingWithTimeline = true
-            cancelPendingTimelineSample()
-            lastSampleDate = .distantPast
-        } else {
-            isInteractingWithTimeline = false
-            let committedValue = timelineSliderValue
-            cancelPendingTimelineSample()
-            lastSampleDate = Date()
-            store.dispatch(.solarSystem(.setTime(committedValue)))
-        }
-    }
-
-    func handleTimelineValueChanged(_ newValue: Double) {
-        guard isInteractingWithTimeline else { return }
-
-        let now = Date()
-        let elapsed: TimeInterval
-        if lastSampleDate == .distantPast {
-            elapsed = timelineSampleInterval
-        } else {
-            elapsed = now.timeIntervalSince(lastSampleDate)
-        }
-
-        if elapsed >= timelineSampleInterval {
-            lastSampleDate = now
-            store.dispatch(.solarSystem(.setTime(newValue)))
-            pendingSampleValue = nil
-        } else {
-            pendingSampleValue = newValue
-            if sliderSampleWorkItem == nil {
-                let delay = max(timelineSampleInterval - elapsed, 0)
-                let workItem = DispatchWorkItem {
-                    lastSampleDate = Date()
-                    if let pending = pendingSampleValue {
-                        store.dispatch(.solarSystem(.setTime(pending)))
-                        pendingSampleValue = nil
-                    }
-                    sliderSampleWorkItem = nil
-                }
-                sliderSampleWorkItem = workItem
-                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
-            }
-        }
-    }
-
-    func cancelPendingTimelineSample() {
-        sliderSampleWorkItem?.cancel()
-        sliderSampleWorkItem = nil
-        pendingSampleValue = nil
     }
 }

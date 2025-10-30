@@ -1,9 +1,60 @@
 import SwiftUI
 
+final class OrbitRenderCache: ObservableObject {
+    @Published private var cachedPath = Path()
+    private var cachedSize: CGSize = .zero
+    private var cachedScale: CGFloat = 0
+    private var cachedBodyCount: Int = 0
+    private var showingOrbits = true
+
+    var orbitsPath: Path { cachedPath }
+
+    func rebuildIfNeeded(size: CGSize,
+                         showOrbits: Bool,
+                         scale: CGFloat,
+                         bodies: [CelestialBody]) {
+        guard showOrbits else {
+            if showingOrbits {
+                cachedPath = Path()
+                showingOrbits = false
+            }
+            return
+        }
+
+        if !showingOrbits {
+            showingOrbits = true
+            cachedSize = .zero
+        }
+
+        guard size != cachedSize || cachedScale != scale || cachedBodyCount != bodies.count else {
+            return
+        }
+
+        cachedSize = size
+        cachedScale = scale
+        cachedBodyCount = bodies.count
+
+        var path = Path()
+        let center = CGPoint(x: size.width / 2, y: size.height / 2)
+        for body in bodies where body.id != .sun && body.id != .atlas {
+            let radius = body.orbitAU * scale
+            guard radius > 0 else { continue }
+            let rect = CGRect(x: center.x - radius,
+                              y: center.y - radius,
+                              width: radius * 2,
+                              height: radius * 2)
+            path.addEllipse(in: rect)
+        }
+
+        cachedPath = path
+    }
+}
+
 /// Core canvas responsible for rendering the solar system visualization.
 struct SolarCanvas: View {
     @EnvironmentObject var store: AppStore
     @StateObject private var layoutCache = LayoutCache()
+    @StateObject private var orbitCache = OrbitRenderCache()
 
     var body: some View {
         GeometryReader { geometry in
@@ -26,12 +77,21 @@ struct SolarCanvas: View {
         let state = solarSystem
         let center = CGPoint(x: size.width / 2, y: size.height / 2)
         let scale = renderScale(for: size)
+        orbitCache.rebuildIfNeeded(size: size,
+                                   showOrbits: state.showOrbits,
+                                   scale: scale,
+                                   bodies: solarSystemBodies)
         let timeBucket = layoutCache.timeBucket(for: state.time)
 
+        if state.showOrbits && !orbitCache.orbitsPath.isEmpty {
+            context.stroke(
+                orbitCache.orbitsPath,
+                with: .color(.terminalCyan.opacity(0.35)),
+                style: StrokeStyle(lineWidth: 1.5, dash: [5, 5])
+            )
+        }
+
         for body in solarSystemBodies where body.id != .atlas {
-            if body.id != .sun && state.showOrbits {
-                drawOrbit(for: body, in: &context, center: center, scale: scale)
-            }
 
             let position = position(for: body,
                                     center: center,
@@ -51,18 +111,6 @@ struct SolarCanvas: View {
                            scale: scale,
                            timeBucket: timeBucket)
         }
-    }
-
-    private func drawOrbit(for body: CelestialBody,
-                           in context: inout GraphicsContext,
-                           center: CGPoint,
-                           scale: CGFloat) {
-        guard let orbitPath = layoutCache.orbitPath(for: body, scale: scale, center: center) else { return }
-        context.stroke(
-            orbitPath,
-            with: .color(.terminalCyan),
-            style: StrokeStyle(lineWidth: 1.5, dash: [5, 5])
-        )
     }
 
     private func drawBody(_ body: CelestialBody,

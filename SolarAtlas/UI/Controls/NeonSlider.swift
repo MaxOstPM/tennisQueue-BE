@@ -32,6 +32,6 @@ private extension View {
 // Usage (in parent view):
 // NeonSlider(value: Binding(
 //     get: { store.state.time },
-//     set: { newValue in store.dispatch(.setTime(newValue)) }
+//     set: { newValue in store.dispatch(.solarSystem(.setTime(newValue))) }
 // ))
 // This binding ensures slider movements dispatch actions to update the global state.

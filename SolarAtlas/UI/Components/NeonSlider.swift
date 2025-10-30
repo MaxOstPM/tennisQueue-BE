@@ -1,26 +1,29 @@
+import Combine
 import SwiftUI
 
-/// Slider styled to match the retro neon interface.
+/// Slider styled to match the retro neon interface, wired directly to the global app store.
 struct NeonSlider: View {
-    @Binding var value: Double
-    var range: ClosedRange<Double>
-    var title: String
-    var subtitle: String?
-    var onEditingChanged: (Bool) -> Void
-    var onValueChanged: (Double) -> Void
+    @EnvironmentObject private var store: AppStore
 
-    init(value: Binding<Double>,
-         range: ClosedRange<Double> = 0...1,
+    @State private var liveValue: Double = 0
+    @State private var throttleCancellable: AnyCancellable?
+    @State private var isEditing = false
+    @State private var shouldResumeAutoSpin = false
+
+    private let range: ClosedRange<Double>
+    private let title: String
+    private let subtitle: String?
+    private let autoSpinOnRelease: Bool
+    private let throttleSeconds: TimeInterval = 0.08
+
+    init(range: ClosedRange<Double> = 0...1,
          title: String,
          subtitle: String? = nil,
-         onEditingChanged: @escaping (Bool) -> Void = { _ in },
-         onValueChanged: @escaping (Double) -> Void = { _ in }) {
-        self._value = value
+         autoSpinOnRelease: Bool = true) {
         self.range = range
         self.title = title
         self.subtitle = subtitle
-        self.onEditingChanged = onEditingChanged
-        self.onValueChanged = onValueChanged
+        self.autoSpinOnRelease = autoSpinOnRelease
     }
 
     var body: some View {
@@ -36,10 +39,55 @@ struct NeonSlider: View {
                 }
             }
 
-            Slider(value: $value, in: range, onEditingChanged: onEditingChanged)
-                .onChange(of: value, perform: onValueChanged)
-                .accentColor(.terminalCyan)
-                .shadow(color: .terminalCyanGlow, radius: 4)
+            Slider(
+                value: Binding(
+                    get: { liveValue },
+                    set: { newValue in
+                        liveValue = newValue
+                        scheduleThrottledUpdate(for: newValue)
+                    }
+                ),
+                in: range,
+                onEditingChanged: handleEditingChanged
+            )
+            .tint(.terminalCyan)
+            .shadow(color: .terminalCyanGlow, radius: 4)
+        }
+        .onAppear {
+            liveValue = store.state.solarSystem.time
+        }
+        .onChange(of: store.state.solarSystem.time) { newValue in
+            guard !isEditing else { return }
+            liveValue = newValue
+        }
+        .onDisappear {
+            throttleCancellable?.cancel()
+        }
+    }
+
+    private func scheduleThrottledUpdate(for value: Double) {
+        throttleCancellable?.cancel()
+        throttleCancellable = Just(value)
+            .delay(for: .seconds(throttleSeconds), scheduler: RunLoop.main)
+            .sink { latest in
+                store.dispatch(.solarSystem(.setTime(latest)))
+            }
+    }
+
+    private func handleEditingChanged(_ editing: Bool) {
+        if editing {
+            isEditing = true
+            shouldResumeAutoSpin = store.state.solarSystem.isAutoSpinning
+            throttleCancellable?.cancel()
+            store.dispatch(.solarSystem(.stopAutoSpin))
+        } else {
+            isEditing = false
+            throttleCancellable?.cancel()
+            store.dispatch(.solarSystem(.commitTime(liveValue)))
+            if autoSpinOnRelease && shouldResumeAutoSpin {
+                store.dispatch(.solarSystem(.startAutoSpin))
+            }
+            shouldResumeAutoSpin = false
         }
     }
 }

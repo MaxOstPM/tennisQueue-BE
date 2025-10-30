@@ -1,3 +1,4 @@
+import Foundation
 import ReSwift
 
 /// Root action enum that encapsulates every action flowing through the app store.
@@ -7,7 +8,6 @@ enum AppAction: Action {
     case navigation(NavigationAction)
     case update(UpdateAction)
     case ads(AdAction)
-
     case fetchNewsRequested
     case checkForUpdate
     case startAdTimer

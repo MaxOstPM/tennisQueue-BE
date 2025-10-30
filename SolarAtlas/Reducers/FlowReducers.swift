@@ -5,22 +5,56 @@ import ReSwift
 let solarSystemReducer: Reducer<SolarSystemState> = { action, currentState in
     var state = currentState ?? SolarSystemState()
 
-    guard let appAction = action as? AppAction,
-          case let .solarSystem(solarAction) = appAction else {
+    func applySetTime(_ value: Double) {
+        state.time = clamp01(value)
+    }
+
+    func applyCommitTime(_ value: Double) {
+        state.time = clamp01(value)
+    }
+
+    func applyStartAutoSpin() {
+        state.isAutoSpinning = true
+    }
+
+    func applyStopAutoSpin() {
+        state.isAutoSpinning = false
+    }
+
+    func applyAutoSpinTick(_ delta: TimeInterval) {
+        guard state.isAutoSpinning else { return }
+        let revolutionsPerSecond: Double = 1.0 / 20.0
+        state.time = wrap01(state.time + revolutionsPerSecond * delta)
+    }
+
+    guard let appAction = action as? AppAction else {
         return state
     }
 
-    switch solarAction {
-    case .setTime(let newTime):
-        state.time = newTime
-    case .toggleAtlas(let flag):
-        state.showAtlasPath = flag
-    case .toggleOrbits(let flag):
-        state.showOrbits = flag
-    case .toggleLabels(let flag):
-        state.showLabels = flag
-    case .select(let bodyID):
-        state.selected = bodyID
+    switch appAction {
+    case .solarSystem(let solarAction):
+        switch solarAction {
+        case .setTime(let value):
+            applySetTime(value)
+        case .commitTime(let value):
+            applyCommitTime(value)
+        case .startAutoSpin:
+            applyStartAutoSpin()
+        case .stopAutoSpin:
+            applyStopAutoSpin()
+        case .autoSpinTick(let delta):
+            applyAutoSpinTick(delta)
+        case .toggleAtlas(let flag):
+            state.showAtlasPath = flag
+        case .toggleOrbits(let flag):
+            state.showOrbits = flag
+        case .toggleLabels(let flag):
+            state.showLabels = flag
+        case .select(let bodyID):
+            state.selected = bodyID
+        }
+    default:
+        break
     }
 
     return state
@@ -110,4 +144,15 @@ let adReducer: Reducer<AdState> = { action, currentState in
     }
 
     return state
+}
+
+@inline(__always)
+private func clamp01(_ value: Double) -> Double {
+    max(0, min(1, value))
+}
+
+@inline(__always)
+private func wrap01(_ value: Double) -> Double {
+    let wrapped = value - floor(value)
+    return wrapped < 0 ? wrapped + 1 : wrapped
 }

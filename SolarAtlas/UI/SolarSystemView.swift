@@ -3,10 +3,7 @@ import SwiftUI
 /// Main solar system screen showing the canvas and simulation controls.
 struct SolarSystemView: View {
     @EnvironmentObject private var store: AppStore
-    @State private var lastTimelineLogDate: Date?
-
-    private let analytics = AnalyticsTracker.shared
-    private let timelineLogThrottle: TimeInterval = 2.0
+    @State private var shouldResumeAutoSpin = false
 
     private enum Layout {
         static let canvasBottomPadding: CGFloat = (CGFloat.spaceXL * 9) + .spaceXS
@@ -167,14 +164,14 @@ struct SolarSystemView: View {
     }
 
     private func handleTimelineEditingChanged(_ isEditing: Bool) {
-        guard !isEditing else { return }
-
-        let now = Date()
-        if let lastTimelineLogDate, now.timeIntervalSince(lastTimelineLogDate) < timelineLogThrottle {
-            return
+        if isEditing {
+            shouldResumeAutoSpin = solarSystem.isAutoSpinning
+            store.dispatch(.solarSystem(.stopAutoSpin))
+        } else {
+            store.dispatch(.solarSystem(.commitTime(solarSystem.time)))
+            if shouldResumeAutoSpin {
+                store.dispatch(.solarSystem(.startAutoSpin))
+            }
         }
-
-        lastTimelineLogDate = now
-        analytics.logTimelineChanged(value: solarSystem.time, date: currentDate)
     }
 }

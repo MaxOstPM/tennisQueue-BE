@@ -4,6 +4,10 @@ import ReSwift
 /// Actions that mutate SolarSystemState
 enum SolarSystemAction: Action {
     case setTime(Double)          // Adjust the time slider value
+    case commitTime(Double)       // Finalize the time slider value
+    case startAutoSpin            // Enable continuous auto spin
+    case stopAutoSpin             // Disable auto spin
+    case autoSpinTick(TimeInterval) // Tick emitted from display-link middleware
     case toggleAtlas(Bool)        // Show/hide ATLAS path
     case toggleOrbits(Bool)       // Show/hide orbits
     case toggleLabels(Bool)       // Show/hide labels
