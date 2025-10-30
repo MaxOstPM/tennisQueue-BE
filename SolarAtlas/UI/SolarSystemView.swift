@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Main solar system screen showing the canvas and simulation controls.
 struct SolarSystemView: View {
-    @EnvironmentObject private var solarStore: SolarSystemStore
+    @EnvironmentObject private var store: AppStore
 
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -99,24 +99,24 @@ struct SolarSystemView: View {
                 toggleRow(
                     title: "Show ATLAS trajectory",
                     isOn: Binding(
-                        get: { solarStore.state.showAtlasPath },
-                        set: { solarStore.dispatch(.toggleAtlas($0)) }
+                        get: { solarSystem.showAtlasPath },
+                        set: { store.dispatch(.solarSystem(.toggleAtlas($0))) }
                     )
                 )
 
                 toggleRow(
                     title: "Show planetary orbits",
                     isOn: Binding(
-                        get: { solarStore.state.showOrbits },
-                        set: { solarStore.dispatch(.toggleOrbits($0)) }
+                        get: { solarSystem.showOrbits },
+                        set: { store.dispatch(.solarSystem(.toggleOrbits($0))) }
                     )
                 )
 
                 toggleRow(
                     title: "Show labels",
                     isOn: Binding(
-                        get: { solarStore.state.showLabels },
-                        set: { solarStore.dispatch(.toggleLabels($0)) }
+                        get: { solarSystem.showLabels },
+                        set: { store.dispatch(.solarSystem(.toggleLabels($0))) }
                     )
                 )
             }
@@ -144,12 +144,12 @@ struct SolarSystemView: View {
     }
 
     private var selectedBody: CelestialBody? {
-        guard let bodyID = solarStore.state.selected else { return nil }
+        guard let bodyID = solarSystem.selected else { return nil }
         return solarSystemBodies.first { $0.id == bodyID }
     }
 
     private var currentDate: Date {
-        let state = solarStore.state
+        let state = solarSystem
         let range = state.dateRange
         let total = range.upperBound.timeIntervalSince(range.lowerBound)
         guard total > 0 else { return range.lowerBound }
@@ -158,8 +158,12 @@ struct SolarSystemView: View {
 
     private var timeBinding: Binding<Double> {
         Binding(
-            get: { solarStore.state.time },
-            set: { solarStore.dispatch(.setTime($0)) }
+            get: { solarSystem.time },
+            set: { store.dispatch(.solarSystem(.setTime($0))) }
         )
+    }
+
+    private var solarSystem: SolarSystemState {
+        store.state.solarSystem
     }
 }

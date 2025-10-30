@@ -3,7 +3,7 @@ import SwiftUI
 /// Information overlay for a selected celestial body.
 struct BodyInfoSheet: View {
     let celestial: CelestialBody
-    @EnvironmentObject private var store: SolarSystemStore
+    @EnvironmentObject private var store: AppStore
 
     private static let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -44,7 +44,7 @@ struct BodyInfoSheet: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer()
-                    Button(action: { store.dispatch(.select(nil)) }) {
+                    Button(action: { store.dispatch(.solarSystem(.select(nil))) }) {
                         Image(systemName: "xmark")
                             .font(.system(size: 14, weight: .bold))
                             .foregroundColor(.mutedText)

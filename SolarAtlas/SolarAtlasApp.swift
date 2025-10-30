@@ -4,48 +4,32 @@ import GoogleMobileAds
 
 @main
 struct SolarAtlasApp: App {
-    @StateObject private var solarSystemStore: SolarSystemStore
-    @StateObject private var newsFeedStore: NewsFeedStore
-    @StateObject private var navigationStore: NavigationStore
-    @StateObject private var updateStore: UpdateStore
-    @StateObject private var adStore: AdStore
     @StateObject private var appStore: AppStore
 
     init() {
-        let calendar = Calendar(identifier: .gregorian)
-        let now = Date()
-        let startDate = calendar.date(byAdding: .day, value: -365, to: now) ?? now
-        let endDate = calendar.date(byAdding: .day, value: 365, to: now) ?? now
-
-        let solarInitialState = SolarSystemState(dateRange: startDate...endDate)
-        let solarSystemStore = SolarSystemStore(initial: solarInitialState)
-        let newsFeedStore = NewsFeedStore(initial: NewsFeedState())
-        let navigationStore = NavigationStore(initial: NavigationState())
-        let updateStore = UpdateStore(initial: UpdateState())
-        let adStore = AdStore(initial: AdState())
-        let appStore = AppStore(navigationStore: navigationStore, updateStore: updateStore)
-
-        _solarSystemStore = StateObject(wrappedValue: solarSystemStore)
-        _newsFeedStore = StateObject(wrappedValue: newsFeedStore)
-        _navigationStore = StateObject(wrappedValue: navigationStore)
-        _updateStore = StateObject(wrappedValue: updateStore)
-        _adStore = StateObject(wrappedValue: adStore)
-        _appStore = StateObject(wrappedValue: appStore)
-
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        UpdateManager.checkForUpdate(store: updateStore)
+
+        let newsService = FirestoreNewsService()
+        let updateService = RemoteConfigUpdateService()
+        let adManager = AdManager(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+        let store = AppStore(
+            newsService: newsService,
+            updateService: updateService,
+            adManager: adManager
+        )
+
+        _appStore = StateObject(wrappedValue: store)
+
+        store.dispatch(.checkForUpdate)
+        store.dispatch(.startAdTimer)
+        store.dispatch(.fetchNewsRequested)
     }
 
     var body: some Scene {
         WindowGroup {
             AppTabView()
                 .environmentObject(appStore)
-                .environmentObject(solarSystemStore)
-                .environmentObject(newsFeedStore)
-                .environmentObject(navigationStore)
-                .environmentObject(updateStore)
-                .environmentObject(adStore)
         }
     }
 }

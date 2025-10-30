@@ -3,12 +3,34 @@ import SwiftUI
 
 /// State for the Solar System flow (controls simulation and selections)
 struct SolarSystemState: Equatable {
-    var time: Double = 0.5                       // Normalized time slider value (0–1)
-    var dateRange: ClosedRange<Date>             // Date range corresponding to slider
-    var showAtlasPath: Bool = true               // Toggle for showing comet ATLAS path
-    var showOrbits: Bool = true                  // Toggle for showing planetary orbits
-    var showLabels: Bool = true                  // Toggle for planet name labels
-    var selected: BodyID? = nil                  // Currently selected celestial body
+    var time: Double
+    var dateRange: ClosedRange<Date>
+    var showAtlasPath: Bool
+    var showOrbits: Bool
+    var showLabels: Bool
+    var selected: BodyID?
+
+    init(time: Double = 0.5,
+         dateRange: ClosedRange<Date>? = nil,
+         showAtlasPath: Bool = true,
+         showOrbits: Bool = true,
+         showLabels: Bool = true,
+         selected: BodyID? = nil) {
+        self.time = time
+        self.dateRange = dateRange ?? Self.defaultDateRange()
+        self.showAtlasPath = showAtlasPath
+        self.showOrbits = showOrbits
+        self.showLabels = showLabels
+        self.selected = selected
+    }
+
+    private static func defaultDateRange() -> ClosedRange<Date> {
+        let calendar = Calendar(identifier: .gregorian)
+        let now = Date()
+        let start = calendar.date(byAdding: .day, value: -365, to: now) ?? now
+        let end = calendar.date(byAdding: .day, value: 365, to: now) ?? now
+        return start...end
+    }
 }
 
 /// State for the News Feed flow

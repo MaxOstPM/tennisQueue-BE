@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Neon-styled feed listing astronomy news stories.
 struct NewsFeedView: View {
-    @EnvironmentObject private var newsStore: NewsFeedStore
+    @EnvironmentObject private var store: AppStore
 
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -15,7 +15,7 @@ struct NewsFeedView: View {
         ZStack {
             Color.spaceBlack.ignoresSafeArea()
 
-            if newsStore.state.newsFeed.isEmpty {
+            if newsItems.isEmpty {
                 VStack(spacing: .spaceXL) {
                     header
                     emptyState
@@ -25,7 +25,7 @@ struct NewsFeedView: View {
                 ScrollView {
                     LazyVStack(spacing: .spaceXL, pinnedViews: [.sectionHeaders]) {
                         Section(header: header.padding(.bottom, .spaceLG)) {
-                            ForEach(newsStore.state.newsFeed) { item in
+                            ForEach(newsItems) { item in
                                 newsCard(for: item)
                             }
                         }
@@ -36,6 +36,11 @@ struct NewsFeedView: View {
             }
         }
         .overlay(ScanlineOverlay())
+        .onAppear {
+            if newsItems.isEmpty {
+                store.dispatch(.fetchNewsRequested)
+            }
+        }
     }
 
     private var header: some View {
@@ -109,5 +114,11 @@ struct NewsFeedView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .frame(maxWidth: .infinity)
+    }
+}
+
+private extension NewsFeedView {
+    var newsItems: [NewsItem] {
+        store.state.newsFeed.newsFeed
     }
 }

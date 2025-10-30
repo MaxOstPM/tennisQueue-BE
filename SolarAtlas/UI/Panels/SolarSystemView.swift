@@ -2,16 +2,16 @@ import SwiftUI
 
 /// The main view for the Solar System tab: renders orbits, planets, and controls with info overlays.
 struct SolarSystemView: View {
-    @EnvironmentObject private var store: SolarSystemStore
+    @EnvironmentObject private var store: AppStore
 
     private var selectedBody: CelestialBody? {
-        guard let id = store.state.selected else { return nil }
+        guard let id = store.state.solarSystem.selected else { return nil }
         return solarSystemBodies.first { $0.id == id }
     }
 
     private var timelineDate: Date {
-        let range = store.state.dateRange
-        let clamped = min(max(store.state.time, 0), 1)
+        let range = store.state.solarSystem.dateRange
+        let clamped = min(max(store.state.solarSystem.time, 0), 1)
         let interval = range.upperBound.timeIntervalSince(range.lowerBound)
         return range.lowerBound.addingTimeInterval(interval * clamped)
     }
@@ -27,27 +27,31 @@ struct SolarSystemView: View {
         return formatter
     }()
 
+    private var solarSystem: SolarSystemState {
+        store.state.solarSystem
+    }
+
     @ViewBuilder
     private var toggleRows: some View {
         ToggleRow(
             title: NSLocalizedString("Show ATLAS Path", comment: "Toggle ATLAS path"),
             isOn: Binding(
-                get: { store.state.showAtlasPath },
-                set: { store.dispatch(.toggleAtlas($0)) }
+                get: { store.state.solarSystem.showAtlasPath },
+                set: { store.dispatch(.solarSystem(.toggleAtlas($0))) }
             )
         )
         ToggleRow(
             title: NSLocalizedString("Show Orbits", comment: "Toggle orbits"),
             isOn: Binding(
-                get: { store.state.showOrbits },
-                set: { store.dispatch(.toggleOrbits($0)) }
+                get: { store.state.solarSystem.showOrbits },
+                set: { store.dispatch(.solarSystem(.toggleOrbits($0))) }
             )
         )
         ToggleRow(
             title: NSLocalizedString("Show Labels", comment: "Toggle labels"),
             isOn: Binding(
-                get: { store.state.showLabels },
-                set: { store.dispatch(.toggleLabels($0)) }
+                get: { store.state.solarSystem.showLabels },
+                set: { store.dispatch(.solarSystem(.toggleLabels($0))) }
             )
         )
     }
@@ -70,8 +74,8 @@ struct SolarSystemView: View {
                     VStack(alignment: .leading, spacing: CGFloat.spaceMD) {
                         NeonSlider(
                             value: Binding(
-                                get: { store.state.time },
-                                set: { store.dispatch(.setTime($0)) }
+                                get: { store.state.solarSystem.time },
+                                set: { store.dispatch(.solarSystem(.setTime($0))) }
                             ),
                             title: NSLocalizedString("Mission Timeline", comment: "Timeline slider title"),
                             subtitle: timelineSubtitle
