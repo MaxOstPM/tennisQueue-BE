@@ -26,6 +26,10 @@ struct NewsItem: Identifiable, Equatable {
 }
 
 extension NewsItem {
+    static let fallbackTitle = "Solar Atlas Transmission"
+    static let fallbackSummary = "Mission control hasn't shared additional telemetry for this dispatch."
+    static let fallbackSource = "Solar Atlas"
+
     /// Lightweight placeholder item used when loading preview data.
     static var placeholder: NewsItem {
         NewsItem(

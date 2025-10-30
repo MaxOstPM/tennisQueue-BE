@@ -12,4 +12,6 @@ enum AppAction: Action {
     case checkForUpdate
     case startAdTimer
     case showInterstitialIfReady
+    case requestAdConsent
+    case appDidBecomeActive
 }

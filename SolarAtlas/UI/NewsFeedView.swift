@@ -15,24 +15,12 @@ struct NewsFeedView: View {
         ZStack {
             Color.spaceBlack.ignoresSafeArea()
 
-            if newsItems.isEmpty {
-                VStack(spacing: .spaceXL) {
-                    header
-                    emptyState
+            Group {
+                if newsItems.isEmpty {
+                    emptyScroll
+                } else {
+                    feedScroll
                 }
-                .padding(.horizontal, .space2XL)
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: .spaceXL, pinnedViews: [.sectionHeaders]) {
-                        Section(header: header.padding(.bottom, .spaceLG)) {
-                            ForEach(newsItems) { item in
-                                newsCard(for: item)
-                            }
-                        }
-                    }
-                    .padding(.vertical, .spaceXL)
-                }
-                .padding(.horizontal, .space2XL)
             }
         }
         .overlay(ScanlineOverlay())
@@ -40,6 +28,39 @@ struct NewsFeedView: View {
             if newsItems.isEmpty {
                 store.dispatch(.fetchNewsRequested)
             }
+        }
+    }
+
+    private var emptyScroll: some View {
+        ScrollView {
+            VStack(spacing: .spaceXL) {
+                header
+                emptyState
+            }
+            .padding(.horizontal, .space2XL)
+            .padding(.vertical, .spaceXL)
+        }
+        .refreshable { store.dispatch(.fetchNewsRequested) }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            bannerInset
+        }
+    }
+
+    private var feedScroll: some View {
+        ScrollView {
+            LazyVStack(spacing: .spaceXL, pinnedViews: [.sectionHeaders]) {
+                Section(header: header.padding(.bottom, .spaceLG)) {
+                    ForEach(newsItems) { item in
+                        newsCard(for: item)
+                    }
+                }
+            }
+            .padding(.vertical, .spaceXL)
+        }
+        .padding(.horizontal, .space2XL)
+        .refreshable { store.dispatch(.fetchNewsRequested) }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            bannerInset
         }
     }
 
@@ -69,7 +90,7 @@ struct NewsFeedView: View {
                 .font(.system(size: 24, weight: .bold, design: .monospaced))
                 .foregroundColor(.foregroundCyan)
 
-            Text("Connect to the network to receive the latest Solar Atlas dispatches.")
+            Text(emptyStateMessage)
                 .font(.system(size: 14, weight: .regular, design: .monospaced))
                 .foregroundColor(.mutedText)
                 .multilineTextAlignment(.center)
@@ -115,10 +136,43 @@ struct NewsFeedView: View {
         }
         .frame(maxWidth: .infinity)
     }
+
+    private var bannerInset: some View {
+        Group {
+            if shouldRenderBanner {
+                BannerAdView()
+                    .frame(height: 50)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, .spaceMD)
+                    .padding(.horizontal, .space2XL)
+                    .background(Color.spaceBlack)
+            }
+        }
+    }
+
+    private var shouldRenderBanner: Bool {
+        switch store.state.ads.consentStatus {
+        case .unknown, .requesting:
+            return false
+        default:
+            return true
+        }
+    }
 }
 
 private extension NewsFeedView {
     var newsItems: [NewsItem] {
         store.state.newsFeed.newsFeed
+    }
+
+    var errorMessage: String? {
+        store.state.newsFeed.errorMessage
+    }
+
+    var emptyStateMessage: String {
+        if let errorMessage {
+            return errorMessage
+        }
+        return "Connect to the network to receive the latest Solar Atlas dispatches."
     }
 }

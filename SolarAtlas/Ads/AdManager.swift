@@ -4,17 +4,19 @@ import UIKit
 
 protocol AdManagerType: AnyObject {
     var isInterstitialReady: Bool { get }
-    func loadInterstitial(completion: @escaping (Bool) -> Void)
-    func presentInterstitialIfReady(completion: @escaping (Bool) -> Void)
+    func loadInterstitial(completion: @escaping (Bool, Error?) -> Void)
+    func presentInterstitialIfReady(completion: @escaping (Bool, Error?) -> Void)
 }
 
 final class AdManager: NSObject, AdManagerType {
     private let adUnitID: String
+    private let consentManager: ConsentManagerType
     private var interstitial: GADInterstitialAd?
-    private var readinessCompletion: ((Bool) -> Void)?
+    private var readinessCompletion: ((Bool, Error?) -> Void)?
 
-    init(adUnitID: String) {
-        self.adUnitID = adUnitID
+    init(interstitialAdUnitID: String, consentManager: ConsentManagerType) {
+        self.adUnitID = interstitialAdUnitID
+        self.consentManager = consentManager
         super.init()
     }
 
@@ -22,36 +24,58 @@ final class AdManager: NSObject, AdManagerType {
         interstitial != nil
     }
 
-    func loadInterstitial(completion: @escaping (Bool) -> Void) {
+    func loadInterstitial(completion: @escaping (Bool, Error?) -> Void) {
+        guard consentManager.canServeAds else {
+            completion(false, nil)
+            return
+        }
+
         readinessCompletion = completion
-        let request = GADRequest()
+        let request = consentManager.makeAdRequest()
         GADInterstitialAd.load(withAdUnitID: adUnitID, request: request) { [weak self] ad, error in
             guard let self else { return }
 
-            if let error = error {
+            if let error {
                 NSLog("Interstitial failed to load: %@", error.localizedDescription)
                 self.interstitial = nil
-                self.readinessCompletion?(false)
-                self.readinessCompletion = nil
+                self.finishLoad(success: false, error: error)
                 return
             }
 
-            ad?.fullScreenContentDelegate = self
+            guard let ad else {
+                self.interstitial = nil
+                self.finishLoad(success: false, error: nil)
+                return
+            }
+
+            ad.fullScreenContentDelegate = self
             self.interstitial = ad
-            self.readinessCompletion?(true)
-            self.readinessCompletion = nil
+            self.finishLoad(success: true, error: nil)
         }
     }
 
-    func presentInterstitialIfReady(completion: @escaping (Bool) -> Void) {
-        guard let interstitial = interstitial, let rootViewController = Self.topViewController() else {
-            completion(false)
+    func presentInterstitialIfReady(completion: @escaping (Bool, Error?) -> Void) {
+        guard consentManager.canServeAds else {
+            completion(false, nil)
+            return
+        }
+
+        guard let interstitial, let rootViewController = Self.topViewController() else {
+            completion(false, nil)
             return
         }
 
         interstitial.present(fromRootViewController: rootViewController)
         self.interstitial = nil
-        completion(true)
+        completion(true, nil)
+    }
+
+    private func finishLoad(success: Bool, error: Error?) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.readinessCompletion?(success, error)
+            self.readinessCompletion = nil
+        }
     }
 
     private static func topViewController(base: UIViewController? = UIApplication.shared.connectedScenes
@@ -76,6 +100,6 @@ extension AdManager: GADFullScreenContentDelegate {
     }
 
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-        loadInterstitial { _ in }
+        loadInterstitial { _, _ in }
     }
 }

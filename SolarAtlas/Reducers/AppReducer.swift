@@ -27,7 +27,9 @@ func appReducer(action: Action, state: AppState?) -> AppState {
     case .fetchNewsRequested,
          .checkForUpdate,
          .startAdTimer,
-         .showInterstitialIfReady:
+         .showInterstitialIfReady,
+         .requestAdConsent,
+         .appDidBecomeActive:
         // Side-effect-only actions are handled in middleware; reducers keep state unchanged.
         break
     }

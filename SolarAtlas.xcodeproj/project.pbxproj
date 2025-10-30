@@ -37,6 +37,10 @@ F1A2B3C4D5E6478899AA0029 /* AdMiddleware.swift in Sources */ = {isa = PBXBuildFi
 F1A2B3C4D5E6478899AA0030 /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0020 /* NewsService.swift */; };
 F1A2B3C4D5E6478899AA0031 /* UpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0021 /* UpdateService.swift */; };
 F1A2B3C4D5E6478899AA0032 /* AdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0022 /* AdManager.swift */; };
+F1A2B3C4D5E6478899AA0040 /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0040 /* BannerAdView.swift */; };
+F1A2B3C4D5E6478899AA0041 /* AdConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0041 /* AdConfiguration.swift */; };
+F1A2B3C4D5E6478899AA0042 /* AdConsentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0042 /* AdConsentModels.swift */; };
+F1A2B3C4D5E6478899AA0043 /* ConsentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0043 /* ConsentManager.swift */; };
 F1A2B3C4D5E6478899AA0033 /* NavigationReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2A3B4C5D6478899AA0023 /* NavigationReducerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -84,6 +88,10 @@ E1F2A3B4C5D6478899AA0019 /* AdMiddleware.swift */ = {isa = PBXFileReference; las
 E1F2A3B4C5D6478899AA0020 /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
 E1F2A3B4C5D6478899AA0021 /* UpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateService.swift; sourceTree = "<group>"; };
 E1F2A3B4C5D6478899AA0022 /* AdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdManager.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0040 /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0041 /* AdConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdConfiguration.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0042 /* AdConsentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdConsentModels.swift; sourceTree = "<group>"; };
+E1F2A3B4C5D6478899AA0043 /* ConsentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentManager.swift; sourceTree = "<group>"; };
 E1F2A3B4C5D6478899AA0023 /* NavigationReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationReducerTests.swift; sourceTree = "<group>"; };
 B3C4D5E6F7A84990AA110035 /* SolarAtlasTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SolarAtlasTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -121,6 +129,7 @@ isa = PBXGroup;
     children = (
         4B0399EEE775435F98BD1945 /* SolarAtlasApp.swift */,
         95B82DB149264F44B1D2921B /* Actions */,
+        E9D2F4A1B3C4478899AA0044 /* Ads */,
         D5F5E4C1F5B24E0FA890ABC1 /* Services */,
         36B4F50EDE3D4C14813BDBB8 /* Models */,
         9910583FDB5640398D532C52 /* Reducers */,
@@ -185,10 +194,29 @@ D5F5E4C1F5B24E0FA890ABC1 /* Services */ = {
     isa = PBXGroup;
     children = (
         E1F2A3B4C5D6478899AA0020 /* NewsService.swift */,
-        E1F2A3B4C5D6478899AA0021 /* UpdateService.swift */,
-        E1F2A3B4C5D6478899AA0022 /* AdManager.swift */
+        E1F2A3B4C5D6478899AA0021 /* UpdateService.swift */
     );
     path = Services;
+    sourceTree = "<group>";
+};
+E9D2F4A1B3C4478899AA0044 /* Ads */ = {
+    isa = PBXGroup;
+    children = (
+        E1F2A3B4C5D6478899AA0041 /* AdConfiguration.swift */,
+        E1F2A3B4C5D6478899AA0042 /* AdConsentModels.swift */,
+        E1F2A3B4C5D6478899AA0022 /* AdManager.swift */,
+        E1F2A3B4C5D6478899AA0040 /* BannerAdView.swift */,
+        E9D2F4A1B3C4478899AA0045 /* Privacy */
+    );
+    path = Ads;
+    sourceTree = "<group>";
+};
+E9D2F4A1B3C4478899AA0045 /* Privacy */ = {
+    isa = PBXGroup;
+    children = (
+        E1F2A3B4C5D6478899AA0043 /* ConsentManager.swift */
+    );
+    path = Privacy;
     sourceTree = "<group>";
 };
 0C36A12AA8864CD297931D73 /* Rendering */ = {
@@ -409,6 +437,10 @@ D3A4B5C6D7E84990AA11003D /* PBXTargetDependency */ = {
         F1A2B3C4D5E6478899AA0030 /* NewsService.swift in Sources */,
         F1A2B3C4D5E6478899AA0031 /* UpdateService.swift in Sources */,
         F1A2B3C4D5E6478899AA0032 /* AdManager.swift in Sources */,
+        F1A2B3C4D5E6478899AA0041 /* AdConfiguration.swift in Sources */,
+        F1A2B3C4D5E6478899AA0042 /* AdConsentModels.swift in Sources */,
+        F1A2B3C4D5E6478899AA0040 /* BannerAdView.swift in Sources */,
+        F1A2B3C4D5E6478899AA0043 /* ConsentManager.swift in Sources */,
         9D8F44622D58472991EFA8A6 /* ThemeColors.swift in Sources */,
         68916C1173C44508B822CBD8 /* GlowModifier.swift in Sources */,
         3EB2F1786E5B47EFBE4AF7FA /* ThemeSpacing.swift in Sources */,
@@ -522,11 +554,14 @@ LD_RUNPATH_SEARCH_PATHS = (
 "@executable_path/Frameworks"
 );
 MARKETING_VERSION = 1.0;
-PRODUCT_BUNDLE_IDENTIFIER = com.example.SolarAtlas;
-PRODUCT_NAME = "$(TARGET_NAME)";
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
+        PRODUCT_BUNDLE_IDENTIFIER = com.example.SolarAtlas;
+        PRODUCT_NAME = "$(TARGET_NAME)";
+        GAD_APPLICATION_IDENTIFIER = ca-app-pub-3940256099942544~1458002511;
+        GAD_BANNER_AD_UNIT_ID = ca-app-pub-3940256099942544/2934735716;
+        GAD_INTERSTITIAL_AD_UNIT_ID = ca-app-pub-3940256099942544/4411468910;
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+        SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+        SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
 SWIFT_VERSION = 5.9;
 };
 name = Debug;
@@ -545,10 +580,13 @@ LD_RUNPATH_SEARCH_PATHS = (
 "@executable_path/Frameworks"
 );
 MARKETING_VERSION = 1.0;
-PRODUCT_BUNDLE_IDENTIFIER = com.example.SolarAtlas;
-PRODUCT_NAME = "$(TARGET_NAME)";
-SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-SWIFT_VERSION = 5.9;
+        PRODUCT_BUNDLE_IDENTIFIER = com.example.SolarAtlas;
+        PRODUCT_NAME = "$(TARGET_NAME)";
+        GAD_APPLICATION_IDENTIFIER = ca-app-pub-1234567890123456~1234567890;
+        GAD_BANNER_AD_UNIT_ID = ca-app-pub-1234567890123456/2345678901;
+        GAD_INTERSTITIAL_AD_UNIT_ID = ca-app-pub-1234567890123456/3456789012;
+        SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+        SWIFT_VERSION = 5.9;
 GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 };
 name = Release;
