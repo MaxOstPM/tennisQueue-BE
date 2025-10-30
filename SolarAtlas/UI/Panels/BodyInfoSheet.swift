@@ -14,7 +14,7 @@ struct BodyInfoSheet: View {
 
     private var orbitDescription: String {
         if celestial.id == .sun {
-            return NSLocalizedString("Central star of the Solar System.", comment: "Sun description")
+            return NSLocalizedString("bodyInfo.sun.summary", comment: "Short summary describing the sun in the body info sheet")
         }
 
         let orbitValue = BodyInfoSheet.numberFormatter.string(from: NSNumber(value: Double(celestial.orbitAU)))
@@ -23,7 +23,7 @@ struct BodyInfoSheet: View {
             ?? String(format: "%.0f", celestial.periodDays)
 
         return String(
-            format: NSLocalizedString("Orbit radius: %@ AU\nOrbital period: %@ days", comment: "Body orbit details"),
+            format: NSLocalizedString("bodyInfo.orbitDetails", comment: "Format describing orbital radius and period"),
             orbitValue,
             periodValue
         )
@@ -52,7 +52,7 @@ struct BodyInfoSheet: View {
                             .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel(Text(NSLocalizedString("Dismiss", comment: "Dismiss sheet")))
+                    .accessibilityLabel(Text(NSLocalizedString("bodyInfo.dismiss", comment: "Accessibility label for dismissing the body info sheet")))
                 }
 
                 Divider()
@@ -69,25 +69,25 @@ struct BodyInfoSheet: View {
     private func detailText(for celestial: CelestialBody) -> String {
         switch celestial.id {
         case .sun:
-            return NSLocalizedString("A G-type main-sequence star that provides the gravitational anchor and energy for the entire system.", comment: "Sun details")
+            return NSLocalizedString("bodyInfo.sun.detail", comment: "Detailed description of the sun")
         case .mercury:
-            return NSLocalizedString("The smallest planet, with a fast 88-day orbit close to the sun.", comment: "Mercury details")
+            return NSLocalizedString("bodyInfo.mercury.detail", comment: "Detailed description of Mercury")
         case .venus:
-            return NSLocalizedString("Venus has a dense atmosphere and rotates slowly in the opposite direction of most planets.", comment: "Venus details")
+            return NSLocalizedString("bodyInfo.venus.detail", comment: "Detailed description of Venus")
         case .earth:
-            return NSLocalizedString("Our home world with abundant water and a single natural satellite, the Moon.", comment: "Earth details")
+            return NSLocalizedString("bodyInfo.earth.detail", comment: "Detailed description of Earth")
         case .mars:
-            return NSLocalizedString("The red planet, known for its iron oxide soil and the tallest volcano in the solar system.", comment: "Mars details")
+            return NSLocalizedString("bodyInfo.mars.detail", comment: "Detailed description of Mars")
         case .jupiter:
-            return NSLocalizedString("A gas giant with a massive magnetic field and dozens of moons, including Ganymede and Europa.", comment: "Jupiter details")
+            return NSLocalizedString("bodyInfo.jupiter.detail", comment: "Detailed description of Jupiter")
         case .saturn:
-            return NSLocalizedString("Famous for its spectacular ring system made of ice and rock particles.", comment: "Saturn details")
+            return NSLocalizedString("bodyInfo.saturn.detail", comment: "Detailed description of Saturn")
         case .uranus:
-            return NSLocalizedString("An ice giant that rotates on its side, likely due to an ancient collision.", comment: "Uranus details")
+            return NSLocalizedString("bodyInfo.uranus.detail", comment: "Detailed description of Uranus")
         case .neptune:
-            return NSLocalizedString("The most distant known planet, with supersonic winds and a deep blue hue.", comment: "Neptune details")
+            return NSLocalizedString("bodyInfo.neptune.detail", comment: "Detailed description of Neptune")
         case .atlas:
-            return NSLocalizedString("Comet ATLAS (C/2019 Y4) follows a highly elongated trajectory that brings it from the outer solar system toward the inner planets.", comment: "Atlas details")
+            return NSLocalizedString("bodyInfo.atlas.detail", comment: "Detailed description of comet ATLAS")
         }
     }
 }

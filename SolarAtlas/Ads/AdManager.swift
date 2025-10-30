@@ -4,15 +4,16 @@ import UIKit
 
 protocol AdManagerType: AnyObject {
     var isInterstitialReady: Bool { get }
-    func loadInterstitial(completion: @escaping (Bool, Error?) -> Void)
-    func presentInterstitialIfReady(completion: @escaping (Bool, Error?) -> Void)
+    func loadInterstitial(completion: @escaping (Result<Bool, AppError>) -> Void)
+    func presentInterstitialIfReady(completion: @escaping (Result<Bool, AppError>) -> Void)
 }
 
 final class AdManager: NSObject, AdManagerType {
     private let adUnitID: String
     private let consentManager: ConsentManagerType
     private var interstitial: GADInterstitialAd?
-    private var readinessCompletion: ((Bool, Error?) -> Void)?
+    private var readinessCompletion: ((Result<Bool, AppError>) -> Void)?
+    private let logger = AppLogger.category(.ads)
 
     init(interstitialAdUnitID: String, consentManager: ConsentManagerType) {
         self.adUnitID = interstitialAdUnitID
@@ -24,9 +25,9 @@ final class AdManager: NSObject, AdManagerType {
         interstitial != nil
     }
 
-    func loadInterstitial(completion: @escaping (Bool, Error?) -> Void) {
+    func loadInterstitial(completion: @escaping (Result<Bool, AppError>) -> Void) {
         guard consentManager.canServeAds else {
-            completion(false, nil)
+            completion(.success(false))
             return
         }
 
@@ -36,44 +37,45 @@ final class AdManager: NSObject, AdManagerType {
             guard let self else { return }
 
             if let error {
-                NSLog("Interstitial failed to load: %@", error.localizedDescription)
+                let appError = AppError.adsNoFill
+                self.logger.warning("Interstitial failed to load", metadata: ["underlying": error.localizedDescription])
                 self.interstitial = nil
-                self.finishLoad(success: false, error: error)
+                self.finishLoad(result: .failure(appError))
                 return
             }
 
             guard let ad else {
                 self.interstitial = nil
-                self.finishLoad(success: false, error: nil)
+                self.finishLoad(result: .success(false))
                 return
             }
 
             ad.fullScreenContentDelegate = self
             self.interstitial = ad
-            self.finishLoad(success: true, error: nil)
+            self.finishLoad(result: .success(true))
         }
     }
 
-    func presentInterstitialIfReady(completion: @escaping (Bool, Error?) -> Void) {
+    func presentInterstitialIfReady(completion: @escaping (Result<Bool, AppError>) -> Void) {
         guard consentManager.canServeAds else {
-            completion(false, nil)
+            completion(.success(false))
             return
         }
 
         guard let interstitial, let rootViewController = Self.topViewController() else {
-            completion(false, nil)
+            completion(.success(false))
             return
         }
 
         interstitial.present(fromRootViewController: rootViewController)
         self.interstitial = nil
-        completion(true, nil)
+        completion(.success(true))
     }
 
-    private func finishLoad(success: Bool, error: Error?) {
+    private func finishLoad(result: Result<Bool, AppError>) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            self.readinessCompletion?(success, error)
+            self.readinessCompletion?(result)
             self.readinessCompletion = nil
         }
     }
@@ -96,10 +98,11 @@ final class AdManager: NSObject, AdManagerType {
 
 extension AdManager: GADFullScreenContentDelegate {
     func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
-        NSLog("Interstitial failed to present: %@", error.localizedDescription)
+        let appError = AppError.adsPresentation(underlying: error.localizedDescription)
+        logger.error("Interstitial presentation failed", error: appError)
     }
 
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-        loadInterstitial { _, _ in }
+        loadInterstitial { _ in }
     }
 }

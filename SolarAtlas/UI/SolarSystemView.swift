@@ -47,7 +47,7 @@ struct SolarSystemView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: .spaceSM) {
-            Text("Solar Atlas")
+            Text(NSLocalizedString("solarSystem.header.title", comment: "Title for the solar system screen header"))
                 .font(Font.ds.titleL)
                 .foregroundColor(.foregroundCyan)
                 .glow()
@@ -58,25 +58,25 @@ struct SolarSystemView: View {
 
             if let selectedBody = selectedBody {
                 VStack(alignment: .leading, spacing: .spaceXS) {
-                    Text("Tracking: \(selectedBody.displayName)")
+                    Text(String(format: NSLocalizedString("solarSystem.header.tracking", comment: "Format for the selected body header row"), selectedBody.displayName))
                         .font(Font.ds.labelEmphasis)
                         .foregroundColor(.terminalAmber)
 
                     if let orbitText = orbitFormatter.string(from: NSNumber(value: Double(selectedBody.orbitAU))) {
-                        Text("Orbit radius: \(orbitText) AU")
+                        Text(String(format: NSLocalizedString("solarSystem.header.orbitRadius", comment: "Format describing the orbital radius in AU"), orbitText))
                             .font(Font.ds.caption)
                             .foregroundColor(.mutedText)
                     }
 
                     if let periodText = periodFormatter.string(from: NSNumber(value: selectedBody.periodDays)) {
-                        Text("Orbital period: \(periodText) days")
+                        Text(String(format: NSLocalizedString("solarSystem.header.orbitalPeriod", comment: "Format describing the orbital period in days"), periodText))
                             .font(Font.ds.caption)
                             .foregroundColor(.mutedText)
                     }
                 }
                 .transition(.opacity)
             } else {
-                Text("Tap a body to inspect its orbit and telemetry.")
+                Text(NSLocalizedString("solarSystem.header.tapHint", comment: "Hint instructing the user to tap a body"))
                     .font(Font.ds.caption)
                     .foregroundColor(.mutedText)
             }
@@ -88,21 +88,21 @@ struct SolarSystemView: View {
         TerminalPanel(borderColor: .terminalCyan) {
             VStack(alignment: .leading, spacing: .spaceXL) {
                 VStack(alignment: .leading, spacing: .spaceSM) {
-                    Text("Simulation Time")
+                    Text(NSLocalizedString("solarSystem.controls.timeline.title", comment: "Section title for the simulation timeline"))
                         .font(Font.ds.titleS)
                         .foregroundColor(.foregroundCyan)
 
                     Slider(value: timeBinding, in: 0...1, onEditingChanged: handleTimelineEditingChanged)
                         .tint(.terminalCyan)
 
-                    Text("Current date: \(dateFormatter.string(from: currentDate))")
+                    Text(String(format: NSLocalizedString("solarSystem.controls.timeline.currentDate", comment: "Format describing the simulated current date"), dateFormatter.string(from: currentDate)))
                         .font(Font.ds.caption)
                         .foregroundColor(.mutedText)
                 }
 
                 VStack(alignment: .leading, spacing: .spaceMD) {
                     toggleRow(
-                        title: "Show ATLAS trajectory",
+                        title: NSLocalizedString("solarSystem.controls.toggle.atlas", comment: "Toggle label for showing the ATLAS trajectory"),
                         isOn: Binding(
                             get: { solarSystem.showAtlasPath },
                             set: { store.dispatch(.solarSystem(.toggleAtlas($0))) }
@@ -110,7 +110,7 @@ struct SolarSystemView: View {
                     )
 
                     toggleRow(
-                        title: "Show planetary orbits",
+                        title: NSLocalizedString("solarSystem.controls.toggle.orbits", comment: "Toggle label for showing planetary orbits"),
                         isOn: Binding(
                             get: { solarSystem.showOrbits },
                             set: { store.dispatch(.solarSystem(.toggleOrbits($0))) }
@@ -118,7 +118,7 @@ struct SolarSystemView: View {
                     )
 
                     toggleRow(
-                        title: "Show labels",
+                        title: NSLocalizedString("solarSystem.controls.toggle.labels", comment: "Toggle label for showing celestial labels"),
                         isOn: Binding(
                             get: { solarSystem.showLabels },
                             set: { store.dispatch(.solarSystem(.toggleLabels($0))) }

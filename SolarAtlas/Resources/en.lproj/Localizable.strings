@@ -1,0 +1,169 @@
+/* Tab bar title for the solar system screen */
+"tab.solarSystem.title" = "Solar System";
+
+/* Tab bar title for the news feed */
+"tab.news.title" = "News";
+
+/* Primary header title for the news feed */
+"news.header.title" = "Mission Dispatch";
+
+/* Subtitle describing the news feed */
+"news.header.subtitle" = "Curated astronomical reports from the Solar Atlas network.";
+
+/* Title for the empty news state */
+"news.empty.title" = "No telemetry yet";
+
+/* Default description for the empty news state */
+"news.empty.description" = "Connect to the network to receive the latest Solar Atlas dispatches.";
+
+/* Button title for opening the full news article */
+"news.card.readMore" = "Read full briefing";
+
+/* Title for the solar system screen header */
+"solarSystem.header.title" = "Solar Atlas";
+
+/* Format for the selected body header row */
+"solarSystem.header.tracking" = "Tracking: %@";
+
+/* Format describing the orbital radius in AU */
+"solarSystem.header.orbitRadius" = "Orbit radius: %@ AU";
+
+/* Format describing the orbital period in days */
+"solarSystem.header.orbitalPeriod" = "Orbital period: %@ days";
+
+/* Hint instructing the user to tap a body */
+"solarSystem.header.tapHint" = "Tap a body to inspect its orbit and telemetry.";
+
+/* Section title for the simulation timeline */
+"solarSystem.controls.timeline.title" = "Simulation Time";
+
+/* Format describing the simulated current date */
+"solarSystem.controls.timeline.currentDate" = "Current date: %@";
+
+/* Toggle label for showing the ATLAS trajectory */
+"solarSystem.controls.toggle.atlas" = "Show ATLAS trajectory";
+
+/* Toggle label for showing planetary orbits */
+"solarSystem.controls.toggle.orbits" = "Show planetary orbits";
+
+/* Toggle label for showing celestial labels */
+"solarSystem.controls.toggle.labels" = "Show labels";
+
+/* Title explaining an update is required */
+"updatePrompt.title" = "Update Required";
+
+/* Body copy describing why the update is required */
+"updatePrompt.subtitle" = "A newer build of Solar Atlas is available. Update now to continue receiving live telemetry and system access.";
+
+/* Call-to-action button for updating the app */
+"updatePrompt.cta" = "Update Solar Atlas";
+
+/* Short summary describing the sun in the body info sheet */
+"bodyInfo.sun.summary" = "Central star of the Solar System.";
+
+/* Format describing orbital radius and period */
+"bodyInfo.orbitDetails" = "Orbit radius: %@ AU\nOrbital period: %@ days";
+
+/* Accessibility label for dismissing the body info sheet */
+"bodyInfo.dismiss" = "Dismiss";
+
+/* Detailed description of the sun */
+"bodyInfo.sun.detail" = "A G-type main-sequence star that provides the gravitational anchor and energy for the entire system.";
+
+/* Detailed description of Mercury */
+"bodyInfo.mercury.detail" = "The smallest planet, with a fast 88-day orbit close to the sun.";
+
+/* Detailed description of Venus */
+"bodyInfo.venus.detail" = "Venus has a dense atmosphere and rotates slowly in the opposite direction of most planets.";
+
+/* Detailed description of Earth */
+"bodyInfo.earth.detail" = "Our home world with abundant water and a single natural satellite, the Moon.";
+
+/* Detailed description of Mars */
+"bodyInfo.mars.detail" = "The red planet, known for its iron oxide soil and the tallest volcano in the solar system.";
+
+/* Detailed description of Jupiter */
+"bodyInfo.jupiter.detail" = "A gas giant with a massive magnetic field and dozens of moons, including Ganymede and Europa.";
+
+/* Detailed description of Saturn */
+"bodyInfo.saturn.detail" = "Famous for its spectacular ring system made of ice and rock particles.";
+
+/* Detailed description of Uranus */
+"bodyInfo.uranus.detail" = "An ice giant that rotates on its side, likely due to an ancient collision.";
+
+/* Detailed description of Neptune */
+"bodyInfo.neptune.detail" = "The most distant known planet, with supersonic winds and a deep blue hue.";
+
+/* Detailed description of comet ATLAS */
+"bodyInfo.atlas.detail" = "Comet ATLAS (C/2019 Y4) follows a highly elongated trajectory that brings it from the outer solar system toward the inner planets.";
+
+/* Fallback title when Firestore omits a title */
+"news.item.fallbackTitle" = "Solar Atlas Transmission";
+
+/* Fallback summary when Firestore omits a summary */
+"news.item.fallbackSummary" = "Mission control hasn't shared additional telemetry for this dispatch.";
+
+/* Fallback source label when Firestore omits it */
+"news.item.fallbackSource" = "Solar Atlas";
+
+/* Title used for preview placeholder content */
+"news.item.placeholderTitle" = "Awaiting Latest Telemetry";
+
+/* Summary used for preview placeholder content */
+"news.item.placeholderSummary" = "Stay tuned for breaking discoveries from observatories across the Solar Atlas network.";
+
+/* Source used for preview placeholder content */
+"news.item.placeholderSource" = "Solar Atlas";
+
+/* Shown when any networking call fails */
+"error.general.network" = "We couldn't sync new telemetry. Check your connection and try again.";
+
+/* Shown when Firestore data cannot be decoded */
+"error.firestore.decode" = "Some dispatches were unreadable. We'll attempt to refresh shortly.";
+
+/* Shown when Remote Config fails to fetch */
+"error.remoteConfig.fetch" = "We can't verify the latest mission build right now. Please try again later.";
+
+/* Shown when the ad server returns no fill */
+"error.ads.noFill" = "No ads are available at the moment.";
+
+/* Shown when ad consent flow cannot be completed */
+"error.ads.consent" = "We couldn't finish the ad consent flow. You may need to try again.";
+
+/* Shown when an ad fails to present */
+"error.ads.presentation" = "We couldn't show an ad just now.";
+
+/* Fallback message for uncategorized errors */
+"error.general.unknown" = "Something went wrong. Please try again.";
+
+
+/* Display name for the Sun */
+"body.name.sun" = "Sun";
+
+/* Display name for Mercury */
+"body.name.mercury" = "Mercury";
+
+/* Display name for Venus */
+"body.name.venus" = "Venus";
+
+/* Display name for Earth */
+"body.name.earth" = "Earth";
+
+/* Display name for Mars */
+"body.name.mars" = "Mars";
+
+/* Display name for Jupiter */
+"body.name.jupiter" = "Jupiter";
+
+/* Display name for Saturn */
+"body.name.saturn" = "Saturn";
+
+/* Display name for Uranus */
+"body.name.uranus" = "Uranus";
+
+/* Display name for Neptune */
+"body.name.neptune" = "Neptune";
+
+/* Display name for comet ATLAS */
+"body.name.atlas" = "Comet ATLAS";
+

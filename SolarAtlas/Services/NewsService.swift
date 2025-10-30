@@ -2,12 +2,13 @@ import FirebaseFirestore
 import Foundation
 
 protocol NewsServiceType {
-    func fetchLatestNews(completion: @escaping (Result<[NewsItem], Error>) -> Void)
+    func fetchLatestNews(completion: @escaping (Result<[NewsItem], AppError>) -> Void)
 }
 
 struct FirestoreNewsService: NewsServiceType {
     private let database: Firestore
     private let collectionName: String
+    private let logger = AppLogger.category(.firestore)
 
     init(database: Firestore = Firestore.firestore(), collectionName: String = "news") {
         self.database = database
@@ -20,14 +21,16 @@ struct FirestoreNewsService: NewsServiceType {
         }
     }
 
-    func fetchLatestNews(completion: @escaping (Result<[NewsItem], Error>) -> Void) {
+    func fetchLatestNews(completion: @escaping (Result<[NewsItem], AppError>) -> Void) {
         let processingQueue = DispatchQueue.global(qos: .userInitiated)
         database.collection(collectionName)
             .order(by: "publishedAt", descending: true)
             .getDocuments { snapshot, error in
                 processingQueue.async {
                     if let error = error {
-                        completion(.failure(error))
+                        let appError = AppError.network(underlying: error.localizedDescription)
+                        self.logger.error("Firestore fetch failed", error: appError)
+                        completion(.failure(appError))
                         return
                     }
 
@@ -36,6 +39,7 @@ struct FirestoreNewsService: NewsServiceType {
                         mapDocumentToNewsItem(document)
                     }
 
+                    self.logger.info("Fetched news items", metadata: ["count": "\(items.count)"])
                     completion(.success(items))
                 }
             }

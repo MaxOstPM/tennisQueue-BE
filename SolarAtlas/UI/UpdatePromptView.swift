@@ -16,11 +16,11 @@ struct UpdatePromptView: View {
                         .foregroundColor(.spaceBlack)
 
                     VStack(spacing: .spaceSM) {
-                        Text("Update Required")
+                        Text(NSLocalizedString("updatePrompt.title", comment: "Title explaining an update is required"))
                             .font(Font.ds.titleL)
                             .foregroundColor(.spaceBlack)
 
-                        Text("A newer build of Solar Atlas is available. Update now to continue receiving live telemetry and system access.")
+                        Text(NSLocalizedString("updatePrompt.subtitle", comment: "Body copy describing why the update is required"))
                             .font(Font.ds.body)
                             .foregroundColor(.spaceBlackSubdued)
                             .multilineTextAlignment(.center)
@@ -28,7 +28,7 @@ struct UpdatePromptView: View {
                     }
 
                     Button(action: openUpdateLink) {
-                        Text("Update Solar Atlas")
+                        Text(NSLocalizedString("updatePrompt.cta", comment: "Call-to-action button for updating the app"))
                             .font(Font.ds.labelEmphasis)
                             .padding(.horizontal, .space3XL)
                             .padding(.vertical, .spaceSM)

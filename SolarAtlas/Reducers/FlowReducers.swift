@@ -22,10 +22,10 @@ func newsFeedReducer(state: inout NewsFeedState, action: NewsFeedAction) {
     case .loadNews(let items):
         state.newsFeed = items
         if !items.isEmpty {
-            state.errorMessage = nil
+            state.error = nil
         }
-    case .setError(let message):
-        state.errorMessage = message
+    case .setError(let error):
+        state.error = error
     }
 }
 
@@ -54,14 +54,14 @@ func adReducer(state: inout AdState, action: AdAction) {
         state.interstitialReady = isReady
     case .setConsentStatus(let status):
         state.consentStatus = status
-        if case .error(let message) = status {
-            state.lastError = message
+        if case .error(let error) = status {
+            state.lastError = error
         } else if state.lastError != nil {
             state.lastError = nil
         }
     case .setPersonalization(let personalization):
         state.personalization = personalization
-    case .setError(let message):
-        state.lastError = message
+    case .setError(let error):
+        state.lastError = error
     }
 }

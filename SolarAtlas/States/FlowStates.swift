@@ -36,7 +36,7 @@ struct SolarSystemState: Equatable {
 /// State for the News Feed flow
 struct NewsFeedState: Equatable {
     var newsFeed: [NewsItem] = []                // Loaded news articles
-    var errorMessage: String? = nil              // Last fetch error presented to the user
+    var error: AppError? = nil                   // Last fetch error presented to the user
 }
 
 /// State for navigation/tab selection
@@ -54,5 +54,5 @@ struct AdState: Equatable {
     var interstitialReady: Bool = false          // Whether an interstitial ad is loaded
     var consentStatus: AdConsentStatus = .unknown
     var personalization: AdPersonalization = .unknown
-    var lastError: String? = nil
+    var lastError: AppError? = nil
 }

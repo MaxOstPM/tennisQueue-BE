@@ -41,21 +41,21 @@ struct SolarSystemView: View {
     @ViewBuilder
     private var toggleRows: some View {
         ToggleRow(
-            title: NSLocalizedString("Show ATLAS Path", comment: "Toggle ATLAS path"),
+            title: NSLocalizedString("solarSystem.controls.toggle.atlas", comment: "Toggle label for showing the ATLAS trajectory"),
             isOn: Binding(
                 get: { store.state.solarSystem.showAtlasPath },
                 set: { store.dispatch(.solarSystem(.toggleAtlas($0))) }
             )
         )
         ToggleRow(
-            title: NSLocalizedString("Show Orbits", comment: "Toggle orbits"),
+            title: NSLocalizedString("solarSystem.controls.toggle.orbits", comment: "Toggle label for showing planetary orbits"),
             isOn: Binding(
                 get: { store.state.solarSystem.showOrbits },
                 set: { store.dispatch(.solarSystem(.toggleOrbits($0))) }
             )
         )
         ToggleRow(
-            title: NSLocalizedString("Show Labels", comment: "Toggle labels"),
+            title: NSLocalizedString("solarSystem.controls.toggle.labels", comment: "Toggle label for showing celestial labels"),
             isOn: Binding(
                 get: { store.state.solarSystem.showLabels },
                 set: { store.dispatch(.solarSystem(.toggleLabels($0))) }
@@ -81,7 +81,7 @@ struct SolarSystemView: View {
                     VStack(alignment: .leading, spacing: .spaceMD) {
                         NeonSlider(
                             value: $timelineSliderValue,
-                            title: NSLocalizedString("Mission Timeline", comment: "Timeline slider title"),
+                            title: NSLocalizedString("solarSystem.controls.timeline.title", comment: "Section title for the simulation timeline"),
                             subtitle: timelineSubtitle,
                             onEditingChanged: handleTimelineEditingChanged,
                             onValueChanged: handleTimelineValueChanged

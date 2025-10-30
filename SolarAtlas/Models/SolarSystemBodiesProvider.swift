@@ -9,7 +9,7 @@ struct SolarSystemBodiesProvider {
             // Sun — central star (0 AU by definition, stationary for this visualization)
             CelestialBody(
                 id: .sun,
-                displayName: "Sun",
+                displayName: String(localized: "body.name.sun", comment: "Display name for the Sun"),
                 color: .terminalAmber,
                 pixelRadius: 6,
                 orbitAU: 0.0,
@@ -20,7 +20,7 @@ struct SolarSystemBodiesProvider {
             // Mercury — 0.39 AU average orbital radius, 88-day orbital period
             CelestialBody(
                 id: .mercury,
-                displayName: "Mercury",
+                displayName: String(localized: "body.name.mercury", comment: "Display name for Mercury"),
                 color: .terminalCyan,
                 pixelRadius: 2,
                 orbitAU: 0.39,
@@ -31,7 +31,7 @@ struct SolarSystemBodiesProvider {
             // Venus — 0.72 AU, 225-day orbital period
             CelestialBody(
                 id: .venus,
-                displayName: "Venus",
+                displayName: String(localized: "body.name.venus", comment: "Display name for Venus"),
                 color: .terminalCyan,
                 pixelRadius: 3,
                 orbitAU: 0.72,
@@ -42,7 +42,7 @@ struct SolarSystemBodiesProvider {
             // Earth — 1.0 AU, 365-day orbital period
             CelestialBody(
                 id: .earth,
-                displayName: "Earth",
+                displayName: String(localized: "body.name.earth", comment: "Display name for Earth"),
                 color: .terminalCyan,
                 pixelRadius: 3.5,
                 orbitAU: 1.0,
@@ -53,7 +53,7 @@ struct SolarSystemBodiesProvider {
             // Mars — 1.52 AU, 687-day orbital period
             CelestialBody(
                 id: .mars,
-                displayName: "Mars",
+                displayName: String(localized: "body.name.mars", comment: "Display name for Mars"),
                 color: .terminalCyan,
                 pixelRadius: 3,
                 orbitAU: 1.52,
@@ -64,7 +64,7 @@ struct SolarSystemBodiesProvider {
             // Jupiter — 5.2 AU, 4,333-day orbital period (~11.9 Earth years)
             CelestialBody(
                 id: .jupiter,
-                displayName: "Jupiter",
+                displayName: String(localized: "body.name.jupiter", comment: "Display name for Jupiter"),
                 color: .terminalCyan,
                 pixelRadius: 5,
                 orbitAU: 5.2,
@@ -75,7 +75,7 @@ struct SolarSystemBodiesProvider {
             // Saturn — 9.5 AU, 10,759-day orbital period (~29.5 Earth years)
             CelestialBody(
                 id: .saturn,
-                displayName: "Saturn",
+                displayName: String(localized: "body.name.saturn", comment: "Display name for Saturn"),
                 color: .terminalCyan,
                 pixelRadius: 5,
                 orbitAU: 9.5,
@@ -86,7 +86,7 @@ struct SolarSystemBodiesProvider {
             // Uranus — 19.8 AU, 30,687-day orbital period (~84 Earth years)
             CelestialBody(
                 id: .uranus,
-                displayName: "Uranus",
+                displayName: String(localized: "body.name.uranus", comment: "Display name for Uranus"),
                 color: .terminalCyan,
                 pixelRadius: 4,
                 orbitAU: 19.8,
@@ -97,7 +97,7 @@ struct SolarSystemBodiesProvider {
             // Neptune — 30 AU, 60,190-day orbital period (~165 Earth years)
             CelestialBody(
                 id: .neptune,
-                displayName: "Neptune",
+                displayName: String(localized: "body.name.neptune", comment: "Display name for Neptune"),
                 color: .terminalCyan,
                 pixelRadius: 4,
                 orbitAU: 30.0,
@@ -108,7 +108,7 @@ struct SolarSystemBodiesProvider {
             // Comet 3I/ATLAS — interstellar visitor, rendered with its own trajectory
             CelestialBody(
                 id: .atlas,
-                displayName: "Comet ATLAS",
+                displayName: String(localized: "body.name.atlas", comment: "Display name for comet ATLAS"),
                 color: .terminalGreen,
                 pixelRadius: 2.5,
                 orbitAU: 0.0,
