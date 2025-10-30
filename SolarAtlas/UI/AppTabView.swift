@@ -43,14 +43,14 @@ struct AppTabView: View {
                 SolarSystemView()
                     .tabItem {
                         Image(systemName: "globe")
-                        Text(NSLocalizedString("Solar System", comment: "Tab title for solar system"))
+                        Text(NSLocalizedString("tab.solarSystem.title", comment: "Tab title for the solar system screen"))
                     }
                     .tag(AppTab.solarSystem)
 
                 NewsFeedView()
                     .tabItem {
                         Image(systemName: "newspaper")
-                        Text(NSLocalizedString("News", comment: "Tab title for news feed"))
+                        Text(NSLocalizedString("tab.news.title", comment: "Tab title for the news feed"))
                     }
                     .tag(AppTab.news)
             }

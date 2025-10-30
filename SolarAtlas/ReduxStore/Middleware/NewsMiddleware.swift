@@ -2,6 +2,8 @@ import Foundation
 import ReSwift
 
 func createNewsMiddleware(service: NewsServiceType) -> Middleware<AppState> {
+    let logger = AppLogger.category(.news)
+
     return { dispatch, getState in
         { next in
             { action in
@@ -21,10 +23,10 @@ func createNewsMiddleware(service: NewsServiceType) -> Middleware<AppState> {
                                 dispatch(AppAction.news(.loadNews(items)))
                             }
                         case .failure(let error):
-                            NSLog("Failed to fetch news: %@", error.localizedDescription)
+                            logger.error("Failed to fetch news", error: error)
                             DispatchQueue.main.async {
                                 dispatch(AppAction.news(.loadNews([])))
-                                dispatch(AppAction.news(.setError("Unable to retrieve the latest dispatches. Check your connection and try again.")))
+                                dispatch(AppAction.news(.setError(error)))
                             }
                         }
                     }

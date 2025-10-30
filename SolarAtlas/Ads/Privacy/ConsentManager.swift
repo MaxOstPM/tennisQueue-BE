@@ -8,7 +8,7 @@ import UserMessagingPlatform
 protocol ConsentManagerType: AnyObject {
     var canServeAds: Bool { get }
     var personalization: AdPersonalization { get }
-    func requestConsentIfNeeded(presentingViewController: UIViewController?, completion: @escaping (Result<AdConsentOutcome, Error>) -> Void)
+    func requestConsentIfNeeded(presentingViewController: UIViewController?, completion: @escaping (Result<AdConsentOutcome, AppError>) -> Void)
     func makeAdRequest() -> GADRequest
 }
 
@@ -21,12 +21,13 @@ final class ConsentManager: NSObject, ObservableObject, ConsentManagerType {
 
     private let consentInformation = UMPConsentInformation.sharedInstance
     private var isRequestInFlight = false
+    private let logger = AppLogger.category(.consent)
 
     private override init() {
         super.init()
     }
 
-    func requestConsentIfNeeded(presentingViewController: UIViewController?, completion: @escaping (Result<AdConsentOutcome, Error>) -> Void) {
+    func requestConsentIfNeeded(presentingViewController: UIViewController?, completion: @escaping (Result<AdConsentOutcome, AppError>) -> Void) {
         if isRequestInFlight {
             DispatchQueue.main.async {
                 completion(.success(AdConsentOutcome(status: self.consentStatus, personalization: self.personalization)))
@@ -61,14 +62,16 @@ final class ConsentManager: NSObject, ObservableObject, ConsentManagerType {
         return request
     }
 
-    private func performUMPRequest(presentingViewController: UIViewController?, completion: @escaping (Result<AdConsentOutcome, Error>) -> Void) {
+    private func performUMPRequest(presentingViewController: UIViewController?, completion: @escaping (Result<AdConsentOutcome, AppError>) -> Void) {
         let parameters = UMPRequestParameters()
         parameters.tagForUnderAgeOfConsent = false
 
         consentInformation.requestConsentInfoUpdate(with: parameters) { [weak self] error in
             guard let self else { return }
             if let error {
-                self.finishRequest(with: .failure(error), completion: completion)
+                let appError = AppError.adsConsent(underlying: error.localizedDescription)
+                self.logger.error("Consent info update failed", error: appError)
+                self.finishRequest(with: .failure(appError), completion: completion)
                 return
             }
 
@@ -81,26 +84,30 @@ final class ConsentManager: NSObject, ObservableObject, ConsentManagerType {
         }
     }
 
-    private func presentConsentForm(presentingViewController: UIViewController?, completion: @escaping (Result<AdConsentOutcome, Error>) -> Void) {
+    private func presentConsentForm(presentingViewController: UIViewController?, completion: @escaping (Result<AdConsentOutcome, AppError>) -> Void) {
         UMPConsentForm.load { [weak self] form, error in
             guard let self else { return }
 
             if let error {
-                self.finishRequest(with: .failure(error), completion: completion)
+                let appError = AppError.adsConsent(underlying: error.localizedDescription)
+                self.logger.error("Consent form load failed", error: appError)
+                self.finishRequest(with: .failure(appError), completion: completion)
                 return
             }
 
             guard let form else {
-                let error = NSError(domain: "ConsentManager", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to load consent form."])
-                self.finishRequest(with: .failure(error), completion: completion)
+                let appError = AppError.adsConsent(underlying: "form_unavailable")
+                self.logger.error("Consent form unavailable", error: appError)
+                self.finishRequest(with: .failure(appError), completion: completion)
                 return
             }
 
             DispatchQueue.main.async {
                 let presenter = presentingViewController ?? Self.topViewController()
                 guard let presenter else {
-                    let error = NSError(domain: "ConsentManager", code: 2, userInfo: [NSLocalizedDescriptionKey: "Missing presenter for consent form."])
-                    self.finishRequest(with: .failure(error), completion: completion)
+                    let appError = AppError.adsConsent(underlying: "missing_presenter")
+                    self.logger.error("No presenter for consent form", error: appError)
+                    self.finishRequest(with: .failure(appError), completion: completion)
                     return
                 }
 
@@ -108,7 +115,9 @@ final class ConsentManager: NSObject, ObservableObject, ConsentManagerType {
                     guard let self else { return }
 
                     if let dismissError {
-                        self.finishRequest(with: .failure(dismissError), completion: completion)
+                        let appError = AppError.adsConsent(underlying: dismissError.localizedDescription)
+                        self.logger.error("Consent form dismissed with error", error: appError)
+                        self.finishRequest(with: .failure(appError), completion: completion)
                         return
                     }
 
@@ -134,7 +143,7 @@ final class ConsentManager: NSObject, ObservableObject, ConsentManagerType {
         }
     }
 
-    private func finishRequest(with result: Result<AdConsentOutcome, Error>, completion: @escaping (Result<AdConsentOutcome, Error>) -> Void) {
+    private func finishRequest(with result: Result<AdConsentOutcome, AppError>, completion: @escaping (Result<AdConsentOutcome, AppError>) -> Void) {
         DispatchQueue.main.async {
             self.isRequestInFlight = false
 
@@ -142,7 +151,7 @@ final class ConsentManager: NSObject, ObservableObject, ConsentManagerType {
             case .success(let outcome):
                 self.updateState(status: outcome.status, personalization: outcome.personalization, canServeAds: self.consentInformation.canRequestAds)
             case .failure(let error):
-                self.updateState(status: .error(error.localizedDescription), personalization: .nonPersonalized, canServeAds: self.consentInformation.canRequestAds)
+                self.updateState(status: .error(error), personalization: .nonPersonalized, canServeAds: self.consentInformation.canRequestAds)
             }
 
             completion(result)

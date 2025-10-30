@@ -39,6 +39,7 @@ struct BannerAdView: UIViewRepresentable {
         private let consentManager: ConsentManager
         private let adUnitID: String
         private var didLoadAd = false
+        private let logger = AppLogger.category(.ads)
 
         weak var bannerView: GADBannerView?
 
@@ -65,7 +66,8 @@ struct BannerAdView: UIViewRepresentable {
         }
 
         func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-            NSLog("Banner ad failed to load: %@", error.localizedDescription)
+            let appError = AppError.adsNoFill
+            logger.warning("Banner ad failed to load", metadata: ["underlying": error.localizedDescription], error: appError)
             didLoadAd = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 30) { [weak self] in
                 self?.loadAdIfNeeded()

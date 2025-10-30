@@ -69,12 +69,12 @@ struct NewsFeedView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: .spaceXS) {
-            Text("Mission Dispatch")
+            Text(NSLocalizedString("news.header.title", comment: "Primary header title for the news feed"))
                 .font(Font.ds.titleL)
                 .foregroundColor(.foregroundCyan)
                 .glow()
 
-            Text("Curated astronomical reports from the Solar Atlas network.")
+            Text(NSLocalizedString("news.header.subtitle", comment: "Subtitle describing the news feed"))
                 .font(Font.ds.label)
                 .foregroundColor(.mutedText)
         }
@@ -89,7 +89,7 @@ struct NewsFeedView: View {
                 .foregroundColor(.terminalCyan)
                 .glow()
 
-            Text("No telemetry yet")
+            Text(NSLocalizedString("news.empty.title", comment: "Title for the empty news state"))
                 .font(Font.ds.titleM)
                 .foregroundColor(.foregroundCyan)
 
@@ -125,17 +125,17 @@ struct NewsFeedView: View {
                         .foregroundColor(.mutedText)
                 }
 
-                if let url = item.articleURL {
-                    Button {
-                        analytics.logNewsItemOpened(id: item.id.uuidString, source: item.source)
-                        openURL(url)
-                    } label: {
-                        Text("Read full briefing")
+                    if let url = item.articleURL {
+                        Button {
+                            analytics.logNewsItemOpened(id: item.id.uuidString, source: item.source)
+                            openURL(url)
+                        } label: {
+                        Text(NSLocalizedString("news.card.readMore", comment: "Button title for opening the full news article"))
                             .font(Font.ds.labelEmphasis)
                             .foregroundColor(.terminalCyan)
                             .underline()
-                    }
-                    .buttonStyle(.plain)
+                        }
+                        .buttonStyle(.plain)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -171,14 +171,14 @@ private extension NewsFeedView {
         store.state.newsFeed.newsFeed
     }
 
-    var errorMessage: String? {
-        store.state.newsFeed.errorMessage
+    var errorMessage: AppError? {
+        store.state.newsFeed.error
     }
 
     var emptyStateMessage: String {
         if let errorMessage {
-            return errorMessage
+            return errorMessage.localizedDescription
         }
-        return "Connect to the network to receive the latest Solar Atlas dispatches."
+        return NSLocalizedString("news.empty.description", comment: "Default description for the empty news state")
     }
 }

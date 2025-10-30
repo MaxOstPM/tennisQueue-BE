@@ -21,13 +21,17 @@ func createAdMiddleware(manager: AdManagerType,
 
         func preloadInterstitial() {
             guard consentManager.canServeAds else { return }
-            manager.loadInterstitial { isReady, error in
+            manager.loadInterstitial { result in
                 DispatchQueue.main.async {
-                    dispatch(AppAction.ads(.setInterstitialReady(isReady)))
-                    if let error {
-                        dispatch(AppAction.ads(.setError(error.localizedDescription)))
-                    } else if isReady {
-                        dispatch(AppAction.ads(.setError(nil)))
+                    switch result {
+                    case .success(let isReady):
+                        dispatch(AppAction.ads(.setInterstitialReady(isReady)))
+                        if isReady {
+                            dispatch(AppAction.ads(.setError(nil)))
+                        }
+                    case .failure(let error):
+                        dispatch(AppAction.ads(.setInterstitialReady(false)))
+                        dispatch(AppAction.ads(.setError(error)))
                     }
                 }
             }
@@ -51,9 +55,9 @@ func createAdMiddleware(manager: AdManagerType,
                                 dispatch(AppAction.ads(.setPersonalization(outcome.personalization)))
                                 dispatch(AppAction.ads(.setError(nil)))
                             case .failure(let error):
-                                dispatch(AppAction.ads(.setConsentStatus(.error(error.localizedDescription))))
+                                dispatch(AppAction.ads(.setConsentStatus(.error(error))))
                                 dispatch(AppAction.ads(.setPersonalization(.nonPersonalized)))
-                                dispatch(AppAction.ads(.setError(error.localizedDescription)))
+                                dispatch(AppAction.ads(.setError(error)))
                             }
 
                             if consentManager.canServeAds {
@@ -79,18 +83,22 @@ func createAdMiddleware(manager: AdManagerType,
                 case .showInterstitialIfReady:
                     next(action)
                     guard consentManager.canServeAds else { return }
-                    manager.presentInterstitialIfReady { presented, error in
+                    manager.presentInterstitialIfReady { result in
                         DispatchQueue.main.async {
-                            if let error {
-                                dispatch(AppAction.ads(.setError(error.localizedDescription)))
-                            }
-
-                            if presented {
-                                dispatch(AppAction.ads(.setInterstitialReady(false)))
-                                analytics.logAdShown(type: "interstitial")
-                                preloadInterstitial()
-                            } else if !manager.isInterstitialReady {
-                                preloadInterstitial()
+                            switch result {
+                            case .success(let presented):
+                                if presented {
+                                    dispatch(AppAction.ads(.setInterstitialReady(false)))
+                                    analytics.logAdShown(type: "interstitial")
+                                    preloadInterstitial()
+                                } else if !manager.isInterstitialReady {
+                                    preloadInterstitial()
+                                }
+                            case .failure(let error):
+                                dispatch(AppAction.ads(.setError(error)))
+                                if !manager.isInterstitialReady {
+                                    preloadInterstitial()
+                                }
                             }
                         }
                         schedulePresentation()

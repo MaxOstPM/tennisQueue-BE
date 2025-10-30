@@ -6,7 +6,7 @@ enum AdConsentStatus: Equatable {
     case obtained
     case notRequired
     case required
-    case error(String)
+    case error(AppError)
 }
 
 enum AdPersonalization: Equatable {
