@@ -10,8 +10,8 @@ struct NeonSlider: View {
 
     var body: some View {
         Slider(value: $value, in: range)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 8)
+            .padding(.horizontal, .spaceXL)
+            .padding(.vertical, .spaceSM)
             .applyTint()
             .glow(color: .terminalAmber)
     }

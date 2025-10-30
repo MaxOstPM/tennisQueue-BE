@@ -8,6 +8,10 @@ struct SolarSystemView: View {
     private let analytics = AnalyticsTracker.shared
     private let timelineLogThrottle: TimeInterval = 2.0
 
+    private enum Layout {
+        static let canvasBottomPadding: CGFloat = (CGFloat.spaceXL * 9) + .spaceXS
+    }
+
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -32,7 +36,7 @@ struct SolarSystemView: View {
             Color.spaceBlack.ignoresSafeArea()
 
             SolarCanvas()
-                .padding(.bottom, 220)
+                .padding(.bottom, Layout.canvasBottomPadding)
                 .padding(.horizontal, .spaceLG)
 
             VStack(spacing: .spaceXL) {

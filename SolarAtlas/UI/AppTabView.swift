@@ -13,20 +13,34 @@ struct AppTabView: View {
         let tabBarAppearance = UITabBar.appearance()
         tabBarAppearance.isTranslucent = false
 
+        let normalAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(Color.mutedText),
+            .font: UIFont.monospacedSystemFont(ofSize: 13, weight: .medium)
+        ]
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(Color.terminalCyan),
+            .font: UIFont.monospacedSystemFont(ofSize: 13, weight: .semibold)
+        ]
+
+        let tabItemAppearance = UITabBarItem.appearance()
+        tabItemAppearance.setTitleTextAttributes(normalAttributes, for: .normal)
+        tabItemAppearance.setTitleTextAttributes(selectedAttributes, for: .selected)
+
         if #available(iOS 15, *) {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
             appearance.backgroundColor = UIColor(Color.spaceBlack)
+            appearance.stackedLayoutAppearance.normal.iconColor = UIColor(Color.mutedText)
+            appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
             appearance.stackedLayoutAppearance.selected.iconColor = UIColor(Color.terminalCyan)
-            appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
-                .foregroundColor: UIColor(Color.terminalCyan)
-            ]
+            appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
             tabBarAppearance.standardAppearance = appearance
             tabBarAppearance.scrollEdgeAppearance = appearance
         } else {
             tabBarAppearance.barTintColor = UIColor(Color.spaceBlack)
             tabBarAppearance.backgroundColor = UIColor(Color.spaceBlack)
             tabBarAppearance.tintColor = UIColor(Color.terminalCyan)
+            tabBarAppearance.unselectedItemTintColor = UIColor(Color.mutedText)
         }
 #endif
     }
@@ -44,6 +58,7 @@ struct AppTabView: View {
                     .tabItem {
                         Image(systemName: "globe")
                         Text(NSLocalizedString("tab.solarSystem.title", comment: "Tab title for the solar system screen"))
+                            .font(Font.ds.label)
                     }
                     .tag(AppTab.solarSystem)
 
@@ -51,6 +66,7 @@ struct AppTabView: View {
                     .tabItem {
                         Image(systemName: "newspaper")
                         Text(NSLocalizedString("tab.news.title", comment: "Tab title for the news feed"))
+                            .font(Font.ds.label)
                     }
                     .tag(AppTab.news)
             }
