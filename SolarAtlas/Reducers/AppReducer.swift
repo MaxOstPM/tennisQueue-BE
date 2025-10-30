@@ -1,38 +1,14 @@
 import ReSwift
 
-/// Top-level reducer that routes actions to feature reducers.
-func appReducer(action: Action, state: AppState?) -> AppState {
-    var state = state ?? AppState()
+/// Combined reducer that updates each feature slice of `AppState` while keeping a single source of truth.
+let appReducer: Reducer<AppState> = { action, currentState in
+    var state = currentState ?? AppState()
 
-    guard let appAction = action as? AppAction else {
-        return state
-    }
-
-    switch appAction {
-    case .solarSystem(let solarAction):
-        solarSystemReducer(state: &state.solarSystem, action: solarAction)
-
-    case .news(let newsAction):
-        newsFeedReducer(state: &state.newsFeed, action: newsAction)
-
-    case .navigation(let navigationAction):
-        navigationReducer(state: &state.navigation, action: navigationAction)
-
-    case .update(let updateAction):
-        updateReducer(state: &state.update, action: updateAction)
-
-    case .ads(let adAction):
-        adReducer(state: &state.ads, action: adAction)
-
-    case .fetchNewsRequested,
-         .checkForUpdate,
-         .startAdTimer,
-         .showInterstitialIfReady,
-         .requestAdConsent,
-         .appDidBecomeActive:
-        // Side-effect-only actions are handled in middleware; reducers keep state unchanged.
-        break
-    }
+    state.solarSystem = solarSystemReducer(action, state.solarSystem)
+    state.newsFeed = newsFeedReducer(action, state.newsFeed)
+    state.navigation = navigationReducer(action, state.navigation)
+    state.update = updateReducer(action, state.update)
+    state.ads = adReducer(action, state.ads)
 
     return state
 }

@@ -3,8 +3,8 @@ import XCTest
 
 final class NavigationReducerTests: XCTestCase {
     func testOpenRouteSetsNewsTab() {
-        var state = NavigationState()
-        navigationReducer(state: &state, action: .openRoute(.news))
-        XCTAssertEqual(state.activeTab, .news)
+        let action = AppAction.navigation(.openRoute(.news))
+        let updated = navigationReducer(action, NavigationState())
+        XCTAssertEqual(updated.activeTab, .news)
     }
 }
