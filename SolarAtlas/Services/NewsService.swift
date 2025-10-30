@@ -21,20 +21,23 @@ struct FirestoreNewsService: NewsServiceType {
     }
 
     func fetchLatestNews(completion: @escaping (Result<[NewsItem], Error>) -> Void) {
+        let processingQueue = DispatchQueue.global(qos: .userInitiated)
         database.collection(collectionName)
             .order(by: "publishedAt", descending: true)
             .getDocuments { snapshot, error in
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
+                processingQueue.async {
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
 
-                let documents = snapshot?.documents ?? []
-                let items = documents.map { document -> NewsItem in
-                    mapDocumentToNewsItem(document)
-                }
+                    let documents = snapshot?.documents ?? []
+                    let items = documents.map { document -> NewsItem in
+                        mapDocumentToNewsItem(document)
+                    }
 
-                completion(.success(items))
+                    completion(.success(items))
+                }
             }
     }
 

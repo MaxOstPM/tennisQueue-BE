@@ -15,7 +15,7 @@ struct ToggleRow: View {
     var body: some View {
         Toggle(isOn: $isOn) {
             Text(title)
-                .font(.system(size: 13, weight: .medium, design: .monospaced))
+                .font(Font.ds.label)
                 .foregroundColor(.foregroundCyan)
         }
         .toggleStyle(SwitchToggleStyle(tint: accent))

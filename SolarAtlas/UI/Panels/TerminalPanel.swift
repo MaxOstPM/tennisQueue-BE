@@ -18,14 +18,20 @@ struct TerminalPanel<Content: View>: View {
 
     var body: some View {
         content
-            .padding(CGFloat.spaceMD)
-            .background(Color.cardBackground.opacity(0.85))
+            .padding(.spaceLG)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                ZStack {
+                    Color.cardBackgroundElevated
+                    ScanlineOverlay()
+                }
+            )
             .overlay(
-                RoundedRectangle(cornerRadius: 0)
+                Rectangle()
                     .stroke(borderColor, lineWidth: 2)
             )
             .modifier(GlowModifier(color: borderColor))
-            .font(.system(size: 14, weight: .regular, design: .monospaced))
+            .font(Font.ds.body)
             .foregroundColor(.foregroundCyan)
     }
 }

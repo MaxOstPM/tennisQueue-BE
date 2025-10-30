@@ -78,7 +78,7 @@ struct SolarSystemView: View {
                 Spacer()
 
                 TerminalPanel(borderColor: .terminalCyan) {
-                    VStack(alignment: .leading, spacing: CGFloat.spaceMD) {
+                    VStack(alignment: .leading, spacing: .spaceMD) {
                         NeonSlider(
                             value: $timelineSliderValue,
                             title: NSLocalizedString("Mission Timeline", comment: "Timeline slider title"),
@@ -88,29 +88,29 @@ struct SolarSystemView: View {
                         )
 
                         Divider()
-                            .background(Color.terminalCyan.opacity(0.6))
+                            .background(Color.terminalCyanDim)
 
                         ViewThatFits(in: .vertical) {
-                            HStack(alignment: .top, spacing: CGFloat.spaceXL) {
+                            HStack(alignment: .top, spacing: .spaceXL) {
                                 toggleRows
                             }
 
-                            VStack(alignment: .leading, spacing: CGFloat.spaceSM) {
+                            VStack(alignment: .leading, spacing: .spaceSM) {
                                 toggleRows
                             }
                         }
                     }
                 }
-                .padding(.horizontal, CGFloat.space2XL)
-                .padding(.bottom, CGFloat.space2XL)
+                .padding(.horizontal, .space2XL)
+                .padding(.bottom, .space2XL)
             }
 
             if let body = selectedBody {
                 VStack {
                     Spacer()
                     BodyInfoSheet(celestial: body)
-                        .padding(.horizontal, CGFloat.space2XL)
-                        .padding(.bottom, CGFloat.space2XL * 2)
+                        .padding(.horizontal, .space2XL)
+                        .padding(.bottom, .space6XL)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
                 .animation(.easeInOut(duration: 0.25), value: body.id)
@@ -149,7 +149,7 @@ private struct StarfieldBackground: View {
                         height: 2
                     )
                     let starPath = Path(ellipseIn: starRect)
-                    context.fill(starPath, with: .color(.white.opacity(0.5)))
+                    context.fill(starPath, with: .color(.starfieldParticle))
                 }
             }
         }

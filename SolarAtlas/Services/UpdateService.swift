@@ -26,29 +26,31 @@ struct RemoteConfigUpdateService: UpdateServiceType {
         remoteConfig.configSettings = settings
 
         remoteConfig.fetchAndActivate { _, error in
-            let currentVersion = Self.currentAppVersion(from: bundle)
-            let localMinimumVersion = Self.normalizedVersion(bundle.object(forInfoDictionaryKey: "MinimumVersion") as? String)
+            DispatchQueue.global(qos: .userInitiated).async {
+                let currentVersion = Self.currentAppVersion(from: bundle)
+                let localMinimumVersion = Self.normalizedVersion(bundle.object(forInfoDictionaryKey: "MinimumVersion") as? String)
 
-            let remoteMinimum = Self.normalizedVersion(remoteConfig["minimum_version"].stringValue)
+                let remoteMinimum = Self.normalizedVersion(remoteConfig["minimum_version"].stringValue)
 
-            let minimumVersion: String
-            let requiresUpdate: Bool
-            if let remoteMinimum = remoteMinimum, error == nil {
-                minimumVersion = remoteMinimum
-                requiresUpdate = Self.isVersion(currentVersion, olderThan: remoteMinimum)
-            } else if let localMinimum = localMinimumVersion {
-                minimumVersion = localMinimum
-                requiresUpdate = Self.isVersion(currentVersion, olderThan: localMinimum)
-            } else {
-                minimumVersion = currentVersion
-                requiresUpdate = false
+                let minimumVersion: String
+                let requiresUpdate: Bool
+                if let remoteMinimum = remoteMinimum, error == nil {
+                    minimumVersion = remoteMinimum
+                    requiresUpdate = Self.isVersion(currentVersion, olderThan: remoteMinimum)
+                } else if let localMinimum = localMinimumVersion {
+                    minimumVersion = localMinimum
+                    requiresUpdate = Self.isVersion(currentVersion, olderThan: localMinimum)
+                } else {
+                    minimumVersion = currentVersion
+                    requiresUpdate = false
+                }
+
+                completion(UpdateRequirement(
+                    requiresUpdate: requiresUpdate,
+                    minimumVersion: minimumVersion,
+                    currentVersion: currentVersion
+                ))
             }
-
-            completion(UpdateRequirement(
-                requiresUpdate: requiresUpdate,
-                minimumVersion: minimumVersion,
-                currentVersion: currentVersion
-            ))
         }
     }
 

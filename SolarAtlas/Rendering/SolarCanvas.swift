@@ -88,7 +88,7 @@ struct SolarCanvas: View {
         )
 
         let text = Text(body.displayName)
-            .font(.system(size: 10, weight: .regular, design: .monospaced))
+            .font(Font.ds.micro)
             .foregroundColor(.foregroundCyan)
 
         context.draw(text, at: labelPoint)
