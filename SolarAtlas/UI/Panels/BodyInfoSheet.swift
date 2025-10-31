@@ -44,7 +44,7 @@ struct BodyInfoSheet: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     Spacer()
-                    Button(action: { store.dispatch(.solarSystem(.select(nil))) }) {
+                    Button(action: { store.dispatch(.solarSystem(.selectBody(nil))) }) {
                         Image(systemName: "xmark")
                             .font(Font.ds.iconSmall)
                             .foregroundColor(.mutedText)

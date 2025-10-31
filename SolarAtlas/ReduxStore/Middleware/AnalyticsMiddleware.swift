@@ -9,7 +9,7 @@ func createAnalyticsMiddleware(tracker: AnalyticsTracking) -> Middleware<AppStat
                     switch appAction {
                     case .solarSystem(let solarAction):
                         switch solarAction {
-                        case .select(let bodyID):
+                        case .selectBody(let bodyID):
                             if let bodyID,
                                let state = getState?(),
                                let body = state.solarSystem.bodies.first(where: { $0.bodyID == bodyID }) {

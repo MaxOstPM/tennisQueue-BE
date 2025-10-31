@@ -11,7 +11,7 @@ enum SolarSystemAction: Action {
     case toggleAtlas(Bool)        // Show/hide ATLAS path
     case toggleOrbits(Bool)       // Show/hide orbits
     case toggleLabels(Bool)       // Show/hide labels
-    case select(BodyID?)          // Select or deselect a celestial body
+    case selectBody(BodyID?)      // Select or deselect a celestial body
 }
 
 /// Actions that mutate NewsFeedState
