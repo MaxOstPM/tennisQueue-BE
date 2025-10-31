@@ -140,7 +140,7 @@ struct SolarSystemView: View {
     }
 
     private var selectedBody: CelestialBody? {
-        guard let bodyID = solarSystem.selected else { return nil }
+        guard let bodyID = solarSystem.selectedBody else { return nil }
         return solarSystem.bodies.first { $0.bodyID == bodyID }
     }
 

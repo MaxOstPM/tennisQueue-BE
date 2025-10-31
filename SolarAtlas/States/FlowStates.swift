@@ -8,7 +8,7 @@ struct SolarSystemState: Equatable {
     var showAtlasPath: Bool
     var showOrbits: Bool
     var showLabels: Bool
-    var selected: BodyID?
+    var selectedBody: BodyID? = nil
     var isAutoSpinning: Bool
     var bodies: [CelestialBody]
 
@@ -17,7 +17,7 @@ struct SolarSystemState: Equatable {
          showAtlasPath: Bool = true,
          showOrbits: Bool = true,
          showLabels: Bool = true,
-         selected: BodyID? = nil,
+         selectedBody: BodyID? = nil,
          isAutoSpinning: Bool = true,
          bodies: [CelestialBody] = SolarSystemBodiesProvider.defaultBodies) {
         self.time = time
@@ -25,7 +25,7 @@ struct SolarSystemState: Equatable {
         self.showAtlasPath = showAtlasPath
         self.showOrbits = showOrbits
         self.showLabels = showLabels
-        self.selected = selected
+        self.selectedBody = selectedBody
         self.isAutoSpinning = isAutoSpinning
         self.bodies = bodies
     }

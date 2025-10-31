@@ -5,7 +5,7 @@ struct SolarSystemView: View {
     @EnvironmentObject private var store: AppStore
 
     private var selectedBody: CelestialBody? {
-        guard let id = store.state.solarSystem.selected else { return nil }
+        guard let id = store.state.solarSystem.selectedBody else { return nil }
         return store.state.solarSystem.bodies.first { $0.bodyID == id }
     }
 

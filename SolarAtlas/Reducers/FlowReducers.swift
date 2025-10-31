@@ -50,8 +50,8 @@ let solarSystemReducer: Reducer<SolarSystemState> = { action, currentState in
             state.showOrbits = flag
         case .toggleLabels(let flag):
             state.showLabels = flag
-        case .select(let bodyID):
-            state.selected = bodyID
+        case .selectBody(let bodyID):
+            state.selectedBody = bodyID
         }
     case .setCelestialBodies(let bodies):
         state.bodies = bodies
