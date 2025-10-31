@@ -23,8 +23,8 @@ let solarSystemReducer: Reducer<SolarSystemState> = { action, currentState in
 
     func applyAutoSpinTick(_ delta: TimeInterval) {
         guard state.isAutoSpinning else { return }
-        let revolutionsPerSecond: Double = 1.0 / 20.0
-        state.time = wrap01(state.time + revolutionsPerSecond * delta)
+        let revPerSec = min(state.playbackSpeed.rawValue, 0.1)
+        state.time = wrap01(state.time + delta * revPerSec)
     }
 
     guard let appAction = action as? AppAction else {

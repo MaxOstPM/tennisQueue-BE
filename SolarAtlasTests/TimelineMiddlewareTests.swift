@@ -51,7 +51,7 @@ final class TimelineMiddlewareTests: XCTestCase {
             XCTFail("Expected autoSpinTick after ticker fired")
             return
         }
-        XCTAssertEqual(delta, 0.5, accuracy: 0.0001)
+        XCTAssertEqual(delta, 0.02, accuracy: 0.0001)
 
         middlewareDispatch(AppAction.solarSystem(.stopAutoSpin))
         let dispatchedCount = dispatchedActions.count
@@ -79,13 +79,13 @@ final class TimelineMiddlewareTests: XCTestCase {
         let middlewareDispatch = middleware(dispatch, { nil }) { $0 }
 
         middlewareDispatch(AppAction.solarSystem(.startAutoSpin))
-        ticker?.send(0.25)
+        ticker?.send(0.01)
 
         guard case .solarSystem(.autoSpinTick(let delta))? = dispatchedActions.last else {
             XCTFail("Expected autoSpinTick when scoped action starts ticker")
             return
         }
-        XCTAssertEqual(delta, 0.25, accuracy: 0.0001)
+        XCTAssertEqual(delta, 0.01, accuracy: 0.0001)
 
         middlewareDispatch(AppAction.solarSystem(.stopAutoSpin))
         let dispatchedCount = dispatchedActions.count
