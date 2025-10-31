@@ -10,6 +10,7 @@ struct SolarSystemState: Equatable {
     var showLabels: Bool
     var selectedBody: BodyID? = nil
     var isAutoSpinning: Bool
+    var playbackSpeed: PlaybackSpeed
     var bodies: [CelestialBody]
 
     init(time: Double = 0.5,
@@ -19,6 +20,7 @@ struct SolarSystemState: Equatable {
          showLabels: Bool = true,
          selectedBody: BodyID? = nil,
          isAutoSpinning: Bool = true,
+         playbackSpeed: PlaybackSpeed = .standard,
          bodies: [CelestialBody] = SolarSystemBodiesProvider.defaultBodies) {
         self.time = time
         self.dateRange = dateRange ?? Self.defaultDateRange()
@@ -27,7 +29,15 @@ struct SolarSystemState: Equatable {
         self.showLabels = showLabels
         self.selectedBody = selectedBody
         self.isAutoSpinning = isAutoSpinning
+        self.playbackSpeed = playbackSpeed
         self.bodies = bodies
+    }
+
+    enum PlaybackSpeed: Double, CaseIterable {
+        case slow = 0.025
+        case standard = 0.05
+        case fast = 0.1
+        case ludicrous = 0.2
     }
 
     private static func defaultDateRange() -> ClosedRange<Date> {

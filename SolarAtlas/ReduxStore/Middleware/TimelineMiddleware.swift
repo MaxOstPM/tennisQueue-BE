@@ -71,7 +71,8 @@ public func createTimelineMiddleware(
                     switch solarAction {
                     case .startAutoSpin:
                         let tickerInstance = ensureTicker { delta in
-                            dispatch(AppAction.solarSystem(.autoSpinTick(delta)))
+                            let clampedDelta = min(delta, 0.02)
+                            dispatch(AppAction.solarSystem(.autoSpinTick(clampedDelta)))
                         }
                         tickerInstance.start()
                     case .stopAutoSpin:

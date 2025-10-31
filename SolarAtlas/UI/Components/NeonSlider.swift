@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 
 /// Slider styled to match the retro neon interface, wired directly to the global app store.
@@ -6,6 +7,8 @@ struct NeonSlider: View {
 
     @State private var isEditing = false
     @State private var shouldResumeAutoSpin = false
+    @State private var throttledSetTimeCancellable: AnyCancellable?
+    @State private var latestSliderValue: Double = 0
 
     private let range: ClosedRange<Double>
     private let title: String
@@ -39,7 +42,8 @@ struct NeonSlider: View {
                 value: Binding(
                     get: { store.state.solarSystem.time },
                     set: { newValue in
-                        store.dispatch(.solarSystem(.setTime(newValue)))
+                        latestSliderValue = newValue
+                        dispatchThrottledSetTime(newValue)
                     }
                 ),
                 in: range,
@@ -47,6 +51,13 @@ struct NeonSlider: View {
             )
             .tint(.terminalCyan)
             .shadow(color: .terminalCyanGlow, radius: 4)
+        }
+        .onAppear {
+            latestSliderValue = store.state.solarSystem.time
+        }
+        .onChange(of: store.state.solarSystem.time) { newValue in
+            guard !isEditing else { return }
+            latestSliderValue = newValue
         }
     }
 
@@ -57,11 +68,22 @@ struct NeonSlider: View {
             store.dispatch(.solarSystem(.stopAutoSpin))
         } else {
             isEditing = false
-            store.dispatch(.solarSystem(.commitTime(store.state.solarSystem.time)))
+            throttledSetTimeCancellable?.cancel()
+            store.dispatch(.solarSystem(.setTime(latestSliderValue)))
+            store.dispatch(.solarSystem(.commitTime(latestSliderValue)))
             if autoSpinOnRelease && shouldResumeAutoSpin {
                 store.dispatch(.solarSystem(.startAutoSpin))
             }
             shouldResumeAutoSpin = false
         }
+    }
+
+    private func dispatchThrottledSetTime(_ value: Double) {
+        throttledSetTimeCancellable?.cancel()
+        throttledSetTimeCancellable = Just(value)
+            .throttle(for: .milliseconds(80), scheduler: RunLoop.main, latest: true)
+            .sink { throttledValue in
+                store.dispatch(.solarSystem(.setTime(throttledValue)))
+            }
     }
 }
