@@ -1,4 +1,5 @@
 import Foundation
+import GoogleMobileAds
 
 /// Typed error that normalizes the failure domains surfaced across services and middleware.
 enum AppError: Error, Equatable {
@@ -6,6 +7,7 @@ enum AppError: Error, Equatable {
     case firestoreDecoding(underlying: String?)
     case remoteConfig(underlying: String?)
     case adsNoFill
+    case adsLoad(underlying: String?)
     case adsConsent(underlying: String?)
     case adsPresentation(underlying: String?)
     case unknown(underlying: String?)
@@ -21,6 +23,8 @@ enum AppError: Error, Equatable {
             return String(localized: "error.remoteConfig.fetch", comment: "Shown when Remote Config fails to fetch")
         case .adsNoFill:
             return String(localized: "error.ads.noFill", comment: "Shown when the ad server returns no fill")
+        case .adsLoad:
+            return String(localized: "error.ads.load", comment: "Shown when an ad fails to load")
         case .adsConsent:
             return String(localized: "error.ads.consent", comment: "Shown when ad consent flow cannot be completed")
         case .adsPresentation:
@@ -41,6 +45,8 @@ enum AppError: Error, Equatable {
             return Self.baseMetadata(domain: "remoteConfig", underlying: underlying)
         case .adsNoFill:
             return Self.baseMetadata(domain: "ads", underlying: "no_fill")
+        case .adsLoad(let underlying):
+            return Self.baseMetadata(domain: "adsLoad", underlying: underlying)
         case .adsConsent(let underlying):
             return Self.baseMetadata(domain: "adsConsent", underlying: underlying)
         case .adsPresentation(let underlying):
@@ -56,5 +62,33 @@ enum AppError: Error, Equatable {
             values["underlying"] = underlying
         }
         return values
+    }
+}
+
+extension AppError {
+    static func mapAdLoadError(_ error: Error) -> AppError {
+        let nsError = error as NSError
+
+        if nsError.domain == GADErrorDomain,
+           let code = GADError.Code(rawValue: nsError.code) {
+            switch code {
+            case .noFill:
+                return .adsNoFill
+            case .networkError:
+                return .network(underlying: error.localizedDescription)
+            case .invalidRequest:
+                return .adsLoad(underlying: "invalid_request: \(error.localizedDescription)")
+            case .invalidArgument:
+                return .adsLoad(underlying: "invalid_argument: \(error.localizedDescription)")
+            case .receivedInvalidResponse:
+                return .adsLoad(underlying: "invalid_response: \(error.localizedDescription)")
+            case .serverError:
+                return .adsLoad(underlying: "server_error: \(error.localizedDescription)")
+            default:
+                break
+            }
+        }
+
+        return .adsLoad(underlying: error.localizedDescription)
     }
 }

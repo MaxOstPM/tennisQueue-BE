@@ -22,6 +22,11 @@ func createAnalyticsMiddleware(tracker: AnalyticsTracking) -> Middleware<AppStat
                         default:
                             break
                         }
+                    case .analytics(let analyticsAction):
+                        switch analyticsAction {
+                        case .newsItemOpened(let id, let source):
+                            tracker.logNewsItemOpened(id: id, source: source)
+                        }
                     default:
                         break
                     }

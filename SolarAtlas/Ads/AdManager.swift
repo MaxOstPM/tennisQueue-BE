@@ -37,8 +37,10 @@ final class AdManager: NSObject, AdManagerType {
             guard let self else { return }
 
             if let error {
-                let appError = AppError.adsNoFill
-                self.logger.warning("Interstitial failed to load", metadata: ["underlying": error.localizedDescription])
+                let appError = AppError.mapAdLoadError(error)
+                self.logger.warning("Interstitial failed to load",
+                                     metadata: appError.metadata.merging(["raw": error.localizedDescription]) { $1 },
+                                     error: appError)
                 self.interstitial = nil
                 self.finishLoad(result: .failure(appError))
                 return

@@ -66,8 +66,10 @@ struct BannerAdView: UIViewRepresentable {
         }
 
         func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-            let appError = AppError.adsNoFill
-            logger.warning("Banner ad failed to load", metadata: ["underlying": error.localizedDescription], error: appError)
+            let appError = AppError.mapAdLoadError(error)
+            logger.warning("Banner ad failed to load",
+                           metadata: appError.metadata.merging(["raw": error.localizedDescription]) { $1 },
+                           error: appError)
             didLoadAd = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 30) { [weak self] in
                 self?.loadAdIfNeeded()
