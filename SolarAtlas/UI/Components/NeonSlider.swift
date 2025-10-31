@@ -8,6 +8,7 @@ struct NeonSlider: View {
     @State private var isEditing = false
     @State private var shouldResumeAutoSpin = false
     @State private var throttledSetTimeCancellable: AnyCancellable?
+    @State private var setTimeSubject = PassthroughSubject<Double, Never>()
     @State private var latestSliderValue: Double = 0
 
     private let range: ClosedRange<Double>
@@ -40,7 +41,9 @@ struct NeonSlider: View {
 
             Slider(
                 value: Binding(
-                    get: { store.state.solarSystem.time },
+                    get: {
+                        isEditing ? latestSliderValue : store.state.solarSystem.time
+                    },
                     set: { newValue in
                         latestSliderValue = newValue
                         dispatchThrottledSetTime(newValue)
@@ -54,6 +57,7 @@ struct NeonSlider: View {
         }
         .onAppear {
             latestSliderValue = store.state.solarSystem.time
+            configureThrottleIfNeeded()
         }
         .onChange(of: store.state.solarSystem.time) { newValue in
             guard !isEditing else { return }
@@ -68,7 +72,6 @@ struct NeonSlider: View {
             store.dispatch(.solarSystem(.stopAutoSpin))
         } else {
             isEditing = false
-            throttledSetTimeCancellable?.cancel()
             store.dispatch(.solarSystem(.setTime(latestSliderValue)))
             store.dispatch(.solarSystem(.commitTime(latestSliderValue)))
             if autoSpinOnRelease && shouldResumeAutoSpin {
@@ -78,12 +81,18 @@ struct NeonSlider: View {
         }
     }
 
-    private func dispatchThrottledSetTime(_ value: Double) {
-        throttledSetTimeCancellable?.cancel()
-        throttledSetTimeCancellable = Just(value)
+    private func configureThrottleIfNeeded() {
+        guard throttledSetTimeCancellable == nil else { return }
+
+        throttledSetTimeCancellable = setTimeSubject
             .throttle(for: .milliseconds(80), scheduler: RunLoop.main, latest: true)
             .sink { throttledValue in
                 store.dispatch(.solarSystem(.setTime(throttledValue)))
             }
+    }
+
+    private func dispatchThrottledSetTime(_ value: Double) {
+        configureThrottleIfNeeded()
+        setTimeSubject.send(value)
     }
 }
