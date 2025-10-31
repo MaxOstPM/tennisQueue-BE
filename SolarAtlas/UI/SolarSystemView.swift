@@ -3,8 +3,6 @@ import SwiftUI
 /// Main solar system screen showing the canvas and simulation controls.
 struct SolarSystemView: View {
     @EnvironmentObject private var store: AppStore
-    @State private var shouldResumeAutoSpin = false
-
     private enum Layout {
         static let canvasBottomPadding: CGFloat = (CGFloat.spaceXL * 9) + .spaceXS
     }
@@ -88,55 +86,42 @@ struct SolarSystemView: View {
     private var controlPanel: some View {
         TerminalPanel(borderColor: .terminalCyan) {
             VStack(alignment: .leading, spacing: .spaceXL) {
-                VStack(alignment: .leading, spacing: .spaceSM) {
-                    Text(NSLocalizedString("solarSystem.controls.timeline.title", comment: "Section title for the simulation timeline"))
-                        .font(Font.ds.titleS)
-                        .foregroundColor(.foregroundCyan)
-
-                    Slider(value: timeBinding, in: 0...1, onEditingChanged: handleTimelineEditingChanged)
-                        .tint(.terminalCyan)
-
-                    Text(String(format: NSLocalizedString("solarSystem.controls.timeline.currentDate", comment: "Format describing the simulated current date"), dateFormatter.string(from: currentDate)))
-                        .font(Font.ds.caption)
-                        .foregroundColor(.mutedText)
-                }
+                NeonSlider(
+                    range: 0...1,
+                    title: NSLocalizedString("solarSystem.controls.timeline.title", comment: "Section title for the simulation timeline"),
+                    subtitle: timelineSubtitle
+                )
 
                 VStack(alignment: .leading, spacing: .spaceMD) {
-                    toggleRow(
+                    ToggleRow(
                         title: NSLocalizedString("solarSystem.controls.toggle.atlas", comment: "Toggle label for showing the ATLAS trajectory"),
                         isOn: Binding(
                             get: { solarSystem.showAtlasPath },
                             set: { store.dispatch(.solarSystem(.toggleAtlas($0))) }
-                        )
+                        ),
+                        accent: .terminalCyan
                     )
 
-                    toggleRow(
+                    ToggleRow(
                         title: NSLocalizedString("solarSystem.controls.toggle.orbits", comment: "Toggle label for showing planetary orbits"),
                         isOn: Binding(
                             get: { solarSystem.showOrbits },
                             set: { store.dispatch(.solarSystem(.toggleOrbits($0))) }
-                        )
+                        ),
+                        accent: .terminalCyan
                     )
 
-                    toggleRow(
+                    ToggleRow(
                         title: NSLocalizedString("solarSystem.controls.toggle.labels", comment: "Toggle label for showing celestial labels"),
                         isOn: Binding(
                             get: { solarSystem.showLabels },
                             set: { store.dispatch(.solarSystem(.toggleLabels($0))) }
-                        )
+                        ),
+                        accent: .terminalCyan
                     )
                 }
             }
         }
-    }
-
-    private func toggleRow(title: String, isOn: Binding<Bool>) -> some View {
-        Toggle(isOn: isOn) {
-            Text(title)
-                .font(Font.ds.label)
-                .foregroundColor(.foregroundCyan)
-        }
-        .toggleStyle(SwitchToggleStyle(tint: .terminalCyan))
     }
 
     private var selectedBody: CelestialBody? {
@@ -152,26 +137,14 @@ struct SolarSystemView: View {
         return range.lowerBound.addingTimeInterval(total * state.time)
     }
 
-    private var timeBinding: Binding<Double> {
-        Binding(
-            get: { solarSystem.time },
-            set: { store.dispatch(.solarSystem(.setTime($0))) }
+    private var timelineSubtitle: String {
+        String(
+            format: NSLocalizedString("solarSystem.controls.timeline.currentDate", comment: "Format describing the simulated current date"),
+            dateFormatter.string(from: currentDate)
         )
     }
 
     private var solarSystem: SolarSystemState {
         store.state.solarSystem
-    }
-
-    private func handleTimelineEditingChanged(_ isEditing: Bool) {
-        if isEditing {
-            shouldResumeAutoSpin = solarSystem.isAutoSpinning
-            store.dispatch(.solarSystem(.stopAutoSpin))
-        } else {
-            store.dispatch(.solarSystem(.commitTime(solarSystem.time)))
-            if shouldResumeAutoSpin {
-                store.dispatch(.solarSystem(.startAutoSpin))
-            }
-        }
     }
 }

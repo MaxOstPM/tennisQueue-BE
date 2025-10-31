@@ -127,6 +127,9 @@
 /* Shown when the ad server returns no fill */
 "error.ads.noFill" = "No ads are available at the moment.";
 
+/* Shown when an ad fails to load */
+"error.ads.load" = "We couldn't load an ad just now.";
+
 /* Shown when ad consent flow cannot be completed */
 "error.ads.consent" = "We couldn't finish the ad consent flow. You may need to try again.";
 

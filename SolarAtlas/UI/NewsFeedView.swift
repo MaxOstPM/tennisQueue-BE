@@ -5,8 +5,6 @@ struct NewsFeedView: View {
     @EnvironmentObject private var store: AppStore
     @Environment(\.openURL) private var openURL
 
-    private let analytics = AnalyticsTracker.shared
-
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -125,17 +123,17 @@ struct NewsFeedView: View {
                         .foregroundColor(.mutedText)
                 }
 
-                    if let url = item.articleURL {
-                        Button {
-                            analytics.logNewsItemOpened(id: item.id.uuidString, source: item.source)
-                            openURL(url)
-                        } label: {
+                if let url = item.articleURL {
+                    Button {
+                        store.dispatch(.analytics(.newsItemOpened(id: item.id.uuidString, source: item.source)))
+                        openURL(url)
+                    } label: {
                         Text(NSLocalizedString("news.card.readMore", comment: "Button title for opening the full news article"))
                             .font(Font.ds.labelEmphasis)
                             .foregroundColor(.terminalCyan)
                             .underline()
-                        }
-                        .buttonStyle(.plain)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)

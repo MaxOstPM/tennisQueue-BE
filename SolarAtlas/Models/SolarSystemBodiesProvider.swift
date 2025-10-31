@@ -155,17 +155,25 @@ struct SolarSystemBodiesProvider {
             var fetchedBodies: [CelestialBody] = []
             fetchedBodies.reserveCapacity(snapshot.documents.count)
 
+            var invalidDocuments: [String] = []
+
             for document in snapshot.documents {
                 do {
                     let body = try document.data(as: CelestialBody.self)
                     fetchedBodies.append(body)
                 } catch {
                     let decodingError = AppError.firestoreDecoding(underlying: error.localizedDescription)
+                    invalidDocuments.append(document.documentID)
                     logger.error("Failed to decode celestial body",
                                  metadata: ["documentID": document.documentID],
                                  error: decodingError)
-                    return nil
+                    continue
                 }
+            }
+
+            if !invalidDocuments.isEmpty {
+                logger.warning("Skipped invalid celestial body documents",
+                                metadata: ["documentIDs": invalidDocuments.joined(separator: ",")])
             }
 
             return fetchedBodies

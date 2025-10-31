@@ -38,3 +38,8 @@ enum AdAction: Action {
     case setPersonalization(AdPersonalization) // Toggle whether personalized ads are allowed
     case setError(AppError?)                   // Persist the last ad-related error
 }
+
+/// Analytics events forwarded to analytics middleware.
+enum AnalyticsAction: Action {
+    case newsItemOpened(id: String, source: String)
+}
